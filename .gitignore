@@ -1,0 +1,8 @@
+# build directory
+build/
+# emacs files
+*~
+\#*
+.\#*
+# style files
+CEUR-WS/
