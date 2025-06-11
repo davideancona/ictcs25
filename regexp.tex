@@ -74,8 +74,8 @@
 \end{definition}
 
 ~\Cref{deriv} contains the transition rules defining the derivatives of regular expressions.
-Except for the presentation style, the definition coincides with that introduced by Brzozowski~\cite{Brzozowski64}. By using the notation of Antimirov, we have
-that $\sym^{-1}(\re_0)=\re_1$ iff $\re_0\der{\sym}\re_1$.
+Except for the presentation style, the definition coincides with that introduced by Brzozowski~\cite{Brzozowski64}. By using the notation of Antimirov \cite{Antimirov96}, we have
+that $\sym^{-1}(\re_0)=\re_1$ iff $\re_0\der{\sym}\re_1$, and $\word^{-1}(\re_0)=\re_1$ iff $\re_0\der{\word}\re_1$.
 
 
 \begin{definition}
@@ -99,7 +99,11 @@ that $\sym^{-1}(\re_0)=\re_1$ iff $\re_0\der{\sym}\re_1$.
 \begin{theorem}
  For all regular expressions $\re$
  \[
-  \sem{\re}=\opSem{\re}{\der{}}
+  \begin{array}{l}
+   \hasEps{\re} = \eps \mbox{ iff } \emptyWord\in\sem{\re}      \\
+   \re\der{\word}\re' \implies \word^{-1}(\sem{\re})=\sem{\re'} \\
+   \sem{\re}=\opSem{\re}{\der{}}
+  \end{array}
  \]
 \end{theorem}
 
