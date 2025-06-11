@@ -1,0 +1,107 @@
+%% The first command in your LaTeX source must be the \documentclass command.
+%%
+%% Options:
+%% twocolumn : Two column layout.
+%% hf: enable header and footer.
+\documentclass[
+% twocolumn,
+% hf,
+]{ceurart}
+
+%%
+%% One can fix some overfulls
+\sloppy
+
+%%
+%% Minted listings support 
+%% Need pygment <http://pygments.org/> <http://pypi.python.org/pypi/Pygments>
+\usepackage{listings}
+%% auto break lines
+\lstset{breaklines=true,mathescape=true,basicstyle={\ttfamily\small},keywordstyle={\ttfamily\bfseries}}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{proof} % compact proof trees for examples
+\usepackage{hyperref} % links
+\usepackage{verbatim} % multiline comments
+\usepackage[dvipsnames]{xcolor}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+%\usepackage{xspace}
+\usepackage{color}
+\usepackage{amssymb}
+\usepackage{pifont}
+%\usepackage{amsmath}
+%\usepackage{amsthm}
+\usepackage{pifont}
+\usepackage{stmaryrd}
+%\usepackage{xspace}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{pgfplots}
+\usepackage{subcaption}
+\usepackage{cleveref}
+%
+%%
+%% end of the preamble, start of the body of the document source.
+
+% editing macros
+\newif\ifsubmit
+\submitfalse
+%\submittrue
+
+\ifsubmit
+ \newcommand{\DA}[1]{{#1}}
+ \newcommand{\DAComm}[1]{}
+ \newcommand{\AF}[1]{{#1}}
+ \newcommand{\AFComm}[1]{}
+\else
+ \newcommand{\DA}[1]{\textcolor{blue}{#1}}
+ \newcommand{\DAComm}[1]{{\scriptsize\textcolor{blue}{[\bf{Angelo: }#1}]}}
+ \newcommand{\AF}[1]{\textcolor{red}{#1}}
+ \newcommand{\AFComm}[1]{{\scriptsize\textcolor{red}{[\bf{Angelo: }#1}]}}
+\fi
+
+\input{macros}
+
+\begin{document}
+
+\conference{ICTCS 2025}
+
+%
+\title{Reasoning on Partial Derivatives for Runtime Verification}
+
+\author[1]{Davide Ancona}[orcid=0000-0002-6297-2011,email=davide.ancona@unige.it]
+
+\cormark[1]
+
+\address[1]{University of Genova, Italy}
+
+\author[2]{Angelo Ferrando}[orcid=0000-0002-8711-4670,
+ email=angelo.ferrando@unimore.it
+]
+
+\address[2]{University of Modena and Reggio Emilia, Italy}
+
+
+%% Footnotes
+\cortext[1]{Corresponding author.}
+
+\begin{keywords}
+ runtime verification \sep
+ partial derivatives \sep
+ regular languages
+\end{keywords}
+
+\maketitle
+%
+\begin{abstract}
+ tbd
+\end{abstract}
+%
+%
+\input{regexp}
+\input{parDer}
+\bibliographystyle{ceurart}
+\bibliography{main}
+\end{document}

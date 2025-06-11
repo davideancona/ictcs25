@@ -1,0 +1,1 @@
+CEUR-WS/ceurart.cls

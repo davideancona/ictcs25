@@ -1,0 +1,102 @@
+\section{Derivatives for regular expressions: a standard deterministic definition}\label{regExp}
+
+\begin{figure}[h]
+ \begin{small}
+  \begin{center}
+   \begin{grammar}
+    \production{\re}{\none \mid \eps \mid \sym \mid \re_0\catop\re_1 \mid \re_0\orop\re_1 \mid \starop{\re}}{with $\sym\in\symAlph$} \\
+   \end{grammar}
+  \end{center}
+ \end{small}
+ \caption{Syntax of regular expressions}
+ \label{regExpSyn}
+\end{figure}
+
+\begin{definition}
+ \[
+  \word^{-1}(\lang) = \{ \word' \mid \word\strcatop\word'\in\lang \}
+ \]
+\end{definition}
+
+\begin{figure}[h]
+ \begin{center}
+  $$
+   \begin{array}{c}
+    \Rule{empty}{}{\none\der{\sym}\none}\quad
+    \Rule{eps}{}{\eps\der{\sym}\none}\quad
+    \Rule{sym-eq}{}{\sym\der{\sym}\eps}\quad
+    \Rule{sym-neq}{}{\sym\der{\asym}\none}{}                                 \\[4ex]
+    \Rule{or}{\re_0\der{\sym}\re'_0\quad\re_1\der{\sym}\re'_1}{\re_0\catop\re_1\der{\sym}\re'_0\catop\re_1\orop\hasEps{\re_0}\catop\re'_1}{} \quad
+    \Rule{cat}{\re_0\der{\sym}\re'_0\quad\re_1\der{\sym}\re'_1}{\re_0\orop\re_1\der{\sym}\re'_0\orop\re'_1}{}\quad
+    \Rule{star}{\re\der{\sym}\re'}{\starop{\re}\der{\sym}\re'\starop{\re}}{} \\[8ex]
+    \hasEps{\eps}=\hasEps{\starop{\re_0}}=\eps\qquad\hasEps{\none}=\hasEps{\sym}=\none \quad
+    \hasEps{\re_0\catop\re_1}=\hasEps{\re_0}\conj\hasEps{\re_1}\quad
+    \hasEps{\re_0\orop\re_1}=\hasEps{\re_0}\disj\hasEps{\re_1}               \\[2ex]
+    %% \eps\conj\eps=\eps\quad\none\conj\re=\re\conj\none=\none\qquad\none\disj\none=\none\quad\eps\disj\re=\re\disj\eps=\eps
+   \end{array}
+  $$
+  \begin{tabular}{ccc}
+   \begin{tabular}{|c|c|c|}
+    \hline
+    $\conj$ & $\quad\none\quad$ & $\quad\eps\quad$ \\
+    \hline
+    $\none$ & $\none$           & $\none$          \\
+    \hline
+    $\eps$  & $\none$           & $\eps$           \\
+    \hline
+   \end{tabular}
+    & \qquad &
+   \begin{tabular}{|c|c|c|}
+    \hline
+    $\disj$ & $\quad\none\quad$ & $\quad\eps\quad$ \\
+    \hline
+    $\none$ & $\none$           & $\eps$           \\
+    \hline
+    $\eps$  & $\eps$            & $\eps$           \\
+    \hline
+   \end{tabular}
+  \end{tabular}
+ \end{center}
+
+ \caption{Transition system defining the derivatives of regular expressions}
+ \label{deriv}
+\end{figure}
+
+~\Cref{deriv} contains the transition rules defining the derivatives of regular expressions.
+Except for the presentation style, the definition coincides with that introduced by Brzozowski~\cite{Brzozowski64}.
+\begin{definition}
+ \[
+  \begin{array}{l}
+   \re\der{\emptyWord}\re \\
+   \re_0\der{\sym\strcatop\word}\re_1 \mbox{ iff } \re_0\der{\sym}\re \mbox{ and } \re\der{\word}\re_1
+   \\
+   \opSem{\re}{\der{}}=\{\word\in\wordUniv \mid \mbox{there exists } \re' \mbox{ s.t. } \re\der{\word}\re' \mbox{ and } \hasEps{\re'}=\eps\}
+  \end{array}
+ \]
+\end{definition}
+
+\begin{definition}
+ \[
+  \begin{array}{l}
+   \lang_1\strcatop\lang_2=\{\word_1\strcatop\word_2\mid \word_1\in\lang_1,\word_2\in\lang_2\} \\
+   \lang^0=\{\emptyWord\}, \lang^{n+1}=\lang\strcatop\lang^n \mbox{for all $n\geq 0$}          \\
+   \starop{\lang} = \bigcup_{n\geq 0}\lang^n
+  \end{array}
+ \]
+\end{definition}
+\begin{definition}
+ \[
+  \begin{array}{l}
+   \sem{\none}=\emptyset\quad \sem{\eps}=\{\emptyWord\} \quad \sem{\sym}=\{\sym\} \quad
+   \sem{\re_0\catop\re_1}=\sem{\re_0}\strcatop\sem{\re_1} \quad \sem{\re_0\orop\re_1}=\sem{\re_0}\cup\sem{\re_1} \\ \sem{\starop{\re_0}}=\starop{\sem{\re_0}}
+  \end{array}
+ \]
+\end{definition}
+
+\begin{theorem}
+ For all regular expressions $\re$
+ \[
+  \sem{\re}=\opSem{\re}{\der{}}
+ \]
+\end{theorem}
+
