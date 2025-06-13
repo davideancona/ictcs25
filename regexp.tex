@@ -14,7 +14,7 @@
 
 \begin{definition}
  \[
-  \word^{-1}(\lang) = \{ \word' \mid \word\strcatop\word'\in\lang \}
+  \word^{-1}(\lang) = \{ \word' \mid \word\strcons\word'\in\lang \}
  \]
 \end{definition}
 
@@ -63,12 +63,13 @@
 \end{figure}
 
 \begin{definition}
+ For all $\re,\re_0,\re_1\in\reSet$, $\sym\in\symAlph$, $\word\in\symAlph^*$
  \[
   \begin{array}{l}
    \re\der{\emptyWord}\re \\
-   \re_0\der{\sym\strcatop\word}\re_1 \mbox{ iff } \re_0\der{\sym}\re \mbox{ and } \re\der{\word}\re_1
+   \re_0\der{\sym\strcons\word}\re_1 \mbox{ iff } \re_0\der{\sym}\re \mbox{ and } \re\der{\word}\re_1
    \\
-   \opSem{\re}{\der{}}=\{\word\in\wordUniv \mid \mbox{there exists } \re' \mbox{ s.t. } \re\der{\word}\re' \mbox{ and } \hasEps{\re'}=\eps\}
+   \opSem{\re}{\der{}}=\{\word\in\wordUniv \mid \mbox{there exists } \re'\in\reSet \mbox{ s.t. } \re\der{\word}\re' \mbox{ and } \hasEps{\re'}=\eps\}
   \end{array}
  \]
 \end{definition}
@@ -79,10 +80,11 @@ that $\sym^{-1}(\re_0)=\re_1$ iff $\re_0\der{\sym}\re_1$, and $\word^{-1}(\re_0)
 
 
 \begin{definition}
+ For all $\lang,\lang_0,\lang_1\subseteq\symAlph^*$
  \[
   \begin{array}{l}
    \lang_1\strcatop\lang_2=\{\word_1\strcatop\word_2\mid \word_1\in\lang_1,\word_2\in\lang_2\} \\
-   \lang^0=\{\emptyWord\}, \lang^{n+1}=\lang\strcatop\lang^n \mbox{for all $n\geq 0$}          \\
+   \lang^0=\{\emptyWord\}, \lang^{n+1}=\lang\strcons\lang^n \mbox{for all $n\geq 0$}           \\
    \starop{\lang} = \bigcup_{n\geq 0}\lang^n
   \end{array}
  \]
@@ -97,12 +99,12 @@ that $\sym^{-1}(\re_0)=\re_1$ iff $\re_0\der{\sym}\re_1$, and $\word^{-1}(\re_0)
 \end{definition}
 
 \begin{theorem}
- For all regular expressions $\re$
+ For all $\re,\re'\in\reSet$, $\word\in\symAlph^*$
  \[
   \begin{array}{l}
    \hasEps{\re} = \eps \mbox{ iff } \emptyWord\in\sem{\re}      \\
    \re\der{\word}\re' \implies \word^{-1}(\sem{\re})=\sem{\re'} \\
-   \sem{\re}=\opSem{\re}{\der{}}
+   \opSem{\re}{\der{}}=\sem{\re}
   \end{array}
  \]
 \end{theorem}

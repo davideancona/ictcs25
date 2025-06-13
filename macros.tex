@@ -4,7 +4,9 @@
 \newtheorem{theorem}[definition]{Theorem}
 \newtheorem{lemma}[definition]{Lemma}
 \newtheorem{corollary}[definition]{Corollary}
-\newenvironment{proof}{\textbf{Proof:}\\}{}
+\newtheorem{proposition}[definition]{Proposition}
+
+\newenvironment{proof}{\textbf{Proof:}\\}{\hspace*{\fill}$\Box$}
 
 %matematiche
 \newcommand{\dom}[1]{\mathit{dom}(#1)}
@@ -14,7 +16,8 @@
 %\newcommand{\fv}[1]{\textit{fv}(#1)}
 %\newcommand{\vars}[1]{\textit{vars}(#1)}
 \newcommand{\simpleRule}[3]{\displaystyle\frac{#1}{#2}\ \begin{array}{l} #3 \end{array}}
-\newcommand{\Rule}[4]{{\tiny\textsc{({#1})}}\displaystyle\frac{#2}{#3}\ \begin{array}{l} #4 \end{array}}
+\newcommand{\rn}[1]{\textsc{({#1})}} %% rule name
+\newcommand{\Rule}[4]{{\tiny{\rn{#1}}}\displaystyle\frac{#2}{#3}\ \begin{array}{l} #4 \end{array}}
 \newcommand{\infeRule}[3]{\infer[\tiny\textsc{({#1})}]{#3}{#2}}
 
 %syntax
@@ -33,6 +36,7 @@
 \newcommand{\orop}{\mathbin{+}}
 \newcommand{\shuffleop}{\mathbin{||}}
 \newcommand{\catop}{}
+\newcommand{\strcons}{\mathbin{:}}
 \newcommand{\strcatop}{\mathbin{\cdot}}
 \newcommand{\strshuffleop}{\shuffleop}
 \newcommand{\andop}{\mathbin{\&}}
@@ -53,7 +57,7 @@
 \newcommand{\tpath}{p} %% generic tree path
 \newcommand{\pathEl}{b} %% generic path element
 \newcommand{\incSym}{\delta_{\max}}
-\newcommand{\incFun}[2]{{\incSym}({#1},{#2})}
+\newcommand{\incFun}[1]{{\incSym}({#1})}
 \newcommand{\incConst}{\mathit{k}}
 \newcommand{\theight}[1]{{\mid}{#1}{\mid}} %% tree height
 \newcommand{\gtSym}{\mathit{gt}}

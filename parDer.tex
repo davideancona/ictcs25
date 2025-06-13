@@ -15,54 +15,78 @@
  \label{parDer}
 \end{figure}
 
+~\Cref{parDer} contains the transition rules defining the partial derivatives of regular expressions.
+As for the definition of derivatives, the presentation deviates from that of Antimirov \cite{Antimirov96}, and keeps following the transition system style. Besides the different notation, more importantly, here we deliberately define a non-deterministic system, where a single transition step yields a single (non-zero) partial derivative among all possible ones, while in Antimirov's definition the set of all partial derivatives is returned.
+
+For instance, according to Antimirov's definition\footnote{See \cite{Antimirov96}, definition 2.8.},
+the partial derivative of $ab \orop ac$ w.r.t. $a$ returns the set of regular expressions $\{b,c\}$ (that is, $\delta_a(ab \orop ac)=\{b,c\}$ with Antimirov's notation). This corresponds to the fact that there exist two possible transition steps from $ab \orop ac$ labeled with $a$, namely,
+$ab \orop ac\parDer{a}b$ and $ab \orop ac\parDer{a}c$.
+
+This difference is directly related to the opposite aim of our work: while Antimirov's approach uses partial derivatives for generating an NFA, here
+we use them to define a non-deterministic transition system which already represents the corresponding NFA.
+
 \begin{definition}
+ For all $\re,\re_0,\re_1\in\reSet$, $\sym\in\symAlph$, $\word\in\symAlph^*$
  \[
   \begin{array}{l}
    \\
-   \re\parDer{\emptyWord}\re                                                                                        \\
-   \re_0\parDer{\sym\strcatop\word}\re_1 \mbox{ iff } \re_0\parDer{\sym}{}\re \mbox{ and } \re\parDer{\word}{}\re_1 \\
-   \opSem{\re}{\parDer{}}=\{\word\in\wordUniv \mid \mbox{there exists } \re' \mbox{ s.t. } \re\parDer{\word}\re' \mbox{ and } \hasEps{\re'}=\eps\}
+   \re\parDer{\emptyWord}\re                                                                                       \\
+   \re_0\parDer{\sym\strcons\word}\re_1 \mbox{ iff } \re_0\parDer{\sym}{}\re \mbox{ and } \re\parDer{\word}{}\re_1 \\
+   \opSem{\re}{\parDer{}}=\{\word\in\wordUniv \mid \mbox{there exists } \re'\in\reSet \mbox{ s.t. } \re\parDer{\word}\re' \mbox{ and } \hasEps{\re'}=\eps\}
   \end{array}
  \]
 \end{definition}
 
-\begin{definition}
- Let $\reSet_1$ and $\reSet_2$ be sets of regular expressions.
- \[
-  \begin{array}{l}
-   \reSet_1\derSet{\sym}\reSet_2 \mbox{ iff } \reSet_2=\{\re_1 \mid \mbox{ there exists } \re_0\in\reSet_1 \mbox{ s.t. } \re_0\parDer{\sym}{}\re_1 \} \\
-   \hasEps{\reSet}=\eps \mbox{ iff there exists } \re\in\reSet \mbox{ s.t. } \hasEps{\re}                                                             \\
-   \re_0\derSet{\sym\word}\re_1 \mbox{ iff } \re_0\derSet{\sym}\re \mbox{ and } \re\derSet{\word}\re_1                                                \\
-   \re\derSet{\emptyWord}{}\re                                                                                                                        \\
-   \opSem{\re}{\derSet{}}=\{\word\in\wordUniv \mid \mbox{there exists } \reSet \mbox{ s.t. } \{\re\}\derSet{\word}\reSet \mbox{ and } \hasEps{\reSet}=\eps\}
-  \end{array}
- \]
-\end{definition}
+
+\begin{proposition}
+ Let $\delta_\word(\re)$ denotes the set of all partial derivatives of $\re\in\reSet$ w.r.t. $\word\in\symAlph^*$.
+
+ Then $\delta_\word(\re)=\{\re'\in\reSet \mid \re\parDer{\word}\re'\}$.
+\end{proposition}
+
+% \begin{definition}
+%  Let $\reSet_1$ and $\reSet_2$ be sets of regular expressions.
+%  \[
+%   \begin{array}{l}
+%    \reSet_1\derSet{\sym}\reSet_2 \mbox{ iff } \reSet_2=\{\re_1 \mid \mbox{ there exists } \re_0\in\reSet_1 \mbox{ s.t. } \re_0\parDer{\sym}{}\re_1 \} \\
+%    \hasEps{\reSet}=\eps \mbox{ iff there exists } \re\in\reSet \mbox{ s.t. } \hasEps{\re}                                                             \\
+%    \re_0\derSet{\sym\word}\re_1 \mbox{ iff } \re_0\derSet{\sym}\re \mbox{ and } \re\derSet{\word}\re_1                                                \\
+%    \re\derSet{\emptyWord}{}\re                                                                                                                        \\
+%    \opSem{\re}{\derSet{}}=\{\word\in\wordUniv \mid \mbox{there exists } \reSet \mbox{ s.t. } \{\re\}\derSet{\word}\reSet \mbox{ and } \hasEps{\reSet}=\eps\}
+%   \end{array}
+%  \]
+% \end{definition}
 
 \begin{theorem}
- For all regular expressions $\re$
+ For all $\re\in\reSet$
  \[
-  \opSem{\re}{\parDer{}{}}=\opSem{\re}{\derSet{}}
+  \opSem{\re}{\parDer{}{}}=\opSem{\re}{\der{}}
  \]
 \end{theorem}
 
-\begin{theorem}
- For all regular expressions $\re$
+\begin{corollary}
+ For all $\re\in\reSet$
  \[
-  \opSem{\re}{\derSet{}}=\opSem{\re}{\der{}}
+  \opSem{\re}{\parDer{}{}}=\sem{\re}
  \]
-\end{theorem}
+\end{corollary}
+% \begin{theorem}
+%  For all regular expressions $\re$
+%  \[
+%   \opSem{\re}{\derSet{}}=\opSem{\re}{\der{}}
+%  \]
+% \end{theorem}
 
 \begin{figure}
  $$
   \begin{array}{c}
-   \theight{\eps}=\theight{\sym}=0                                                                                             \\
-   \theight{\re_0\catop\re_1}=\theight{\re_0\orop\re_1}=\theight{\re_0\shuffleop\re_1}=1+\max(\theight{\re_0},\theight{\re_1}) \\
-   \theight{\starop{\re_0}}=1+\theight{\re_0}
+   \theight{\eps}=\theight{\sym}=0                                                              \\
+   \theight{\re_0\catop\re_1}=\theight{\re_0\orop\re_1}=\max(\theight{\re_0},\theight{\re_1})+1 \\
+   \theight{\starop{\re_0}}=\theight{\re_0}+1
   \end{array}
  $$
- \caption{Definition of the size of regular expressions}
- \label{fig:size}
+ \caption{Definition of the height of regular expressions}
+ \label{fig:height}
 \end{figure}
 
 \begin{figure}
@@ -76,162 +100,83 @@
    \geqFun{\re_0}{\re_1}=
    \begin{cases}
     1, & \text{if } \theight{\re_0} \geq \theight{\re_1} \\
-    0, & \text{ otherwise}
-   \end{cases}                                                                                   \\[4ex]
-   \incFun{\sym}{\emptyPath}=0\quad \incFun{\eps}{\emptyPath}=0                                                                           \\[2ex]
-   \incFun{\re_0\catop\re_1}{0\pathCons\tpath}=\geqFun{\re_0}{\re_1}\cdot\max(\incFun{\re_0}{\tpath},\theight{\re_1}-\theight{\re_0})     \\[2ex]
-   \incFun{\re_0\catop\re_1}{1\pathCons\tpath}=\incFun{\re_1}{\tpath}-1-\geqFun{\re_0}{\re_1}(\theight{\re_0}-\theight{\re_1})            \\[2ex]
-   \incFun{\re_0\orop\re_1}{0\pathCons\tpath}=\incFun{\re_0}{\tpath}-1-\geqFun{\re_1}{\re_0}(\theight{\re_1}-\theight{\re_0})             \\[2ex]
-   \incFun{\re_0\orop\re_1}{1\pathCons\tpath}=\incFun{\re_1}{\tpath}-1-\geqFun{\re_0}{\re_1}(\theight{\re_0}-\theight{\re_1})             \\[2ex]
-   \incFun{\starop{\re_0}}{0\pathCons\tpath}=1 %%\mbox{ if } \incFun{\re}{\tpath}=\incConst
-   \\[2ex]
-   \incFun{\re_0\shuffleop\re_1}{0\pathCons\tpath}=\geqFun{\re_0}{\re_1}\cdot\max(\incFun{\re_0}{\tpath},\theight{\re_1}-\theight{\re_0}) \\[2ex]
-   \incFun{\re_0\shuffleop\re_1}{1\pathCons\tpath}=\geqFun{\re_1}{\re_0}\cdot\max(\incFun{\re_1}{\tpath},\theight{\re_0}-\theight{\re_1})
+    0, & \text{if } \theight{\re_0} < \theight{\re_1}
+   \end{cases} \\[4ex]
+   \incFun{\sym}=\incFun{\eps}=0                                      \qquad
+   \incFun{\re_0\catop\re_1}=\geqFun{\re_0}{\re_1}\cdot\incFun{\re_0} \qquad
+   \incFun{\re_0\orop\re_1}=0                                         \qquad
+   \incFun{\starop{\re_0}}=1
   \end{array}
  $$
- \caption{Definition of the increment function $\incFun{\re}{\tpath}$}
+ \caption{Definition of the increment function $\incFun{\re}$}
  \label{fig:inc-pred}
 \end{figure}
 
-% \paragraph{Remark}: some of the cases which define $\incSym$ use recursion though this is not needed to compute its
-% result and prove the following claims.
-% However, in such a way the definition is more intutive and clear and the function is well-defined only on correct paths.
-
-\begin{lemma}\label{red-step}
- If $\re\parDer{\sym}{}\re'$, then either $\re'=\eps$ or $\re'=\re_0\catop\re_1$ for some $\re_0$ and $\re_1$.
- \begin{proof}
-  By induction on the rules in \cref{fig:reg-exp-nodet-der} and simple case analysis on their conclusions.
- \end{proof}
+\begin{lemma}\label{bounds}
+ For all $\re\in\reSet$
+ \[0\leq\incFun{\re}\leq 1\]
 \end{lemma}
-\begin{lemma}\label{inc}
- For all $\re$ and $\tpath$, $\incFun{\re}{\tpath}\leq 1$.
- \begin{proof}
-  It follows by definition of $\gtSym$ and direct induction on the definition of $\incFun{\re}{\tpath}$.
- \end{proof}
-\end{lemma}
+\begin{proof}
+ Directly by induction on the definition of $\incFun{\re}$.
+\end{proof}
 
 \begin{theorem}\label{inc-bound}
- If $\re\parDer{\sym}{\tpath}\re'$, then $\theight{\re'}\leq \theight{\re}+\incFun{\re}{\tpath}$.
- \begin{proof}
-  By induction on the derivation tree for $\re\parDer{\sym}{\tpath}\re'$.
-  \begin{description}
-   \item[base case:] The only base rule is for $\re=\sym$, $\tpath=\emptyPath$, and $\re'=\eps$.
-    Hence, $\incFun{\sym}{\emptyPath}=0$ and
-    $\theight{\eps}=0=\theight{\sym}\leq\theight{\sym}+\incFun{\sym}{\emptyPath}$.
-   \item[inductive step:] the proof proceeds by case analysis on the rule applied
-    at the root of the derivation tree, that is, by case analysis on $\re$ and $\tpath$.
-    \begin{itemize}
-     \item $\re=\re_0\catop\re_1$, $\tpath=0\pathCons\tpath'$. By definition
-           of $\parDer{\sym}{\tpath}$, $\re_0\parDer{\sym}{\tpath'}\re'_0$ and $\re'=\re'_0\cdot\re_1$.
-           By inductive hypothesis $\theight{\re'_0}\leq \theight{\re_0}+\incFun{\re_0}{\tpath'}$.
-
-           The following inequality holds:
-           \begin{align}
-             &  & \theight{\re_1}=\theight{\re_0}+\theight{\re_1}-\theight{\re_0}\leq
-            \theight{\re_0}+\max(\incFun{\re_0}{\tpath'},\theight{\re_1}-\theight{\re_0}) \label{diseq1} \\
-             &  & \theight{\re'_0\catop\re_1}=\max(\theight{\re'_0},\theight{\re_1})+1
-            \leq\max(\theight{\re_0}+\incFun{\re_0}{\tpath'},\theight{\re_1})+1 \label{diseq2}
-           \end{align}
-
-           From \cref{diseq1} and \cref{diseq2},
-           $$
-            \theight{\re'_0\catop\re_1}\leq
-            \max(\theight{\re_0}+\incFun{\re_0}{\tpath'},
-            \theight{\re_0}+\max(\incFun{\re_0}{\tpath'},\theight{\re_1}-\theight{\re_0}))+1
-           $$
-           hence
-           \begin{align}
-             &  & \theight{\re'_0\catop\re_1}\leq
-            \theight{\re_0}+\max(\incFun{\re_0}{\tpath'},\theight{\re_1}-\theight{\re_0})+1 \label{diseq3}
-           \end{align}
-
-           If $\theight{\re_0}\geq\theight{\re_1}$, then $\theight{\re_0\catop\re_1}=\theight{\re_0}+1$, and
-           $\gtFun{\re_0}{\re_1}=1$, hence
-           $$\incFun{\re_0\catop\re_1}{0\pathCons\tpath'}=\max(\incFun{\re_0}{\tpath'},\theight{\re_1}-\theight{\re_0}).$$
-
-           From \cref{diseq3},
-           $$
-            \theight{\re'_0\catop\re_1}\leq\theight{\re_0\catop\re_1}+\max(\incFun{\re_0}{\tpath'},\theight{\re_1}-\theight{\re_0})
-            =\theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}{0\pathCons\tpath'}.$$
-
-           If $\theight{\re_1}>\theight{\re_0}$, then $\theight{\re_1}-\theight{\re_0}\geq 1\geq \incFun{\re_0}{\tpath'}$
-           by \cref{inc}, $\theight{\re_0\catop\re_1}=\theight{\re_1}+1$, and $\gtFun{\re_0}{\re_1}=0$, hence
-           $\incFun{\re_0\catop\re_1}{0\pathCons\tpath'}=0$.
-
-           From \cref{diseq3},
-           $$
-            \theight{\re'_0\catop\re_1}\leq\theight{\re_0}+\theight{\re_1}-\theight{\re_0}+1=\theight{\re_1}+1=
-            \theight{\re_0\catop\re_1}=\theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}{0\pathCons\tpath'}.$$
-
-     \item $\re=\re_0\catop\re_1$, $\tpath=1\pathCons\tpath'$. By definition
-           of $\parDer{\sym}{\tpath}$, $\re_1\parDer{\sym}{\tpath'}\re'_1$ and $\re'=\re'_1$.
-           By inductive hypothesis $\theight{\re'_1}\leq \theight{\re_1}+\incFun{\re_1}{\tpath'}$.
-
-           If $\theight{\re_1}\geq\theight{\re_0}$, then $\theight{\re_1}=\theight{\re_0\catop\re_1}-1$ and
-           $\gtFun{\re_0}{\re_1}=0$, hence
-           $\incFun{\re_0\catop\re_1}{1\pathCons\tpath'}$=$\incFun{\re_1}{\tpath'}-1$,  and therefore
-           $$
-            \theight{\re'_1}\leq\theight{\re_1}+\incFun{\re_1}{\tpath'}=
-            \theight{\re_0\catop\re_1}-1+\incFun{\re_1}{\tpath'}=
-            \theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}{1\pathCons\tpath'}.
-           $$
-
-           If $\theight{\re_0}>\theight{\re_1}$, then $\theight{\re_0}=\theight{\re_0\catop\re_1}-1$ and
-           $\gtFun{\re_0}{\re_1}=1$, hence
-           $\incFun{\re_0\catop\re_1}{1\pathCons\tpath'}$=$\incFun{\re_1}{\tpath'}-2$,  and therefore
-           $$
-            \theight{\re'_1}\leq\theight{\re_1}+\incFun{\re_1}{\tpath'}\leq
-            \theight{\re_0}-1+\incFun{\re_1}{\tpath'}=
-            \theight{\re_0\catop\re_1}-2+\incFun{\re_1}{\tpath'}=$$
-           $$
-            \theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}{1\pathCons\tpath'}.
-           $$
-
-     \item $\re=\re_0\orop\re_1$, $\tpath=0\pathCons\tpath'$. By definition
-           of $\parDer{\sym}{\tpath}$, $\re_0\parDer{\sym}{\tpath'}\re'_0$ and $\re'=\re'_0$.
-           By inductive hypothesis $\theight{\re'_0}\leq \theight{\re_0}+\incFun{\re_0}{\tpath'}$.
-
-           By symmetry, the proof is analogous to the
-           previous case.
-     \item $\re=\re_0\orop\re_1$, $\tpath=1\pathCons\tpath'$. By definition
-           of $\parDer{\sym}{\tpath}$, $\re_1\parDer{\sym}{\tpath'}\re'_1$ and $\re'=\re'_1$.
-           By inductive hypothesis $\theight{\re'_1}\leq \theight{\re_1}+\incFun{\re_1}{\tpath'}$.
-
-           By symmetry, the proof is analogous to the
-           previous case.
-
-     \item $\re=\starop{\re_0}$, $\tpath=0\pathCons\tpath'$. By definition
-           of $\parDer{\sym}{\tpath}$, $\re_0\parDer{\sym}{\tpath'}\re'_0$ and $\re'=\re'_0\catop\starop{\re_0}$.
-           By inductive hypothesis $\theight{\re'_0}\leq \theight{\re_0}+\incFun{\re_0}{\tpath'}$, hence
-           by definition of $\theight{\re'_0\catop\starop{\re_0}}$, $\theight{\starop{\re_0}}$, $\incFun{\starop{\re_0}}{0\pathCons\tpath'}$ and \cref{inc}
-           $$
-            \theight{\re'_0\catop\starop{\re_0}}=\max(\theight{\re'_0},\theight{\re_0}+1)+1\leq
-            \max(\theight{\re_0}+\incFun{\re_0}{\tpath'},\theight{\re_0}+1)+1=$$
-           $$\theight{\re_0}+1+1=
-            \theight{\starop{\re_0}}+1=\theight{\starop{\re_0}}+\incFun{\starop{\re_0}}{0\pathCons\tpath'}
-           $$
-    \end{itemize}
-  \end{description}
- \end{proof}
+ For all $\re,\re'\in\reSet$, $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\theight{\re'}\leq \theight{\re}+\incFun{\re}$.
 \end{theorem}
+\begin{proof}
+ By induction and case analysis on rules defining $\re\parDer{\sym}\re'$.
+ \begin{description}
+  \item[base case:] The only base rule is \rn{sym}.
+   Hence, $\re=\sym$, $\re'=\eps$, and
+   $\theight{\eps}=0=\theight{\sym}=\theight{\sym}+0=\theight{\sym}+\incFun{\sym}$.
+  \item[inductive step:] the proof proceeds by case analysis on the rule applied
+   at the root of the derivation tree.
+   \begin{itemize}
+    \item $\Rule{l-cat}{\re_0\parDer{\sym}\re'_0}{\re_0\catop\re_1\parDer{\sym}\re'_0\catop\re_1}{}$\\[2ex]
+          By inductive hypothesis $\theight{\re_0'}\leq \theight{\re_0}+\incFun{\re_0}$.
+          We distinguish two cases:
+          \begin{itemize}
+           \item $\theight{\re_0}\geq\theight{\re_1}$:
+                 $\theight{\re_0'\catop\re_1}\stackrel{\mathrm{def}}{=}\max(\theight{\re'_0},\theight{\re_1})+1\leq\max(\theight{\re_0}+\incFun{\re_0},\theight{\re_1})+1\leq\max(\theight{\re_0},\theight{\re_1})+1+\incFun{\re_0}=\theight{\re_0\catop\re_1}+\incFun{\re_0}=\theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}$, where inequalities are derived from the inductive hypothesis, the definition of $\max$, $\theight{\ }$, $\incFun{}$, and $\geqSym()$, the assumption $\theight{\re_0}\geq\theight{\re_1}$, and lemma~\ref{bounds}.
+
+           \item $\theight{\re_0}<\theight{\re_1}$:
+                 $\theight{\re_0'\catop\re_1}\stackrel{\mathrm{def}}{=}\max(\theight{\re'_0},\theight{\re_1})+1\leq\max(\theight{\re_0}+\incFun{\re_0},\theight{\re_1})+1=\theight{\re_0\catop\re_1}=\theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}$, where inequalities are derived from the inductive hypothesis, the definition of $\max$, $\theight{\ }$, $\incFun{}$, and $\geqSym()$, the assumption $\theight{\re_0}<\theight{\re_1}$, and lemma~\ref{bounds}.
+          \end{itemize}
+
+    \item $\Rule{r-cat}{\re_1\parDer{\sym}\re'_1}{\re_0\catop\re_1\parDer{\sym}\re'_1}{\hasEps{\re_0}=\eps}$\\[2ex]
+          By inductive hypothesis $\theight{\re_1'}\leq \theight{\re_1}+\incFun{\re_1}$.
+
+          Therefore, $\theight{\re_1'}\leq \theight{\re_1}+\incFun{\re_1}\leq\theight{\re_1}+1\leq\theight{\re_0\catop\re_1}\leq\theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}$, where inequalities are derived from the inductive hypothesis, the definition of $\max$, $\theight{\ },$ and $\incFun{}$, and lemma~\ref{bounds}.
+
+    \item $\Rule{l-or}{\re_0\parDer{\sym}\re'_0}{\re_0\orop\re_1\parDer{\sym}\re'_0}{}$\\[2ex]
+          By inductive hypothesis $\theight{\re_0'}\leq \theight{\re_0}+\incFun{\re_0}$.
+
+          Therefore, $\theight{\re_0'}\leq \theight{\re_0}+\incFun{\re_0}\leq\theight{\re_0}+1\leq\theight{\re_0\orop\re_1}=\theight{\re_0\orop\re_1}+\incFun{\re_0\orop\re_1}$, where inequalities are derived from the inductive hypothesis, the definition of $\max$, $\theight{\ },$ and $\incFun{}$, and lemma~\ref{bounds}.
+    \item rule \rn{r-or} is symmetric to  rule \rn{l-or}.
+    \item $\Rule{star}{\re\parDer{\sym}\re'}{\starop{\re}\parDer{\sym}\re'\starop{\re}}{}$\\[2ex]
+          By inductive hypothesis $\theight{\re'}\leq \theight{\re}+\incFun{\re}$.
+
+   \end{itemize}
+ \end{description}
+\end{proof}
 
 \begin{theorem}\label{zero-inc}
- If $\re\parDer{\sym}{}\re'$ and $\incFun{\re'}{\tpath}=k$, then $k\leq 0$.
+ If $\re\parDer{\sym}{}\re'$ and $\incFun{\re'}=k$, then $k\leq 0$.
  \begin{proof}
   By virtue of \cref{red-step} $\re'=\eps$ or $\re'=\re_0\catop\re_1$ for some $\re_0,\re_1$.
 
   If $\re'=\eps$, then by definition $\tpath=\emptyPath$ and $k=0$.
 
-  If $\re'=\re_0\catop\re_1$, then the proof proceeds by induction on the definition of $\incFun{\re'}{\tpath}$.
+  If $\re'=\re_0\catop\re_1$, then the proof proceeds by induction on the definition of $\incFun{\re'}$.
 
   Only two different cases can occur: either $\tpath=0\pathCons\tpath'$ or $\tpath=1\pathCons\tpath'$ for some  $\tpath'$.
 
-  In the former case $\incFun{\re_0\catop\re_1}{\tpath}=\geqFun{\re_0}{\re_1}\cdot\max(\incFun{\re_0}{\tpath'},\theight{\re_1}-\theight{\re_0})$.
+  In the former case $\incFun{\re_0\catop\re_1}=\geqFun{\re_0}{\re_1}\cdot\max(\incFun{\re_0}{\tpath'},\theight{\re_1}-\theight{\re_0})$.
 
-  If $\theight{\re_0}\geq\theight{\re_1}$ then $\incFun{\re_0\catop\re_1}{\tpath}=\max(\incFun{\re_0}{\tpath'},\theight{\re_1}-\theight{\re_0})$.
+  If $\theight{\re_0}\geq\theight{\re_1}$ then $\incFun{\re_0\catop\re_1}=\max(\incFun{\re_0}{\tpath'},\theight{\re_1}-\theight{\re_0})$.
   By induction $\incFun{\re_0}{\tpath'}\leq 0$, furthermore $\theight{\re_1}-\theight{\re_0}<0$, therefore $\max(\incFun{\re_0}{\tpath'},\theight{\re_1}-\theight{\re_0})\leq 0$.
 
-  If $\theight{\re_0}<\theight{\re_1}$ then trivially $\incFun{\re_0\catop\re_1}{\tpath}=0$.
+  If $\theight{\re_0}<\theight{\re_1}$ then trivially $\incFun{\re_0\catop\re_1}=0$.
 
 
  \end{proof}
