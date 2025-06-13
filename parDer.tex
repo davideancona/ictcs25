@@ -156,31 +156,17 @@ we use them to define a non-deterministic transition system which already repres
     \item $\Rule{star}{\re\parDer{\sym}\re'}{\starop{\re}\parDer{\sym}\re'\starop{\re}}{}$\\[2ex]
           By inductive hypothesis $\theight{\re'}\leq \theight{\re}+\incFun{\re}$.
 
+          Therefore, $\theight{\re'\catop\starop{\re}}\stackrel{\mathrm{def}}{=}\max(\theight{\re'},{\theight{\starop{\re}}})+1\leq \max(\theight{\re}+\incFun{\re},{\theight{\re}}+1)+1=\theight{\re}+1+1=\theight{\starop{\re}}+1=\theight{\starop{\re}}+\incFun{\starop{\re}}$, where inequalities are derived from the inductive hypothesis, the definition of $\max$, $\theight{\ },$ and $\incFun{}$, and lemma~\ref{bounds}.
+
    \end{itemize}
  \end{description}
 \end{proof}
 
 \begin{theorem}\label{zero-inc}
- If $\re\parDer{\sym}{}\re'$ and $\incFun{\re'}=k$, then $k\leq 0$.
- \begin{proof}
-  By virtue of \cref{red-step} $\re'=\eps$ or $\re'=\re_0\catop\re_1$ for some $\re_0,\re_1$.
-
-  If $\re'=\eps$, then by definition $\tpath=\emptyPath$ and $k=0$.
-
-  If $\re'=\re_0\catop\re_1$, then the proof proceeds by induction on the definition of $\incFun{\re'}$.
-
-  Only two different cases can occur: either $\tpath=0\pathCons\tpath'$ or $\tpath=1\pathCons\tpath'$ for some  $\tpath'$.
-
-  In the former case $\incFun{\re_0\catop\re_1}=\geqFun{\re_0}{\re_1}\cdot\max(\incFun{\re_0}{\tpath'},\theight{\re_1}-\theight{\re_0})$.
-
-  If $\theight{\re_0}\geq\theight{\re_1}$ then $\incFun{\re_0\catop\re_1}=\max(\incFun{\re_0}{\tpath'},\theight{\re_1}-\theight{\re_0})$.
-  By induction $\incFun{\re_0}{\tpath'}\leq 0$, furthermore $\theight{\re_1}-\theight{\re_0}<0$, therefore $\max(\incFun{\re_0}{\tpath'},\theight{\re_1}-\theight{\re_0})\leq 0$.
-
-  If $\theight{\re_0}<\theight{\re_1}$ then trivially $\incFun{\re_0\catop\re_1}=0$.
-
-
- \end{proof}
+ For all $\re,\re'\in\reSet$, and $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\incFun{\re'}=0$.
 \end{theorem}
+\begin{proof}
+\end{proof}
 \section{Partial derivatives of regular expressions}\label{sec:regexp-par}
 
 \begin{figure}
