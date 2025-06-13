@@ -112,7 +112,7 @@ we use them to define a non-deterministic transition system which already repres
  \label{fig:inc-pred}
 \end{figure}
 
-\begin{lemma}\label{bounds}
+\begin{lemma}\label[lemma]{bounds}
  For all $\re\in\reSet$
  \[0\leq\incFun{\re}\leq 1\]
 \end{lemma}
@@ -120,11 +120,12 @@ we use them to define a non-deterministic transition system which already repres
  Directly by induction on the definition of $\incFun{\re}$.
 \end{proof}
 
-\begin{theorem}\label{inc-bound}
+The following theorem states that the height of the derivative of an expression $\re$ w.r.t. a symbol is bounded by $\theight{\re}+1$.
+\begin{theorem}\label[theorem]{inc-bound}
  For all $\re,\re'\in\reSet$, $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\theight{\re'}\leq \theight{\re}+\incFun{\re}$.
 \end{theorem}
 \begin{proof}
- By induction and case analysis on rules defining $\re\parDer{\sym}\re'$.
+ By induction and case analysis on the rules defining $\re\parDer{\sym}\re'$.
  \begin{description}
   \item[base case:] The only base rule is \rn{sym}.
    Hence, $\re=\sym$, $\re'=\eps$, and
@@ -137,111 +138,79 @@ we use them to define a non-deterministic transition system which already repres
           We distinguish two cases:
           \begin{itemize}
            \item $\theight{\re_0}\geq\theight{\re_1}$:
-                 $\theight{\re_0'\catop\re_1}\stackrel{\mathrm{def}}{=}\max(\theight{\re'_0},\theight{\re_1})+1\leq\max(\theight{\re_0}+\incFun{\re_0},\theight{\re_1})+1\leq\max(\theight{\re_0},\theight{\re_1})+1+\incFun{\re_0}=\theight{\re_0\catop\re_1}+\incFun{\re_0}=\theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}$, where inequalities are derived from the inductive hypothesis, the definition of $\max$, $\theight{\ }$, $\incFun{}$, and $\geqSym()$, the assumption $\theight{\re_0}\geq\theight{\re_1}$, and lemma~\ref{bounds}.
+                 $\theight{\re_0'\catop\re_1}\stackrel{\mathrm{def}}{=}\max(\theight{\re'_0},\theight{\re_1})+1\leq\max(\theight{\re_0}+\incFun{\re_0},\theight{\re_1})+1\leq\max(\theight{\re_0},\theight{\re_1})+1+\incFun{\re_0}=\theight{\re_0\catop\re_1}+\incFun{\re_0}=\theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}$, where inequalities are derived from the inductive hypothesis, the definition of $\max$, $\theight{\ }$, $\incFun{}$, and $\geqSym()$, the assumption $\theight{\re_0}\geq\theight{\re_1}$, and \cref{bounds}.
 
            \item $\theight{\re_0}<\theight{\re_1}$:
-                 $\theight{\re_0'\catop\re_1}\stackrel{\mathrm{def}}{=}\max(\theight{\re'_0},\theight{\re_1})+1\leq\max(\theight{\re_0}+\incFun{\re_0},\theight{\re_1})+1=\theight{\re_0\catop\re_1}=\theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}$, where inequalities are derived from the inductive hypothesis, the definition of $\max$, $\theight{\ }$, $\incFun{}$, and $\geqSym()$, the assumption $\theight{\re_0}<\theight{\re_1}$, and lemma~\ref{bounds}.
+                 $\theight{\re_0'\catop\re_1}\stackrel{\mathrm{def}}{=}\max(\theight{\re'_0},\theight{\re_1})+1\leq\max(\theight{\re_0}+\incFun{\re_0},\theight{\re_1})+1=\theight{\re_0\catop\re_1}=\theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}$, where inequalities are derived from the inductive hypothesis, the definition of $\max$, $\theight{\ }$, $\incFun{}$, and $\geqSym()$, the assumption $\theight{\re_0}<\theight{\re_1}$, and \cref{bounds}.
           \end{itemize}
 
     \item $\Rule{r-cat}{\re_1\parDer{\sym}\re'_1}{\re_0\catop\re_1\parDer{\sym}\re'_1}{\hasEps{\re_0}=\eps}$\\[2ex]
           By inductive hypothesis $\theight{\re_1'}\leq \theight{\re_1}+\incFun{\re_1}$.
 
-          Therefore, $\theight{\re_1'}\leq \theight{\re_1}+\incFun{\re_1}\leq\theight{\re_1}+1\leq\theight{\re_0\catop\re_1}\leq\theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}$, where inequalities are derived from the inductive hypothesis, the definition of $\max$, $\theight{\ },$ and $\incFun{}$, and lemma~\ref{bounds}.
+          Therefore, $\theight{\re_1'}\leq \theight{\re_1}+\incFun{\re_1}\leq\theight{\re_1}+1\leq\theight{\re_0\catop\re_1}\leq\theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}$, where inequalities are derived from the inductive hypothesis, the definition of $\max$, $\theight{\ },$ and $\incFun{}$, and \cref{bounds}.
 
     \item $\Rule{l-or}{\re_0\parDer{\sym}\re'_0}{\re_0\orop\re_1\parDer{\sym}\re'_0}{}$\\[2ex]
           By inductive hypothesis $\theight{\re_0'}\leq \theight{\re_0}+\incFun{\re_0}$.
 
-          Therefore, $\theight{\re_0'}\leq \theight{\re_0}+\incFun{\re_0}\leq\theight{\re_0}+1\leq\theight{\re_0\orop\re_1}=\theight{\re_0\orop\re_1}+\incFun{\re_0\orop\re_1}$, where inequalities are derived from the inductive hypothesis, the definition of $\max$, $\theight{\ },$ and $\incFun{}$, and lemma~\ref{bounds}.
+          Therefore, $\theight{\re_0'}\leq \theight{\re_0}+\incFun{\re_0}\leq\theight{\re_0}+1\leq\theight{\re_0\orop\re_1}=\theight{\re_0\orop\re_1}+\incFun{\re_0\orop\re_1}$, where inequalities are derived from the inductive hypothesis, the definition of $\max$, $\theight{\ },$ and $\incFun{}$, and \cref{bounds}.
     \item rule \rn{r-or} is symmetric to  rule \rn{l-or}.
     \item $\Rule{star}{\re\parDer{\sym}\re'}{\starop{\re}\parDer{\sym}\re'\starop{\re}}{}$\\[2ex]
           By inductive hypothesis $\theight{\re'}\leq \theight{\re}+\incFun{\re}$.
 
-          Therefore, $\theight{\re'\catop\starop{\re}}\stackrel{\mathrm{def}}{=}\max(\theight{\re'},{\theight{\starop{\re}}})+1\leq \max(\theight{\re}+\incFun{\re},{\theight{\re}}+1)+1=\theight{\re}+1+1=\theight{\starop{\re}}+1=\theight{\starop{\re}}+\incFun{\starop{\re}}$, where inequalities are derived from the inductive hypothesis, the definition of $\max$, $\theight{\ },$ and $\incFun{}$, and lemma~\ref{bounds}.
-
+          Therefore, $\theight{\re'\catop\starop{\re}}\stackrel{\mathrm{def}}{=}\max(\theight{\re'},{\theight{\starop{\re}}})+1\leq \max(\theight{\re}+\incFun{\re},{\theight{\re}}+1)+1=\theight{\re}+1+1=\theight{\starop{\re}}+1=\theight{\starop{\re}}+\incFun{\starop{\re}}$, where inequalities are derived from the inductive hypothesis, the definition of $\max$, $\theight{\ },$ and $\incFun{}$, and \cref{bounds}.
    \end{itemize}
  \end{description}
 \end{proof}
 
-\begin{theorem}\label{zero-inc}
+The following corollary can be directly derived from \cref{inc-bound} and \cref{bounds}.
+\begin{corollary}
+ For all $\re,\re'\in\reSet$, and $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\theight{\re'}\leq\theight{\re}+1$.
+\end{corollary}
+The following theorem shows that the height of a derivative can grow by one only in the first transition step.
+\begin{theorem}\label[theorem]{zero-inc}
  For all $\re,\re'\in\reSet$, and $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\incFun{\re'}=0$.
 \end{theorem}
 \begin{proof}
+ By induction and case analysis on the rules defining $\re\parDer{\sym}\re'$.
+ \begin{description}
+  \item[base case:] The only base rule is \rn{sym}.
+   Hence, $\re=\sym$, $\re'=\eps$, and
+   $\incFun{\eps}=0$.
+  \item[inductive step:] the proof proceeds by case analysis on the rule applied
+   at the root of the derivation tree.
+   \begin{itemize}
+    \item $\Rule{l-cat}{\re_0\parDer{\sym}\re'_0}{\re_0\catop\re_1\parDer{\sym}\re'_0\catop\re_1}{}$\\[2ex]
+          If $\geqFun{\re_0}{\re_1}=1$, then by definition of $\incFun{}$ and inductive hypothesis, $\incFun{\re'_0\catop\re_1}=\incFun{\re'_0}=0$.
+          If $\geqFun{\re_0}{\re_1}=0$, then by definition of $\incFun{}$ $\incFun{\re'_0\catop\re_1}=0$.
+
+    \item $\Rule{r-cat}{\re_1\parDer{\sym}\re'_1}{\re_0\catop\re_1\parDer{\sym}\re'_1}{\hasEps{\re_0}=\eps}$\\[2ex]
+          $\incFun{\re'_1}=0$ directly follows from the inductive hypothesis.
+
+    \item the proof for rules \rn{l-or} and \rn{r-or} is the same as for rule \rn{r-cat}.
+
+    \item the proof for rule \rn{star} is the same as for rule \rn{l-cat}.
+   \end{itemize}
+ \end{description}
 \end{proof}
-\section{Partial derivatives of regular expressions}\label{sec:regexp-par}
 
-\begin{figure}
- $$
-  \begin{array}{c}
-   \simpleRule{}{\sym\parDer{\sym}\eps}{}\quad
-   \simpleRule{}{\all\parDer{\sym}\all}{}                                                                                   \\[4ex]
-   \simpleRule{\re_0\parDer{\sym}\re'_0}{\re_0\catop\re_1\parDer{\sym}\re'_0\catop\re_1}{}\quad
-   \simpleRule{\re_0\noParDer{\sym}\quad\re_1\parDer{\sym}\re'_1}{\re_0\catop\re_1\parDer{\sym}\re'_1}{\hasEps{\re_0}=\eps} \\[4ex]
-   \simpleRule{\re_0\parDer{\sym}\re'_0}{\re_0\orop\re_1\parDer{\sym}\re'_0}{}\quad
-   \simpleRule{\re_0\noParDer{\sym}\quad\re_1\parDer{\sym}\re'_1}{\re_0\orop\re_1\parDer{\sym}\re'_1}{}\quad
-   \simpleRule{\re_0\parDer{\sym}\re'_0\quad\re_1\parDer{\sym}\re'_1}{\re_0\andop\re_1\parDer{\sym}\re'_0\andop\re'_1}{}    \\[4ex]
-   \simpleRule{\re_0\parDer{\sym}\re'_0}{\re_0\shuffleop\re_1\parDer{\sym}\re'_0\shuffleop\re_1}{}\quad
-   \simpleRule{\re_0\noParDer{\sym}\quad\re_1\parDer{\sym}\re'_1}{\re_0\shuffleop\re_1\parDer{\sym}\re_0\shuffleop\re'_1}{}\quad
-   \simpleRule{\re\parDer{\sym}\re'}{\starop{\re_0}\parDer{\sym}\re'\starop{\re_0}}{}                                       \\[4ex]
-   \simpleRule{}{\eps\noParDer{\sym}}{}\quad
-   \simpleRule{}{\sym\noParDer{\asym}}{\asym\neq\sym}\quad
-   \simpleRule{}{\none\noParDer{\sym}}{}                                                                                    \\[4ex]
-   \simpleRule{\re_0\noParDer{\sym}}{\re_0\catop\re_1\noParDer{\sym}}{\hasEps{\re_0}=\none}\quad
-   \simpleRule{\re_0\noParDer{\sym}\quad\re_1\noParDer{\sym}}{\re_0\catop\re_1\noParDer{\sym}}{} \quad
-   \simpleRule{\re_0\noParDer{\sym}\quad\re_1\noParDer{\sym}}{\re_0\orop\re_1\noParDer{\sym}}{}                             \\[4ex]
-   \simpleRule{\re_0\noParDer{\sym}}{\re_0\andop\re_1\noParDer{\sym}}{}\quad
-   \simpleRule{\re_1\noParDer{\sym}}{\re_0\andop\re_1\noParDer{\sym}}{}\quad
-   \simpleRule{\re_0\noParDer{\sym}\quad\re_1\noParDer{\sym}}{\re_0\shuffleop\re_1\noParDer{\sym}}{}\quad
-   \simpleRule{\re\noParDer{\sym}}{\starop{\re_0}\noParDer{\sym}}{}
-  \end{array}
- $$
- \caption{Partial derivatives of regular expressions, deterministic definition}
- \label{fig:reg-exp-par-der}
-\end{figure}
-
-
-\begin{theorem}
- For all regular expressions $\re$
- \[
-  \opSem{\re}{\parDer{}}\subseteq\opSem{\re}{\parDer{}{}}
- \]
+We can now generalize \Cref{inc-bound} to derivatives w.r.t. any words.
+\begin{theorem}\label[theorem]{gen-inc-bound}
+ For all $\re,\re'\in\reSet$, and $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\theight{\re'}\leq\theight{\re}+\incFun{\re}$.
 \end{theorem}
+\begin{proof}
+ By induction on the length of $\word$.
+ \begin{description}
+  \item[base case:] if $\word=\emptyWord$, then by definition $\re'=\re$, hence
+   $\theight{\re'}=\theight{\re}$, and by \cref{bounds}, $\theight{\re'}=\theight{\re}\leq\theight{\re}+\incFun{\re}$.
 
-\begin{theorem}
- There exist regular expressions $\re$ s.t.
- \[
-  \opSem{\re}{\parDer{}{}}\not\subseteq\opSem{\re}{\parDer{}}
- \]
-\end{theorem}
+  \item[inductive step:]
+   if $\word=\sym\strcons\word'$ for some $\sym\in\symAlph$, $\word'\in\symAlph^*$, then by definition there exists $\re''\in\reSet$ s.t. $\re\parDer{\sym}\re''$ and $\re''\parDer{\word'}\re'$. By \cref{inc-bound} $\theight{\re''}\leq\theight{\re}+\incFun{\re}$ and by inductive hypothesis $\theight{\re'}\leq\theight{\re''}+\incFun{\re''}$. Moreover, by \cref{zero-inc},
+   $\incFun{\re''}=0$, therefore $\theight{\re'}\leq\theight{\re''}$ and, by transitivity,
+   $\theight{\re'}\leq\theight{\re''}\leq\theight{\re}+\incFun{\re}$.
+ \end{description}
+\end{proof}
 
-\begin{definition}
- \[
-  \begin{array}{l}
-   \first{\none}=\emptyset\quad \first{\all}=\symAlph \quad \first{\eps}=\emptyset \quad \first{\sym}=\{\sym\}                                      \\[2ex]
-   \first{\re_0\catop\re_1}=\first{\re_0}\cup(\sem{\hasEps{\re_0}}\catop\first{\re_1}) \quad \first{\re_0\orop\re_1}=\first{\re_0}\cup\first{\re_1} \\[2ex]
-   \first{\re_0\andop\re_1}=\first{\re_0}\cap\first{\re_1} \quad \first{\re_0\shuffleop\re_1}=\first{\re_0}\cup\first{\re_1} \quad
-   \first{\starop{\re_0}}=\first{\re}
-  \end{array}
- \]
-\end{definition}
-
-\begin{theorem}
- For all $\sym$, $\re$,
- \[
-  \sym\in\first{\re} \mbox{ iff there exists } \re' \mbox{ s.t. } \re\parDer{\sym}\re'
- \]
-\end{theorem}
-
-\begin{theorem}
- For all $\sym$, $\word$, $\re$,
- \[
-  \mbox{ if } \sym\catop\word\in\sem{\re} \mbox{ then } \sym\in\first{\re}
- \]
-\end{theorem}
-
-\begin{theorem}
- For all $\sym$, $\re$,
- \[
-  \mbox{ if } \sym\in\first{\re} \mbox{ and } \sem{\re}\neq\emptyset \mbox{ then there exists } \word \mbox{ s.t. } \sym\word\in\sem{\re}
- \]
-\end{theorem}
-
+\Cref{bounds} allows to conclude the final result stating that the height of the derivatives of $\re$ is bounded by $\theight{\re}+1$.
+\begin{corollary}
+ For all $\re,\re'\in\reSet$, and $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\theight{\re'}\leq\theight{\re}+1$.
+\end{corollary}
