@@ -38,7 +38,7 @@ we use them to define a non-deterministic transition system which already repres
 \end{definition}
 
 
-\begin{proposition}
+\begin{proposition}\label[proposition]{prop:parDer}
  Let $\delta_\word(\re)$ denotes the set of all partial derivatives of $\re\in\reSet$ w.r.t. $\word\in\symAlph^*$.
 
  Then $\delta_\word(\re)=\{\re'\in\reSet \mid \re\parDer{\word}\re'\}$.
@@ -57,14 +57,14 @@ we use them to define a non-deterministic transition system which already repres
 %  \]
 % \end{definition}
 
-\begin{theorem}
+\begin{theorem}\label[theorem]{theo:parDer}
  For all $\re\in\reSet$
  \[
   \opSem{\re}{\parDer{}{}}=\opSem{\re}{\der{}}
  \]
 \end{theorem}
 
-\begin{corollary}
+\begin{corollary}\label[corollary]{cor:parDer}
  For all $\re\in\reSet$
  \[
   \opSem{\re}{\parDer{}{}}=\sem{\re}
@@ -121,7 +121,7 @@ we use them to define a non-deterministic transition system which already repres
 \end{proof}
 
 The following theorem states that the height of the derivative of an expression $\re$ w.r.t. a symbol is bounded by $\theight{\re}+1$.
-\begin{theorem}\label[theorem]{inc-bound}
+\begin{theorem}\label[theorem]{theo:inc-bound}
  For all $\re,\re'\in\reSet$, $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\theight{\re'}\leq \theight{\re}+\incFun{\re}$.
 \end{theorem}
 \begin{proof}
@@ -162,12 +162,14 @@ The following theorem states that the height of the derivative of an expression 
  \end{description}
 \end{proof}
 
-The following corollary can be directly derived from \cref{inc-bound} and \cref{bounds}.
+The following corollary can be directly derived from \cref{theo:inc-bound} and \cref{bounds}.
 \begin{corollary}
  For all $\re,\re'\in\reSet$, and $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\theight{\re'}\leq\theight{\re}+1$.
 \end{corollary}
-The following theorem shows that the height of a derivative can grow by one only in the first transition step.
-\begin{theorem}\label[theorem]{zero-inc}
+With ~\cref{theo:inc-bound} we have shown that the height of the derivative of an expression $\re$ w.r.t. a symbol is bounded by $\theight{\re}+1$.
+The following theorems show that a stronger property holds: the bound $\theight{\re}+1$ can be limited to the first reduction step. For all further steps the bound is just
+$\theight{\re}$.
+\begin{theorem}\label[theorem]{theo:zero-inc}
  For all $\re,\re'\in\reSet$, and $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\incFun{\re'}=0$.
 \end{theorem}
 \begin{proof}
@@ -193,8 +195,8 @@ The following theorem shows that the height of a derivative can grow by one only
  \end{description}
 \end{proof}
 
-We can now generalize \Cref{inc-bound} to derivatives w.r.t. any words.
-\begin{theorem}\label[theorem]{gen-inc-bound}
+We can now generalize \Cref{theo:inc-bound} to derivatives w.r.t. any words.
+\begin{theorem}\label[theorem]{theo:gen-theo:inc-bound}
  For all $\re,\re'\in\reSet$, and $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\theight{\re'}\leq\theight{\re}+\incFun{\re}$.
 \end{theorem}
 \begin{proof}
@@ -204,7 +206,7 @@ We can now generalize \Cref{inc-bound} to derivatives w.r.t. any words.
    $\theight{\re'}=\theight{\re}$, and by \cref{bounds}, $\theight{\re'}=\theight{\re}\leq\theight{\re}+\incFun{\re}$.
 
   \item[inductive step:]
-   if $\word=\sym\strcons\word'$ for some $\sym\in\symAlph$, $\word'\in\symAlph^*$, then by definition there exists $\re''\in\reSet$ s.t. $\re\parDer{\sym}\re''$ and $\re''\parDer{\word'}\re'$. By \cref{inc-bound} $\theight{\re''}\leq\theight{\re}+\incFun{\re}$ and by inductive hypothesis $\theight{\re'}\leq\theight{\re''}+\incFun{\re''}$. Moreover, by \cref{zero-inc},
+   if $\word=\sym\strcons\word'$ for some $\sym\in\symAlph$, $\word'\in\symAlph^*$, then by definition there exists $\re''\in\reSet$ s.t. $\re\parDer{\sym}\re''$ and $\re''\parDer{\word'}\re'$. By \cref{theo:inc-bound} $\theight{\re''}\leq\theight{\re}+\incFun{\re}$ and by inductive hypothesis $\theight{\re'}\leq\theight{\re''}+\incFun{\re''}$. Moreover, by \cref{theo:zero-inc},
    $\incFun{\re''}=0$, therefore $\theight{\re'}\leq\theight{\re''}$ and, by transitivity,
    $\theight{\re'}\leq\theight{\re''}\leq\theight{\re}+\incFun{\re}$.
  \end{description}

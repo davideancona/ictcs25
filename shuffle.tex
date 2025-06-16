@@ -1,0 +1,44 @@
+\section{Regular expressions with shuffle}\label{sec:shuffle}
+
+\subsection{Basic definitions}
+In this section we extend the syntax of regular expressions by adding the shuffle operator\footnote{In the examples we assume that the shuffle has lower precedence than the concatenation and union operator.} $\re_0\shuffleop\re_1$ whose semantics is defined as follows by extending \cref{def:langOp} and \cref{def:sem}:
+\[
+ \begin{array}{l}
+  \emptyWord \shuffleop \word = \word \shuffleop \emptyWord = \{\word\}                                                                                                      \\
+  (\sym_1\word_1) \shuffleop (\sym_2\word_2) = \{ \sym_1  \} \strcatop (\word_1 \strshuffleop (\sym_2\word_2)) \cup \{\sym_2\}\strcatop((\sym_1\word_1)\strshuffleop\word_2) \\
+  \lang_1\strshuffleop\lang_2=\bigcup_{\word_1\in\lang_1,\word_2\in\lang_2}(\word_1\strshuffleop\word_2)                                                                     \\[1ex]
+  \sem{\re_0\shuffleop\re_1}=\sem{\re_0}\strshuffleop\sem{\re_1}
+ \end{array}
+\]
+Although it is well-known that the shuffle operator does not increase the abstract expressive power of regular expressions, in practice it is still very useful in RV to write more compact and clear
+specifications when correct system behaviors can be described as independently interleaved event traces.
+
+Let us consider for instance the events $o_n$, $a_n$, and $c_n$, with the meaning
+``file $n$ has been opened'', ``accessed'', and ``closed'', respectively, where $n=0,1$ is the corresponding file descriptor.
+If the SUS is allowed to manage the two files independently, then a specification for the correct use of them can be defined quite concisely by the regular expression $o_0\catop\starop{a_0}\catop c_0\shuffleop o_1\catop\starop{a_1}\catop c_1$.
+
+\begin{figure}[h]
+ $$
+  \begin{array}{c}
+   \Rule{shf}{\re_0\der{\sym}\re'_0\quad\re_1\der{\sym}\re'_1}{\re_0\shuffleop\re_1\der{\sym}(\re'_0\shuffleop\re_1)\orop(\re_0\shuffleop\re'_1)}{}\qquad \hasEps{\re_0\shuffleop\re_1}=\hasEps{\re_0}\conj\hasEps{\re_1} \\[4ex]
+   \Rule{l-shf}{\re_0\parDer{\sym}\re'_0}{\re_0\shuffleop\re_1\parDer{\sym}\re'_0\shuffleop\re_1}{} \qquad
+   \Rule{r-shf}{\re_1\parDer{\sym}\re'_1}{\re_0\shuffleop\re_1\parDer{\sym}\re_0\shuffleop\re'_1}{}
+  \end{array}
+ $$
+ \caption{Transition rules defining the derivative and the partial derivatives for the shuffle operator}
+ \label{fig:shfParDer}
+\end{figure}
+
+The transition rules defining the derivative and the partial derivatives for the shuffle operator
+can be found in \cref{fig:shfParDer}. They all correspond to the intuition that events can be interleaved; moreover, the empty trace is contained in $\re_0\shuffleop\re_1$ iff it is contained in $\re_0$ and $\re_1$.
+
+As happens for the other operators, also with the shuffle  the derivative is always defined, while the partial derivative is defined only for non-zero derivatives. For instance, if we assume $\sym_2\neq\sym_0$ and $\sym_2\neq\sym_1$, then
+$\sym_0\shuffleop \sym_1\der{\sym_2}(\none\shuffleop\sym_1)\orop(\sym_0\shuffleop\none)$, and $\hasEps{(\none\shuffleop\sym_1)\orop(\sym_0\shuffleop\none)}=\none$, but there exists no $\re$ s.t.
+$\sym_0\shuffleop \sym_1\parDer{\sym_2}\re$.
+
+Theorems~\ref{theo:der} and \ref{theo:parDer} still hold along with  \cref{prop:parDer} and \cref{cor:parDer}, when extended with the shuffle operator.
+
+\subsection{Height of partial derivatives with the shuffle operator}
+
+Theorems~\ref{theo:inc-bound} and \ref{theo:zero-inc} show  that the height of a derivative can grow by one only in the first transition
+step. . This fact allows us to derive that

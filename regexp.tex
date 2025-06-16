@@ -79,7 +79,7 @@ Except for the presentation style, the definition coincides with that introduced
 that $\sym^{-1}(\re_0)=\re_1$ iff $\re_0\der{\sym}\re_1$, and $\word^{-1}(\re_0)=\re_1$ iff $\re_0\der{\word}\re_1$.
 
 
-\begin{definition}
+\begin{definition}\label{def:langOp}
  For all $\lang,\lang_0,\lang_1\subseteq\symAlph^*$
  \[
   \begin{array}{l}
@@ -89,7 +89,7 @@ that $\sym^{-1}(\re_0)=\re_1$ iff $\re_0\der{\sym}\re_1$, and $\word^{-1}(\re_0)
   \end{array}
  \]
 \end{definition}
-\begin{definition}
+\begin{definition}\label{def:sem}
  \[
   \begin{array}{l}
    \sem{\none}=\emptyset\quad \sem{\eps}=\{\emptyWord\} \quad \sem{\sym}=\{\sym\} \quad
@@ -98,12 +98,12 @@ that $\sym^{-1}(\re_0)=\re_1$ iff $\re_0\der{\sym}\re_1$, and $\word^{-1}(\re_0)
  \]
 \end{definition}
 
-\begin{theorem}
+\begin{theorem}[theorem]\label{theo:der}
  For all $\re,\re'\in\reSet$, $\word\in\symAlph^*$
  \[
   \begin{array}{l}
-   \hasEps{\re} = \eps \mbox{ iff } \emptyWord\in\sem{\re}      \\
-   \re\der{\word}\re' \implies \word^{-1}(\sem{\re})=\sem{\re'} \\
+   \hasEps{\re} = \eps \mbox{ iff } \emptyWord\in\sem{\re}              \\
+   \re\der{\word}\re' \mbox{ implies } \word^{-1}(\sem{\re})=\sem{\re'} \\
    \opSem{\re}{\der{}}=\sem{\re}
   \end{array}
  \]
