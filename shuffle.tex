@@ -10,6 +10,8 @@ In this section we extend the syntax of regular expressions by adding the shuffl
   \sem{\re_0\shuffleop\re_1}=\sem{\re_0}\strshuffleop\sem{\re_1}
  \end{array}
 \]
+We denote with $\reSetExt$ the set of regular expressions extended with the shuffle operator.
+
 Although it is well-known that the shuffle operator does not increase the abstract expressive power of regular expressions, in practice it is still very useful in RV to write more compact and clear
 specifications when correct system behaviors can be described as independently interleaved event traces.
 
@@ -36,9 +38,90 @@ As happens for the other operators, also with the shuffle  the derivative is alw
 $\sym_0\shuffleop \sym_1\der{\sym_2}(\none\shuffleop\sym_1)\orop(\sym_0\shuffleop\none)$, and $\hasEps{(\none\shuffleop\sym_1)\orop(\sym_0\shuffleop\none)}=\none$, but there exists no $\re$ s.t.
 $\sym_0\shuffleop \sym_1\parDer{\sym_2}\re$.
 
-Theorems~\ref{theo:der} and \ref{theo:parDer} still hold along with  \cref{prop:parDer} and \cref{cor:parDer}, when extended with the shuffle operator.
+Theorems~\ref{theo:der} and \ref{theo:parDer} still hold along with  \cref{prop:parDer} and \cref{cor:parDer}, when $\reSetExt$ is considered.
 
 \subsection{Height of partial derivatives with the shuffle operator}
 
-Theorems~\ref{theo:inc-bound} and \ref{theo:zero-inc} show  that the height of a derivative can grow by one only in the first transition
-step. . This fact allows us to derive that
+We extend the result of \cref{theo:gen-inc-bound} and \cref{cor:gen-inc-bound} to the case of the shuffle operators.
+
+Unfortunately the proofs are more challenging because the property stating that after the first reduction step the height of the derivative of an expression $\re$ w.r.t. a symbol is bounded by $\theight{\re}$ no longer holds.
+As a counter example, let us consider the following reduction steps:
+\[
+ \begin{array}{ll}
+  \re_0\parDer{\sym}\re_1\parDer{\asym}\re_2\parDer{\sym}\re_3 & \mbox{where }\sym\neq\asym
+ \end{array}
+ \begin{array}[t]{ll}
+  \re_0=(\eps\shuffleop\starop{\sym})\catop(\asym\shuffleop\starop{\sym}) &
+  \re_1=(\eps\shuffleop\eps\catop\starop{\sym})\catop(\asym\shuffleop\starop{\sym})                                     \\
+  \re_2=\eps\shuffleop\starop{\sym}                                       & \re_3=\eps\shuffleop\eps\catop\starop{\sym}
+ \end{array}
+\]
+We have $\theight{\re_1}=\theight{\re_0}+1$ (first reduction step), but also $\theight{\re_3}=\theight{\re_2}+1$ (third reduction step). In particular, $\incFun{\re_2}=
+ \max(0,1\cdot\incFun{\starop{\sym}})=1$, therefore \cref{lemma:zero-inc} no longer holds.
+
+To prove the extended versions of the results of \cref{sec:parDer} we first extend the definition of $\incFun{}$ given in \cref{fig:incFun} with the case for the shuffle.
+\[
+ \incFun{\re_0\shuffleop\re_1}=\max(\geqFun{\re_0}{\re_1}\cdot\incFun{\re_0},\geqFun{\re_1}{\re_0}\cdot\incFun{\re_1})
+\]
+Before explaining the definition of $\incFun{}$ above, we note that the claim of \cref{lemma:bounds} holds also for $\reSetExt$ and can still be proved by induction on the definition of $\incFun{}$: $0\leq\incFun{\re}\leq 1$.
+Consequently, if the height of one sub-expression $\re_i$ is strictly greater than the other $\re_{1-i}$, then only the partial derivative of $\re_i$ can contribute to the increment of the height of the partial derivative of $\re_0\shuffleop\re_1$, because increments are always bounded by 1.
+Note that $\max(\incFun{\re_i},0)=\incFun{\re_i}$, since $\incFun{\re_i}\geq 0$.
+
+If $\theight{\re_0}=\theight{\re_1}$, then both the derivatives of $\re_0$ and $\re_1$ can contribute to the increment of the height of the partial derivative of $\re_0\shuffleop\re_1$.
+Since \rn{l-shf} or \rn{r-shf} can be non-deterministically applied, the maximum increment
+$\max(\incFun{\re_0},\incFun{\re_1})$ needs to be considered.
+
+The correctness of the definition of $\incFun{\re_0\shuffleop\re_1}$ is still ensured by the claim of \cref{theo:inc-bound}.
+
+\subsubsection*{Proof of \cref{theo:inc-bound} extended to $\reSetExt$
+}
+For all $\re,\re'\in\reSetExt$, $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\theight{\re'}\leq \theight{\re}+\incFun{\re}$.
+
+\begin{proof}
+ The structure of the proof is the same, but the two new rules for the shuffle need to be considered.
+ \begin{itemize}
+  \item $\Rule{l-shf}{\re_0\parDer{\sym}\re'_0}{\re_0\shuffleop\re_1\parDer{\sym}\re'_0\shuffleop\re_1}{}$\\[2ex]
+        By inductive hypothesis $\theight{\re_0'}\leq \theight{\re_0}+\incFun{\re_0}$.
+        We distinguish two cases:
+        \begin{itemize}
+         \item $\theight{\re_0}\geq\theight{\re_1}$:
+               $\theight{\re_0'\shuffleop\re_1}\stackrel{\mathrm{def}}{=}\max(\theight{\re'_0},\theight{\re_1})+1\leq\max(\theight{\re_0}+\incFun{\re_0},\theight{\re_1})+1\leq\max(\theight{\re_0},\theight{\re_1})+1+\incFun{\re_0}\leq\max(\theight{\re_0},\theight{\re_1})+1+\incFun{\re_0\shuffleop\re_1}=\theight{\re_0\shuffleop\re_1}+\incFun{\re_0\shuffleop\re_1}$, where inequalities are derived from the inductive hypothesis, the definition of $\max$, $\theight{\ }$, $\incFun{}$, and $\geqSym()$, the assumption $\theight{\re_0}\geq\theight{\re_1}$, and \cref{lemma:bounds}.
+
+         \item $\theight{\re_0}<\theight{\re_1}$ (that is, $\theight{\re_0}+\incFun{\re_0}\leq\theight{\re_1}$ by \cref{lemma:bounds}):
+               $\theight{\re_0'\shuffleop\re_1}\stackrel{\mathrm{def}}{=}\max(\theight{\re'_0},\theight{\re_1})+1\leq\max(\theight{\re_0}+\incFun{\re_0},\theight{\re_1})+1=\theight{\re_0\shuffleop\re_1}\leq\theight{\re_0\shuffleop\re_1}+\incFun{\re_0\shuffleop\re_1}$, where inequalities are derived from the inductive hypothesis, the definition of $\max$, $\theight{\ }$, $\incFun{}$, and $\geqSym()$, the assumption $\theight{\re_0}<\theight{\re_1}$, and \cref{lemma:bounds}.
+        \end{itemize}
+  \item rule (r-shf) is symmetric to rule (l-shf).
+ \end{itemize}
+\end{proof}
+
+To be able to prove the generalization of \cref{theo:gen-inc-bound} for $\reSetExt$ two lemmas have to be introduced.
+
+The first lemma is a weaker version of \cref{lemma:zero-inc}.
+
+\begin{lemma}\label[lemma]{lemma:ext-zero-inc}
+ For all $\re,\re'\in\reSetExt$, and $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$ and $\theight{\re'}=\theight{\re}+1$, then $\incFun{\re'}=0$.
+\end{lemma}
+
+The second lemma establishes an invariant on $\incFun{}$ when the height of the derivatives does not change.
+
+\begin{lemma}\label[lemma]{lemma:ext-zero-inc}
+ For all $\re,\re'\in\reSetExt$, and $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$ and $\theight{\re'}=\theight{\re}$, then $\incFun{\re'}\leq\incFun{\re}$.
+\end{lemma}
+
+It is now possible to prove \cref{theo:gen-inc-bound} extended to $\reSetExt$.
+
+\subsubsection*{Proof of \cref{theo:gen-inc-bound} extended to $\reSetExt$
+}
+For all $\re,\re'\in\reSetExt$, $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\theight{\re'}\leq \theight{\re}+\incFun{\re}$.
+
+\begin{proof}
+ By induction on the length of $\word$.
+ \begin{description}
+  \item[base case:] if $\word=\emptyWord$, then by definition $\re'=\re$, hence
+   $\theight{\re'}=\theight{\re}$, and by \cref{lemma:bounds}, $\theight{\re'}=\theight{\re}\leq\theight{\re}+\incFun{\re}$.
+
+  \item[inductive step:]
+   if $\word=\sym\strcons\word'$ for some $\sym\in\symAlph$, $\word'\in\symAlph^*$, then by definition there exists $\re''\in\reSet$ s.t. $\re\parDer{\sym}\re''$ and $\re''\parDer{\word'}\re'$. By \cref{theo:inc-bound} $\theight{\re''}\leq\theight{\re}+\incFun{\re}$ and by inductive hypothesis $\theight{\re'}\leq\theight{\re''}+\incFun{\re''}$. Therefore,
+   by transitivity,  $\theight{\re'}\leq\theight{\re}+\incFun{\re}+\incFun{\re''}$.
+ \end{description}
+\end{proof}
