@@ -101,6 +101,37 @@ The first lemma is a weaker version of \cref{lemma:zero-inc}.
 \begin{lemma}\label[lemma]{lemma:ext-zero-inc}
  For all $\re,\re'\in\reSetExt$, and $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$ and $\theight{\re'}=\theight{\re}+1$, then $\incFun{\re'}=0$.
 \end{lemma}
+\begin{proof}
+ By induction and case analysis on the rules defining $\re\parDer{\sym}\re'$.
+ \begin{description}
+  \item[base case:] The only base rule is \rn{sym}.
+   The case is vacuous because $\re=\sym$, $\re'=\eps$, and $\theight{\sym}=\theight{\eps}=0$.
+  \item[inductive step:] \hspace*{\fill}
+   \begin{itemize}
+    \item $\Rule{l-cat}{\re_0\parDer{\sym}\re'_0}{\re_0\catop\re_1\parDer{\sym}\re'_0\catop\re_1}{}$\\[2ex]
+          From the hypothesis and the definition of $\theight{\ }$
+          \begin{equation}
+           \label{eq:l-cat-one}
+           \max(\theight{\re_0'},\theight{\re_1})=\max(\theight{\re_0},\theight{\re_1})+1
+          \end{equation}
+          Therefore $\theight{\re_1}\leq\max(\theight{\re_0},\theight{\re_1})<\max(\theight{\re_0},\theight{\re_1})+1=\max(\theight{\re_0'},\theight{\re_1})$ by the definition of $\max$ and \cref{eq:l-cat-one}.
+
+          Therefore, by the definition of $\max$
+          \begin{equation}
+           \label{eq:l-cat-two}
+           \max(\theight{\re_0'},\theight{\re_1})=\theight{\re_0'}
+          \end{equation}
+          Hence $\theight{\re_0}+1\leq\max(\theight{\re_0},\theight{\re_1})+1=\theight{\re'_0}$ by \cref{eq:l-cat-one} and \cref{eq:l-cat-two}.
+
+    \item $\Rule{r-cat}{\re_1\parDer{\sym}\re'_1}{\re_0\catop\re_1\parDer{\sym}\re'_1}{\hasEps{\re_0}=\eps}$\\[2ex]
+          $\incFun{\re'_1}=0$ directly follows from the inductive hypothesis.
+
+    \item the proof for rules \rn{l-or} and \rn{r-or} is the same as for rule \rn{r-cat}.
+
+    \item the proof for rule \rn{star} is the same as for rule \rn{l-cat}.
+   \end{itemize}
+ \end{description}
+\end{proof}
 
 The second lemma establishes an invariant on $\incFun{}$ when the height of the derivatives does not change.
 
