@@ -152,6 +152,51 @@ The second lemma establishes an invariant on $\incFun{}$ when the height of the 
 \begin{lemma}\label[lemma]{lemma:ext-leq-inc}
  For all $\re,\re'\in\reSetExt$, and $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$ and $\theight{\re'}=\theight{\re}$, then $\incFun{\re'}\leq\incFun{\re}$.
 \end{lemma}
+\begin{proof}
+ By induction and case analysis on the rules defining $\re\parDer{\sym}\re'$.
+ \begin{description}
+  \item[base case:] The only base rule is \rn{sym}.
+   In this case $\re=\sym$, $\re'=\eps$, therefore $\theight{\eps}=0=\theight{\sym}$.
+  \item[inductive step:] \hspace*{\fill}
+   \begin{itemize}
+    \item $\Rule{l-cat}{\re_0\parDer{\sym}\re'_0}{\re_0\catop\re_1\parDer{\sym}\re'_0\catop\re_1}{}$\\[2ex]
+          From the hypothesis and the definition of $\theight{\ }$
+          \begin{equation}
+           \label{eq:l-cat-one}
+           \max(\theight{\re_0'},\theight{\re_1})=\max(\theight{\re_0},\theight{\re_1})+1
+          \end{equation}
+          Therefore $\theight{\re_1}\leq\max(\theight{\re_0},\theight{\re_1})<\max(\theight{\re_0},\theight{\re_1})+1=\max(\theight{\re_0'},\theight{\re_1})$ by the definition of $\max$ and \cref{eq:l-cat-one}.
+
+          Therefore, by the definition of $\max$
+          \begin{equation}
+           \label{eq:l-cat-two}
+           \max(\theight{\re_0'},\theight{\re_1})=\theight{\re_0'}
+          \end{equation}
+          Hence $\theight{\re_0}+1\leq\max(\theight{\re_0},\theight{\re_1})+1=\theight{\re'_0}$ by the definition of $\max$, \cref{eq:l-cat-one} and \cref{eq:l-cat-two}.
+
+          Moreover, by \cref{cor:bound} $\theight{\re_0'}\leq\theight{\re_0}+1$, therefore
+          $\theight{\re_0'}=\theight{\re_0}+1$, and by inductive hypothesis $\incFun{\re'_0}=0$, which implies $\incFun{\re'_0\catop\re_1}=0$ by definition of $\incFun{}$.
+
+    \item $\Rule{r-cat}{\re_1\parDer{\sym}\re'_1}{\re_0\catop\re_1\parDer{\sym}\re'_1}{\hasEps{\re_0}=\eps}$\\[2ex]
+          This case is vacuous because $\theight{\re_1'}\leq\theight{\re_1}+1\leq\max(\theight{\re_0},\theight{\re_1})+1=\theight{\re_0\catop\re_1}$ by \cref{cor:bound} and the definition of $\max$ and $\theight{\ }$.
+
+    \item The case for rules \rn{l-or} and \rn{r-or} is vacuous for the same reason shown for \rn{r-cat}.
+    \item $\Rule{l-shf}{\re_0\parDer{\sym}\re'_0}{\re_0\shuffleop\re_1\parDer{\sym}\re'_0\shuffleop\re_1}{}$\\[2ex]
+          The same proof for \rn{l-cat} shows that $\incFun{\re_0'}=\incFun{\re_0}+1$ and $\theight{\re_1}<\theight{\re'_0}$, therefore $\incFun{\re'_0}=0$ by inductive hypothesis, and $\incFun{\re'_0\shuffleop\re_1}=\max(1\cdot\incFun{\re_0'},0\cdot\incFun{\re_1})=0$ by $\theight{\re_1}<\theight{\re'_0}$ and the definition of $\max$, $\incFun{}$ and $\geqSym()$.
+    \item rule \rn{r-shf} is symmetric to rule \rn{l-shf}.
+    \item $\Rule{star}{\re\parDer{\sym}\re'}{\starop{\re}\parDer{\sym}\re'\starop{\re}}{}$\\[2ex]
+          By definition of $\theight{\ }$ and by the hypothesis $\theight{\re'\catop\starop{\re}}=\theight{\starop{\re}}+1$ we have
+          $\max(\theight{\re'},\theight{\starop{\re}})+1=\theight{\starop{\re}}+1$, therefore
+          $\max(\theight{\re'},\theight{\starop{\re}})=\theight{\starop{\re}}$.
+
+          If $\theight{\re'}<\theight{\starop{\re}}$ then by the definition of $\incFun{}$ and $\geqSym()$ we have $\incFun{\re'\catop\starop{\re}}=\geqFun{\re'}{\starop{\re}}\cdot\incFun{\re'}=0\cdot\incFun{\re'}=0$.
+
+          If $\theight{\re'}\geq\theight{\starop{\re}}$ then $\theight{\re'}=\theight{\starop{\re}}$, since $\max(\theight{\re'},\theight{\starop{\re}})=\theight{\starop{\re}}$.
+          By the definition of $\theight{\ }$ we have $\theight{\re'}=\theight{\re}+1$, therefore
+          by inductive hypothesis $\incFun{\re'}=0$ and by definition of $\incFun{}$ and $\geqSym()$ we have $\incFun{\re'\catop\starop{\re}}=\geqFun{\re'}{\starop{\re}}\cdot\incFun{\re'}=1\cdot\incFun{\re'}=0$.
+   \end{itemize}
+ \end{description}
+\end{proof}
 
 It is now possible to prove \cref{theo:gen-inc-bound} extended to $\reSetExt$.
 
