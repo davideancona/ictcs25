@@ -25,13 +25,13 @@
     \Rule{empty}{}{\none\der{\sym}\none}\quad
     \Rule{eps}{}{\eps\der{\sym}\none}\quad
     \Rule{sym-eq}{}{\sym\der{\sym}\eps}\quad
-    \Rule{sym-neq}{}{\sym\der{\asym}\none}{}                                 \\[4ex]
+    \Rule{sym-neq}{}{\sym\der{\asym}\none}{}                                       \\[4ex]
     \Rule{or}{\re_0\der{\sym}\re'_0\quad\re_1\der{\sym}\re'_1}{\re_0\catop\re_1\der{\sym}\re'_0\catop\re_1\orop\hasEps{\re_0}\catop\re'_1}{} \quad
     \Rule{cat}{\re_0\der{\sym}\re'_0\quad\re_1\der{\sym}\re'_1}{\re_0\orop\re_1\der{\sym}\re'_0\orop\re'_1}{}\quad
-    \Rule{star}{\re\der{\sym}\re'}{\starop{\re}\der{\sym}\re'\starop{\re}}{} \\[8ex]
+    \Rule{star}{\re\der{\sym}\re'}{\starop{\re}\der{\sym}\re'\catop\starop{\re}}{} \\[8ex]
     \hasEps{\eps}=\hasEps{\starop{\re_0}}=\eps\qquad\hasEps{\none}=\hasEps{\sym}=\none \quad
     \hasEps{\re_0\catop\re_1}=\hasEps{\re_0}\conj\hasEps{\re_1}\quad
-    \hasEps{\re_0\orop\re_1}=\hasEps{\re_0}\disj\hasEps{\re_1}               \\[2ex]
+    \hasEps{\re_0\orop\re_1}=\hasEps{\re_0}\disj\hasEps{\re_1}                     \\[2ex]
     %% \eps\conj\eps=\eps\quad\none\conj\re=\re\conj\none=\none\qquad\none\disj\none=\none\quad\eps\disj\re=\re\disj\eps=\eps
    \end{array}
   $$

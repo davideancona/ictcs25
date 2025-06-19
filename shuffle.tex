@@ -133,7 +133,7 @@ The first lemma is a weaker version of \cref{lemma:zero-inc}.
     \item $\Rule{l-shf}{\re_0\parDer{\sym}\re'_0}{\re_0\shuffleop\re_1\parDer{\sym}\re'_0\shuffleop\re_1}{}$\\[2ex]
           The same proof for \rn{l-cat} shows that $\incFun{\re_0'}=\incFun{\re_0}+1$ and $\theight{\re_1}<\theight{\re'_0}$, therefore $\incFun{\re'_0}=0$ by inductive hypothesis, and $\incFun{\re'_0\shuffleop\re_1}=\max(1\cdot\incFun{\re_0'},0\cdot\incFun{\re_1})=0$ by $\theight{\re_1}<\theight{\re'_0}$ and the definition of $\max$, $\incFun{}$ and $\geqSym()$.
     \item rule \rn{r-shf} is symmetric to rule \rn{l-shf}.
-    \item $\Rule{star}{\re\parDer{\sym}\re'}{\starop{\re}\parDer{\sym}\re'\starop{\re}}{}$\\[2ex]
+    \item $\Rule{star}{\re\parDer{\sym}\re'}{\starop{\re}\parDer{\sym}\re'\catop\starop{\re}}{}$\\[2ex]
           By definition of $\theight{\ }$ and by the hypothesis $\theight{\re'\catop\starop{\re}}=\theight{\starop{\re}}+1$ we have
           $\max(\theight{\re'},\theight{\starop{\re}})+1=\theight{\starop{\re}}+1$, therefore
           $\max(\theight{\re'},\theight{\starop{\re}})=\theight{\starop{\re}}$.
@@ -230,16 +230,9 @@ The second lemma establishes an invariant on $\incFun{}$ when the height of the 
 
 
     \item The rule \rn{r-shf} is symmetric to \rn{l-shf}.
-    \item $\Rule{star}{\re\parDer{\sym}\re'}{\starop{\re}\parDer{\sym}\re'\starop{\re}}{}$\\[2ex]
-          By definition of $\theight{\ }$ and by the hypothesis $\theight{\re'\catop\starop{\re}}=\theight{\starop{\re}}+1$ we have
-          $\max(\theight{\re'},\theight{\starop{\re}})+1=\theight{\starop{\re}}+1$, therefore
-          $\max(\theight{\re'},\theight{\starop{\re}})=\theight{\starop{\re}}$.
-
-          If $\theight{\re'}<\theight{\starop{\re}}$ then by the definition of $\incFun{}$ and $\geqSym()$ we have $\incFun{\re'\catop\starop{\re}}=\geqFun{\re'}{\starop{\re}}\cdot\incFun{\re'}=0\cdot\incFun{\re'}=0$.
-
-          If $\theight{\re'}\geq\theight{\starop{\re}}$ then $\theight{\re'}=\theight{\starop{\re}}$, since $\max(\theight{\re'},\theight{\starop{\re}})=\theight{\starop{\re}}$.
-          By the definition of $\theight{\ }$ we have $\theight{\re'}=\theight{\re}+1$, therefore
-          by inductive hypothesis $\incFun{\re'}=0$ and by definition of $\incFun{}$ and $\geqSym()$ we have $\incFun{\re'\catop\starop{\re}}=\geqFun{\re'}{\starop{\re}}\cdot\incFun{\re'}=1\cdot\incFun{\re'}=0$.
+    \item $\Rule{star}{\re\parDer{\sym}\re'}{\starop{\re}\parDer{\sym}\re'\catop\starop{\re}}{}$\\[2ex]
+          Directly by the definition of $\incFun{}$ and \cref{lemma:bounds}
+          $\incFun{\re'\catop\starop{\re}}\leq 1=\incFun{\starop{\re}}$.
    \end{itemize}
  \end{description}
 \end{proof}

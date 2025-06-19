@@ -8,7 +8,7 @@
    \Rule{r-cat}{\re_1\parDer{\sym}\re'_1}{\re_0\catop\re_1\parDer{\sym}\re'_1}{\hasEps{\re_0}=\eps} \\[4ex]
    \Rule{l-or}{\re_0\parDer{\sym}\re'_0}{\re_0\orop\re_1\parDer{\sym}\re'_0}{} \quad
    \Rule{r-or}{\re_1\parDer{\sym}\re'_1}{\re_0\orop\re_1\parDer{\sym}\re'_1}{} \quad
-   \Rule{star}{\re\parDer{\sym}\re'}{\starop{\re}\parDer{\sym}\re'\starop{\re}}{}
+   \Rule{star}{\re\parDer{\sym}\re'}{\starop{\re}\parDer{\sym}\re'\catop\starop{\re}}{}
   \end{array}
  $$
  \caption{Transition system defining the partial derivatives of regular expressions}
@@ -154,7 +154,7 @@ The following theorem proves the soundness of the definition of $\incFun{}$~w.r.
 
           Therefore, $\theight{\re_0'}\leq \theight{\re_0}+\incFun{\re_0}\leq\theight{\re_0}+1\leq\theight{\re_0\orop\re_1}=\theight{\re_0\orop\re_1}+\incFun{\re_0\orop\re_1}$, by the inductive hypothesis, the definition of $\max$, $\theight{\ },$ and $\incFun{}$, and \cref{lemma:bounds}.
     \item rule \rn{r-or} is symmetric to  rule \rn{l-or}.
-    \item $\Rule{star}{\re\parDer{\sym}\re'}{\starop{\re}\parDer{\sym}\re'\starop{\re}}{}$\\[2ex]
+    \item $\Rule{star}{\re\parDer{\sym}\re'}{\starop{\re}\parDer{\sym}\re'\catop\starop{\re}}{}$\\[2ex]
           By inductive hypothesis $\theight{\re'}\leq \theight{\re}+\incFun{\re}$.
 
           Therefore, $\theight{\re'\catop\starop{\re}}\stackrel{\mathrm{def}}{=}\max(\theight{\re'},{\theight{\starop{\re}}})+1\leq \max(\theight{\re}+\incFun{\re},{\theight{\re}}+1)+1=\theight{\re}+1+1=\theight{\starop{\re}}+1=\theight{\starop{\re}}+\incFun{\starop{\re}}$, by the inductive hypothesis, the definition of $\max$, $\theight{\ },$ and $\incFun{}$, and \cref{lemma:bounds}.
