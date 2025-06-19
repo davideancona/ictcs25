@@ -156,26 +156,31 @@ The second lemma establishes an invariant on $\incFun{}$ when the height of the 
  By induction and case analysis on the rules defining $\re\parDer{\sym}\re'$.
  \begin{description}
   \item[base case:] The only base rule is \rn{sym}.
-   In this case $\re=\sym$, $\re'=\eps$, therefore $\theight{\eps}=0=\theight{\sym}$.
+   In this case $\re=\sym$, $\re'=\eps$, therefore $\incFun{\eps}=0=\incFun{\sym}$.
   \item[inductive step:] \hspace*{\fill}
    \begin{itemize}
     \item $\Rule{l-cat}{\re_0\parDer{\sym}\re'_0}{\re_0\catop\re_1\parDer{\sym}\re'_0\catop\re_1}{}$\\[2ex]
           From the hypothesis and the definition of $\theight{\ }$
           \begin{equation}
-           \label{eq:l-cat-one}
-           \max(\theight{\re_0'},\theight{\re_1})=\max(\theight{\re_0},\theight{\re_1})+1
+           \label{eq:l-cat-three}
+           \max(\theight{\re_0'},\theight{\re_1})=\max(\theight{\re_0},\theight{\re_1})
           \end{equation}
-          Therefore $\theight{\re_1}\leq\max(\theight{\re_0},\theight{\re_1})<\max(\theight{\re_0},\theight{\re_1})+1=\max(\theight{\re_0'},\theight{\re_1})$ by the definition of $\max$ and \cref{eq:l-cat-one}.
+          Two different cases are distinguished:
+          \begin{itemize}
+           \item $\theight{\re_0}\geq\theight{\re_1}$\\
+                 from \cref{eq:l-cat-three} $\max(\theight{\re_0'},\theight{\re_1})=\theight{\re_0}$, hence $\theight{\re_0'}\leq\theight{\re_0}$ by the definition of $\max$.
 
-          Therefore, by the definition of $\max$
-          \begin{equation}
-           \label{eq:l-cat-two}
-           \max(\theight{\re_0'},\theight{\re_1})=\theight{\re_0'}
-          \end{equation}
-          Hence $\theight{\re_0}+1\leq\max(\theight{\re_0},\theight{\re_1})+1=\theight{\re'_0}$ by the definition of $\max$, \cref{eq:l-cat-one} and \cref{eq:l-cat-two}.
+                 If $\theight{\re_0'}<\theight{\re_0}$, then $\theight{\re_0'}<\theight{\re_1}$ by \cref{eq:l-cat-three} and the definition of $\max$. Therefore $\incFun{\re_0'\catop\re_1}=0\leq\incFun{\re_0\catop\re_1}$ by definition of $\incFun{}$ and \cref{lemma:bounds}.
 
-          Moreover, by \cref{cor:bound} $\theight{\re_0'}\leq\theight{\re_0}+1$, therefore
-          $\theight{\re_0'}=\theight{\re_0}+1$, and by inductive hypothesis $\incFun{\re'_0}=0$, which implies $\incFun{\re'_0\catop\re_1}=0$ by definition of $\incFun{}$.
+                 Therefore $\theight{\re_1}\leq\max(\theight{\re_0},\theight{\re_1})<\max(\theight{\re_0},\theight{\re_1})+1=\max(\theight{\re_0'},\theight{\re_1})$ by the definition of $\max$ and \cref{eq:l-cat-one}.
+
+                 If $\theight{\re_0'}=\theight{\re_0}$, then $\incFun{\re_0'}\leq\incFun{\re_0}$ by inductive hypothesis. Since $\theight{\re_0'}=\theight{\re_0}\geq\theight{\re_1}$, we have $\incFun{\re_0'\catop\re_1}=\incFun{\re_0'}\leq\incFun{\re_0}=\incFun{\re_0\catop\re_1}$ by the definition of $\incFun{}$ and $\geqSym()$.
+           \item $\theight{\re_0}<\theight{\re_1}$\\
+                 In this case $\incFun{\re_0\catop\re_1}=0$ by the definition of $\incFun{}$ and $\geqSym()$.
+
+                 If
+          \end{itemize}
+
 
     \item $\Rule{r-cat}{\re_1\parDer{\sym}\re'_1}{\re_0\catop\re_1\parDer{\sym}\re'_1}{\hasEps{\re_0}=\eps}$\\[2ex]
           This case is vacuous because $\theight{\re_1'}\leq\theight{\re_1}+1\leq\max(\theight{\re_0},\theight{\re_1})+1=\theight{\re_0\catop\re_1}$ by \cref{cor:bound} and the definition of $\max$ and $\theight{\ }$.
