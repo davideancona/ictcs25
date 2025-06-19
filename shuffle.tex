@@ -65,7 +65,7 @@ To prove the extended versions of the results of \cref{sec:parDer} we first exte
 \]
 Before explaining the definition of $\incFun{}$ above, we note that the claim of \cref{lemma:bounds} holds also for $\reSetExt$ and can still be proved by induction on the definition of $\incFun{}$: $0\leq\incFun{\re}\leq 1$.
 Consequently, if the height of one sub-expression $\re_i$ is strictly greater than the other $\re_{1-i}$, then only the partial derivative of $\re_i$ can contribute to the increment of the height of the partial derivative of $\re_0\shuffleop\re_1$, because increments are always bounded by 1.
-Note that $\max(\incFun{\re_i},0)=\incFun{\re_i}$, since $\incFun{\re_i}\geq 0$.
+Note that $\max(\incFun{\re_i},0)=\incFun{\re_i}$, since $\incFun{\re_i}\geq 0$, therefore $\incFun{\re_0\shuffleop\re_1}=\incFun{\re_i}$, if $\theight{\re_i}>\theight{\re_{1-i}}$ for $i=0,1$.
 
 If $\theight{\re_0}=\theight{\re_1}$, then both the derivatives of $\re_0$ and $\re_1$ can contribute to the increment of the height of the partial derivative of $\re_0\shuffleop\re_1$.
 Since \rn{l-shf} or \rn{r-shf} can be non-deterministically applied, the maximum increment
@@ -185,47 +185,47 @@ The second lemma establishes an invariant on $\incFun{}$ when the height of the 
     \item $\Rule{r-cat}{\re_1\parDer{\sym}\re'_1}{\re_0\catop\re_1\parDer{\sym}\re'_1}{\hasEps{\re_0}=\eps}$\\[2ex]
           From the hypothesis and the definition of $\theight{\ }$
           \begin{equation}
-           \label{eq:l-cat-four}
+           \label{eq:l-cat}
            \theight{\re_1'}=\max(\theight{\re_0},\theight{\re_1})+1
           \end{equation}
           Two different cases may occur:
           \begin{itemize}
            \item $\theight{\re_0}\geq\theight{\re_1}$\\
-                 From \cref{eq:l-cat-four} and the definition of $\max$, $\theight{\re_1'}=\max(\theight{\re_0},\theight{\re_1})+1\geq\theight{\re_1}+1$. Moreover, by \cref{lemma:bounds},
+                 From \cref{eq:l-cat} and the definition of $\max$, $\theight{\re_1'}=\max(\theight{\re_0},\theight{\re_1})+1\geq\theight{\re_1}+1$. Moreover, by \cref{lemma:bounds},
                  $\theight{\re_1'}\leq\theight{\re}+1$, therefore $\theight{\re_1'}=\theight{\re}+1$, hence by \cref{lemma:ext-zero-inc} $\incFun{\re_1'}=0$.
                  Finally, $\incFun{\re_1'}=0\leq\incFun{\re_0\catop\re_1}$ by \cref{lemma:bounds}.
 
            \item $\theight{\re_0}<\theight{\re_1}$\\
-                 In this case $\incFun{\re_0\catop\re_1}=0$ by the definition of $\incFun{}$ and $\geqSym()$. Moreover, from \cref{eq:l-cat-four} and the definition of $\max$, $\theight{\re_1'}=\theight{\re_1}+1$, hence  by \cref{lemma:ext-zero-inc}, $\incFun{\re_1'}=0$. Finally,
+                 In this case $\incFun{\re_0\catop\re_1}=0$ by the definition of $\incFun{}$ and $\geqSym()$. Moreover, from \cref{eq:l-cat} and the definition of $\max$, $\theight{\re_1'}=\theight{\re_1}+1$, hence  by \cref{lemma:ext-zero-inc}, $\incFun{\re_1'}=0$. Finally,
                  $\incFun{\re_1'}=0\leq\incFun{\re_0\catop\re_1}$ by \cref{lemma:bounds}.
           \end{itemize}
 
     \item The proofs for the rules \rn{l-or} and \rn{r-or} are analogous to the proof for the rule \rn{r-cat}.
     \item $\Rule{l-shf}{\re_0\parDer{\sym}\re'_0}{\re_0\shuffleop\re_1\parDer{\sym}\re'_0\shuffleop\re_1}{}$\\[2ex]
-          The proof is similar to that for \rn{l-cat}, except from some details on the definition of $\incFun{\re_0\shuffleop\re_1}$, which differs from that of $\incFun{\re_0\catop\re_1}$.
-
-          Nevertheless, we report it for the sake of completeness.
+          The proof is similar to that for \rn{l-cat}, except from some details on the definition of $\incFun{\re_0\shuffleop\re_1}$, which differs from that of $\incFun{\re_0\catop\re_1}$. We report it for the sake of completeness.
 
           From the hypothesis and the definition of $\theight{\ }$
           \begin{equation}
-           \label{eq:l-cat-three}
+           \label{eq:l-shuffle}
            \max(\theight{\re_0'},\theight{\re_1})=\max(\theight{\re_0},\theight{\re_1})
           \end{equation}
           Two different cases may occur:
           \begin{itemize}
            \item $\theight{\re_0}\geq\theight{\re_1}$\\
-                 From \cref{eq:l-cat-three} and the definition of $\max$, $\max(\theight{\re_0'},\theight{\re_1})=\theight{\re_0}$, hence $\theight{\re_0'}\leq\theight{\re_0}$ by the definition of $\max$.
+                 From \cref{eq:l-shuffle} and the definition of $\max$, $\max(\theight{\re_0'},\theight{\re_1})=\theight{\re_0}$, hence $\theight{\re_0'}\leq\theight{\re_0}$ by the definition of $\max$.
 
-                 If $\theight{\re_0'}<\theight{\re_0}$, then $\theight{\re_0'}<\theight{\re_1}$ by \cref{eq:l-cat-three} and the definition of $\max$. Therefore $\incFun{\re_0'\catop\re_1}=0\leq\incFun{\re_0\catop\re_1}$ by definition of $\incFun{}$ and \cref{lemma:bounds}.
+                 If $\theight{\re_0'}<\theight{\re_0}$, then $\theight{\re_0'}<\theight{\re_1}=\theight{\re_0}$ by \cref{eq:l-shuffle} and the definition of $\max$. Therefore $\geqFun{\re_0'}{\re_1}= 0$ and $\geqFun{\re_1}{\re_0'}=\geqFun{\re_0}{\re_1}=\geqFun{\re_1}{\re_0}=1$ by the definition of $\geqSym()$, and
+                 $\incFun{\re_0'\shuffleop\re_1}=\incFun{\re_1}\leq\max(\incFun{\re_0},\incFun{\re_1})=\incFun{\re_0\shuffleop\re_1}$ by the definition of $\incFun{}$ and $\max$.
 
-                 Therefore $\theight{\re_1}\leq\max(\theight{\re_0},\theight{\re_1})<\max(\theight{\re_0},\theight{\re_1})+1=\max(\theight{\re_0'},\theight{\re_1})$ by the definition of $\max$ and \cref{eq:l-cat-one}.
 
-                 If $\theight{\re_0'}=\theight{\re_0}$, then $\incFun{\re_0'}\leq\incFun{\re_0}$ by inductive hypothesis. Since $\theight{\re_0'}=\theight{\re_0}\geq\theight{\re_1}$, we have $\incFun{\re_0'\catop\re_1}=\incFun{\re_0'}\leq\incFun{\re_0}=\incFun{\re_0\catop\re_1}$ by the definition of $\incFun{}$ and $\geqSym()$.
+                 If $\theight{\re_0'}=\theight{\re_0}$, then $\incFun{\re_0'}\leq\incFun{\re_0}$ by inductive hypothesis. Moreover,
+                 $\geqFun{\re_0}{\re_1}=\geqFun{\re'_0}{\re_1}=1$ and $\geqFun{\re_1}{\re_0}=\geqFun{\re_1}{\re'_0}$ by the definition of $\geqSym()$.
+                 Therefore, $\incFun{\re_0'\shuffleop\re_1}=\max(\incFun{\re'_0},\geqFun{\re_1}{\re_0'}\cdot\incFun{\re_1})\leq\max(\incFun{\re_0},\geqFun{\re_1}{\re_0}\cdot\incFun{\re_1})=\incFun{\re_0\shuffleop\re_1}$ by the definition of $\max$.
            \item $\theight{\re_0}<\theight{\re_1}$\\
-                 In this case $\incFun{\re_0\catop\re_1}=0$ by the definition of $\incFun{}$ and $\geqSym()$. Moreover, from \cref{eq:l-cat-three} $\max(\theight{\re_0'},\theight{\re_1})=\theight{\re_1}$, hence $\theight{\re_0'}\leq\theight{\re_1}$ by the definition of $\max$.
+                 In this case $\incFun{\re_0\shuffleop\re_1}=\incFun{\re_1}$ by the definition of $\incFun{}$ and $\geqSym()$. Moreover, from \cref{eq:l-shuffle} $\max(\theight{\re_0'},\theight{\re_1})=\theight{\re_1}$, hence $\theight{\re_0'}\leq\theight{\re_1}$ by the definition of $\max$.
 
-                 If $\theight{\re_0'}<\theight{\re_1}$ then $\incFun{\re_0'\catop\re_1}=0=\incFun{\re_0\catop\re_1}$ by the definition of $\incFun{}$ and $\geqSym()$. If $\theight{\re_0'}=\theight{\re_1}$ then $\theight{\re_0}<\theight{\re_1}=\theight{\re_0'}$, therefore $\theight{\re_0}+1\leq\theight{\re_0'}$. Moreover, by \cref{cor:bound} $\theight{\re'_0}\leq\theight{\re_0}+1$, hence $\theight{\re_0'}=\theight{\re_0}+1$, and, by \cref{lemma:ext-zero-inc}, $\incFun{\re_0'}=0$. Finally,
-                 $\incFun{\re_0'\catop\re_1}=\incFun{\re_0'}=0=\incFun{\re_0\catop\re_1}$ by the definition of $\incFun{}$ and $\geqSym()$.
+                 If $\theight{\re_0'}<\theight{\re_1}$ then $\incFun{\re_0'\shuffleop\re_1}=\incFun{\re_1}=\incFun{\re_0\shuffleop\re_1}$ by the definition of $\incFun{}$ and $\geqSym()$. If $\theight{\re_0'}=\theight{\re_1}$ then $\theight{\re_0}<\theight{\re_1}=\theight{\re_0'}$, therefore $\theight{\re_0}+1\leq\theight{\re_0'}$. Moreover, by \cref{cor:bound} $\theight{\re'_0}\leq\theight{\re_0}+1$, hence $\theight{\re_0'}=\theight{\re_0}+1$, and, by \cref{lemma:ext-zero-inc}, $\incFun{\re_0'}=0$. Finally,
+                 $\incFun{\re_0'\shuffleop\re_1}=\max(\incFun{\re_0'},\incFun{\re_1})=\max(0,\incFun{\re_1})=\incFun{\re_0\shuffleop\re_1}$ by the definition of $\incFun{}$ and $\geqSym()$.
           \end{itemize}
 
 
