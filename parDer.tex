@@ -12,14 +12,14 @@
   \end{array}
  $$
  \caption{Transition system defining the partial derivatives of regular expressions}
- \label{parDer}
+ \label{fig:parDer}
 \end{figure}
 
 ~\Cref{parDer} contains the transition rules defining the partial derivatives of regular expressions.
 As for the definition of derivatives, the presentation deviates from that of Antimirov \cite{Antimirov96}, and keeps following the transition system style. Besides the different notation, more importantly, here we deliberately define a non-deterministic system, where a single transition step yields a single (non-zero) partial derivative among all possible ones, while in Antimirov's definition the set of all partial derivatives is returned.
 
 For instance, according to Antimirov's definition\footnote{See \cite{Antimirov96}, definition 2.8.},
-the partial derivative of $ab \orop ac$ w.r.t. $a$ returns the set of regular expressions $\{b,c\}$ (that is, $\delta_a(ab \orop ac)=\{b,c\}$ with Antimirov's notation). This corresponds to the fact that there exist two possible transition steps from $ab \orop ac$ labeled with $a$, namely,
+the partial derivative of $ab \orop ac$ \wrt~ $a$ returns the set of regular expressions $\{b,c\}$ (that is, $\delta_a(ab \orop ac)=\{b,c\}$ with Antimirov's notation). This corresponds to the fact that there exist two possible transition steps from $ab \orop ac$ labeled with $a$, namely,
 $ab \orop ac\parDer{a}b$ and $ab \orop ac\parDer{a}c$.
 
 This difference is directly related to the opposite aim of our work: while Antimirov's approach uses partial derivatives for generating an NFA, here
@@ -39,7 +39,7 @@ we use them to define a non-deterministic transition system which already repres
 
 
 \begin{proposition}\label[proposition]{prop:parDer}
- Let $\delta_\word(\re)$ denotes the set of all partial derivatives of $\re\in\reSet$ w.r.t. $\word\in\symAlph^*$.
+ Let $\delta_\word(\re)$ denotes the set of all partial derivatives of $\re\in\reSet$ \wrt~ $\word\in\symAlph^*$.
 
  Then $\delta_\word(\re)=\{\re'\in\reSet \mid \re\parDer{\word}\re'\}$.
 \end{proposition}
@@ -112,6 +112,40 @@ we use them to define a non-deterministic transition system which already repres
  \label{fig:incFun}
 \end{figure}
 
+\subsection{Height of partial derivatives}
+In this section we investigate the upper bound on the hight of the partial derivatives of a given regular expression.
+
+The standard definition of the height of a regular expression considered as a tree can be found in \cref{fig:height}.
+
+The height of the partial derivative of an expression $\re$  \wrt~ a word $\word$ both depends on the shape of $\re$ and on $\word$.
+Here we want to reason on any possible $\re$ and $\word$. Moreover, we want to provide a general proof methodology which can be followed to prove results when considering also shuffle and the size of expressions.
+
+To show a couple of examples let us consider the following reduction steps which compute the partial derivatives of $\starop{\sym}\catop\starop{\asym}$~
+\wrt~ $\sym\asym$ and $\asym\asym$:
+\begin{flushleft}
+ $
+  \begin{array}{l}
+   \starop{\sym}\catop\starop{\asym}\parDer{\sym}(\eps\catop\starop{\sym})\catop\starop{\asym}\parDer{\asym}\eps\catop\starop{\asym} \\
+   \starop{\sym}\catop\starop{\asym}\parDer{\asym}\eps\catop\starop{\asym}\parDer{\asym}\eps\catop\starop{\asym}                     \\
+   \theight{\starop{\sym}\catop\starop{\asym}}=2\qquad \theight{(\eps\catop\starop{\sym})\catop\starop{\asym}}=3 \qquad \theight{\eps\catop\starop{\asym}}=2
+  \end{array}
+ $
+\end{flushleft}
+In the first example the height increases by one at the first step and decreases by one at the second, while in the second example the height of the expressions is unchanged.
+
+What we are going to prove are the following main properties:
+\begin{enumerate}
+ \item the height of the partial derivative of a regular expression \wrt~ a symbol can increase \textbf{at most by one};
+ \item the height of the partial derivative of a partial derivative \wrt~a non-empty word, \textbf{cannot} increase;
+ \item from 1. and 2. and from the definition of partial derivative, one can deduce that if $\re\parDer{\word}\re'$, then $\theight{\re'}\leq\theight{\re}+1$.
+\end{enumerate}
+Although these properties can be proved in a direct way, they are quite strong, and do not hold when shuffle or the size of expressions is considered. Therefore, as motived above, more general and weaker claims will be proved.
+
+In order to do that, \cref{fig:incFun} defines the function $\incFun{\re}$ which computes the upper bound of $\theight{\re'}-\theight{\re}$, where
+$\re\parDer{\sym}\re'$, with $\re'\in\reSet$, $\sym\in\symAlph$.
+That is, $M\stackrel{\mathrm{def.}}{=}\max\{\theight{\re'}-\theight{\re} \mid \re\parDer{\sym}\re', \re'\in\reSet, \sym\in\symAlph\}\leq\incFun{\re}$.
+
+Before commenting the definition of $\incFun{\re}$, we introduce the following straightforward lemma.
 \begin{lemma}\label[lemma]{lemma:bounds}
  For all $\re\in\reSet$
  \[0\leq\incFun{\re}\leq 1\]
@@ -120,7 +154,15 @@ we use them to define a non-deterministic transition system which already repres
  Directly by induction on the definition of $\incFun{\re}$.
 \end{proof}
 
-The following theorem proves the soundness of the definition of $\incFun{}$~w.r.t. its intended meaning. As a consequence, the height of the derivative of an expression $\re$ w.r.t. a symbol is always bounded by $\theight{\re}+1$.
+The constraint $0\leq\incFun{\re}$ is ensured by the definition of $\incFun{\re}$ because we are interested in investigating the upper bound,\footnote{$M$ as defined above, can be an arbitrary negative integer. For instance, the partial derivatives of $\sym\orop\asym$ \wrt~a symbol all have height 0, hence $M=-1$ in this case.}. The constraint $\incFun{\re}\leq 1$ corresponds to the intuition shown above, that needs to be proved.
+
+The definition of $\incFun{\re}$ is of course driven by the reduction rules in \cref{fig:parDer}. We comment only the non trivial cases: if $\re=\re_0\orop\re_1$, then we expect $\theight{\re'_i}\leq\theight{\re_i}+1$, $i=0,1$,
+hence $\theight{\re'_i}\leq\theight{\re}$ and $\incFun{\re}=0$;
+if $\re=\starop{\re_0}$, then we expect $\theight{\re'_0}\leq\theight{\re_0}+1$,
+hence $\theight{\re'_0\catop\starop{\re_0}}\leq\theight{\re}+1$ and $\incFun{\re}=1$. Finally, the definition for $\re=\re_0\catop\re_1$ requires more care:
+if rule $\rn{l-cat}$ is applied, then $\theight{\re_0'\catop\re_1}=\theight{\re}+1$, but only when $\theight{\re_0'}=\theight{\re_0}+1$ and $\theight{\re_0}\geq\theight{\re_1}$, otherwise $\theight{\re_0'\catop\re_1}\leq\theight{\re}$; if rule $\rn{r-cat}$ is applied, then $\theight{\re'_1}\leq\theight{\re}$, as happens for rule $\rn{r-or}$. Therefore $\incFun{\re}=1$ iff $\incFun{\re_0}=1$ and $\theight{\re_0}\geq\theight{\re_1}$, that is, $\geqFun{\re_0}{\re_1}=1$. In all other cases, that is $\incFun{\re_0}=0$ or $\geqFun{\re_0}{\re_1}=0$, $\incFun{\re}=0$.
+
+The following theorem proves the soundness of the definition of $\incFun{}$ \wrt~ its intended meaning. As a consequence, the height of the derivative of an expression $\re$ \wrt~ a symbol is always bounded by $\theight{\re}+1$.
 \begin{theorem}\label[theorem]{theo:inc-bound}
  For all $\re,\re'\in\reSet$, $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\theight{\re'}\leq \theight{\re}+\incFun{\re}$.
 \end{theorem}
@@ -166,9 +208,9 @@ The following corollary can be directly derived from \cref{theo:inc-bound} and \
 \begin{corollary}\label[corollary]{cor:bound}
  For all $\re,\re'\in\reSet$, and $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\theight{\re'}\leq\theight{\re}+1$.
 \end{corollary}
-~\Cref{theo:inc-bound} shows that the height of the derivative of an expression $\re$ w.r.t. a symbol is bounded by $\theight{\re}+1$.
-The following theorems prove a stronger property: after the first reduction step, the height of the derivative of an expression $\re$ w.r.t. a symbol is bounded by $\theight{\re}$.
-Therefore, one can conclude that the height of the derivative of an expression $\re$~w.r.t. an arbitrary  word (not just a symbol) is bounded by $\theight{\re}+1$.
+~\Cref{theo:inc-bound} shows that the height of the derivative of an expression $\re$ \wrt~ a symbol is bounded by $\theight{\re}+1$.
+The following results prove a strong property: the height of the partial derivative of a partial derivative cannot increase; that is, after the first reduction step, the height of the derivative of an expression $\re$ \wrt~ a symbol is bounded by $\theight{\re}$.
+Therefore, one can conclude that the height of the derivative of an expression $\re$ \wrt~ an arbitrary  word (not just a symbol) is bounded by $\theight{\re}+1$.
 \begin{lemma}\label[lemma]{lemma:zero-inc}
  For all $\re,\re'\in\reSet$, and $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\incFun{\re'}=0$.
 \end{lemma}
@@ -195,7 +237,7 @@ Therefore, one can conclude that the height of the derivative of an expression $
  \end{description}
 \end{proof}
 
-We can now generalize \Cref{theo:inc-bound} to derivatives w.r.t. any words.
+We can now generalize \Cref{theo:inc-bound} to derivatives \wrt~ any words.
 \begin{theorem}\label[theorem]{theo:gen-inc-bound}
  For all $\re,\re'\in\reSet$, and $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\theight{\re'}\leq\theight{\re}+\incFun{\re}$.
 \end{theorem}
