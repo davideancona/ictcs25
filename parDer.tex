@@ -15,12 +15,12 @@
  \label{fig:parDer}
 \end{figure}
 
-~\Cref{parDer} contains the transition rules defining the partial derivatives of regular expressions.
+~\Cref{fig:parDer} contains the transition rules defining the partial derivatives of regular expressions.
 As for the definition of derivatives, the presentation deviates from that of Antimirov \cite{Antimirov96}, and keeps following the transition system style. Besides the different notation, more importantly, here we deliberately define a non-deterministic system, where a single transition step yields a single (non-zero) partial derivative among all possible ones, while in Antimirov's definition the set of all partial derivatives is returned.
 
 For instance, according to Antimirov's definition\footnote{See \cite{Antimirov96}, definition 2.8.},
-the partial derivative of $ab \orop ac$ \wrt~ $a$ returns the set of regular expressions $\{b,c\}$ (that is, $\delta_a(ab \orop ac)=\{b,c\}$ with Antimirov's notation). This corresponds to the fact that there exist two possible transition steps from $ab \orop ac$ labeled with $a$, namely,
-$ab \orop ac\parDer{a}b$ and $ab \orop ac\parDer{a}c$.
+the partial derivative of $\sym \asym \orop \sym\yasym$ \wrt~ $\sym $ returns the set of regular expressions $\{\asym,\yasym\}$ (that is, $\delta_\sym(\sym\asym \orop \sym\yasym)=\{\asym,\yasym\}$ with Antimirov's notation). This corresponds to the fact that there exist two possible transition steps from $\sym \asym \orop \sym\yasym$ labeled with $\sym $, namely,
+$\sym \asym \orop \sym\yasym\parDer{\sym}\asym$ and $\sym \asym \orop \sym \yasym\parDer{\sym}\yasym$.
 
 This difference is directly related to the opposite aim of our work: while Antimirov's approach uses partial derivatives for generating an NFA, here
 we use them to define a non-deterministic transition system which already represents the corresponding NFA.
@@ -77,12 +77,13 @@ we use them to define a non-deterministic transition system which already repres
 %  \]
 % \end{theorem}
 
+\subsection{Height of partial derivatives}\label{sec:height}
 \begin{figure}
  $$
   \begin{array}{c}
    \theight{\eps}=\theight{\sym}=0                                                              \\
    \theight{\re_0\catop\re_1}=\theight{\re_0\orop\re_1}=\max(\theight{\re_0},\theight{\re_1})+1 \\
-   \theight{\starop{\re_0}}=\theight{\re_0}+1
+   \theight{\starop{\re}}=\theight{\re}+1
   \end{array}
  $$
  \caption{Definition of the height of regular expressions}
@@ -105,20 +106,19 @@ we use them to define a non-deterministic transition system which already repres
    \incFun{\sym}=\incFun{\eps}=0                                      \qquad
    \incFun{\re_0\catop\re_1}=\geqFun{\re_0}{\re_1}\cdot\incFun{\re_0} \qquad
    \incFun{\re_0\orop\re_1}=0                                         \qquad
-   \incFun{\starop{\re_0}}=1
+   \incFun{\starop{\re}}=1
   \end{array}
  $$
- \caption{Definition of the increment function $\incFun{\re}$}
+ \caption{Definition of the function $\incFun{\re}$}
  \label{fig:incFun}
 \end{figure}
 
-\subsection{Height of partial derivatives}
 In this section we investigate the upper bound on the hight of the partial derivatives of a given regular expression.
 
 The standard definition of the height of a regular expression considered as a tree can be found in \cref{fig:height}.
 
 The height of the partial derivative of an expression $\re$  \wrt~ a word $\word$ both depends on the shape of $\re$ and on $\word$.
-Here we want to reason on any possible $\re$ and $\word$. Moreover, we want to provide a general proof methodology which can be followed to prove results when considering also shuffle and the size of expressions.
+Here we need to reason on any possible $\re$ and $\word$. Moreover, we aim at providing a general proof methodology which can be followed to prove results when considering also shuffle and the size of expressions.
 
 To show a couple of examples let us consider the following reduction steps which compute the partial derivatives of $\starop{\sym}\catop\starop{\asym}$~
 \wrt~ $\sym\asym$ and $\asym\asym$:
@@ -131,7 +131,7 @@ To show a couple of examples let us consider the following reduction steps which
   \end{array}
  $
 \end{flushleft}
-In the first example the height increases by one at the first step and decreases by one at the second, while in the second example the height of the expressions is unchanged.
+In the first example the height increases by one after the first step and decreases by one after the second, while in the second example the height of the expressions is unchanged.
 
 What we are going to prove are the following main properties:
 \begin{enumerate}
@@ -139,11 +139,13 @@ What we are going to prove are the following main properties:
  \item the height of the partial derivative of a partial derivative \wrt~a non-empty word, \textbf{cannot} increase;
  \item from 1. and 2. and from the definition of partial derivative, one can deduce that if $\re\parDer{\word}\re'$, then $\theight{\re'}\leq\theight{\re}+1$.
 \end{enumerate}
-Although these properties can be proved in a direct way, they are quite strong, and do not hold when shuffle or the size of expressions is considered. Therefore, as motived above, more general and weaker claims will be proved.
+Although these properties can be proved in a direct way, they must be adapted when the size of expressions is considered.
+Furthermore, they do not hold in this stronger form, when shuffle is added. Therefore, as motived above, we provide a more general proof strategy which works for both metrics on expressions, and can be adapted to the case of shuffle, where weaker claims hold.
 
-In order to do that, \cref{fig:incFun} defines the function $\incFun{\re}$ which computes the upper bound of $\theight{\re'}-\theight{\re}$, where
+In order to do that, \cref{fig:incFun} defines the function $\incFun{\re}$ which returns an upper bound for $\theight{\re'}-\theight{\re}$, where
 $\re\parDer{\sym}\re'$, with $\re'\in\reSet$, $\sym\in\symAlph$.
-That is, $M\stackrel{\mathrm{def.}}{=}\max\{\theight{\re'}-\theight{\re} \mid \re\parDer{\sym}\re', \re'\in\reSet, \sym\in\symAlph\}\leq\incFun{\re}$.
+That is, if $M\stackrel{\mathrm{def.}}{=}\max\{\theight{\re'}-\theight{\re} \mid \re\parDer{\sym}\re', \re'\in\reSet, \sym\in\symAlph\}$, then
+a sound definition of $\incFun{\re}$ has to satisfy the constraint $M\leq\incFun{\re}$.
 
 Before commenting the definition of $\incFun{\re}$, we introduce the following straightforward lemma.
 \begin{lemma}\label[lemma]{lemma:bounds}
@@ -155,6 +157,195 @@ Before commenting the definition of $\incFun{\re}$, we introduce the following s
 \end{proof}
 
 The constraint $0\leq\incFun{\re}$ is ensured by the definition of $\incFun{\re}$ because we are interested in investigating the upper bound,\footnote{$M$ as defined above, can be an arbitrary negative integer. For instance, the partial derivatives of $\sym\orop\asym$ \wrt~a symbol all have height 0, hence $M=-1$ in this case.}. The constraint $\incFun{\re}\leq 1$ corresponds to the intuition shown above, that needs to be proved.
+
+The definition of $\incFun{\re}$ is driven by the reduction rules in \cref{fig:parDer}. We comment only the non trivial cases: if $\re=\re_0\orop\re_1$, then we expect $\theight{\re'_i}\leq\theight{\re_i}+1$, $i=0,1$,
+hence $\theight{\re'_i}\leq\theight{\re}$ and $\incFun{\re}=0$;
+if $\re=\starop{\re_0}$, then we expect $\theight{\re'_0}\leq\theight{\re_0}+1$,
+hence $\theight{\re'_0\catop\starop{\re_0}}\leq\theight{\re}+1$ and $\incFun{\re}=1$. Finally, the definition for $\re=\re_0\catop\re_1$ requires more care:
+if rule $\rn{l-cat}$ is applied, then $\theight{\re_0'\catop\re_1}=\theight{\re}+1$, but only when $\theight{\re_0'}=\theight{\re_0}+1$ and $\theight{\re_0}\geq\theight{\re_1}$, otherwise $\theight{\re_0'\catop\re_1}\leq\theight{\re}$; if rule $\rn{r-cat}$ is applied, then $\theight{\re'_1}\leq\theight{\re}$, as happens for rule $\rn{r-or}$. Therefore $\incFun{\re}=1$ iff $\incFun{\re_0}=1$ and $\theight{\re_0}\geq\theight{\re_1}$, that is, $\geqFun{\re_0}{\re_1}=1$. In all other cases, that is $\incFun{\re_0}=0$ or $\geqFun{\re_0}{\re_1}=0$, $\incFun{\re}=0$.
+
+The following theorem proves the soundness of the definition of $\incFun{}$ \wrt~ its intended meaning. As a consequence, the height of the derivative of an expression $\re$ \wrt~ a symbol is always bounded by $\theight{\re}+1$.
+\begin{theorem}\label[theorem]{theo:inc-bound}
+ For all $\re,\re'\in\reSet$, $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\theight{\re'}\leq \theight{\re}+\incFun{\re}$.
+\end{theorem}
+\begin{proof}
+ By induction and case analysis on the rules defining $\re\parDer{\sym}\re'$.
+ \begin{description}
+  \item[base case:] The only base rule is \rn{sym}.
+   Hence, $\re=\sym$, $\re'=\eps$, and
+   $\theight{\eps}=0=\theight{\sym}=\theight{\sym}+0=\theight{\sym}+\incFun{\sym}$.
+  \item[inductive step:] the proof proceeds by case analysis on the rule applied
+   at the root of the derivation tree.
+   \begin{itemize}
+    \item $\Rule{l-cat}{\re_0\parDer{\sym}\re'_0}{\re_0\catop\re_1\parDer{\sym}\re'_0\catop\re_1}{}$\\[2ex]
+          By inductive hypothesis $\theight{\re_0'}\leq \theight{\re_0}+\incFun{\re_0}$.
+          We distinguish two cases:
+          \begin{itemize}
+           \item $\theight{\re_0}\geq\theight{\re_1}$:
+                 $\theight{\re_0'\catop\re_1}\stackrel{\mathrm{def}}{=}\max(\theight{\re'_0},\theight{\re_1})+1\leq\max(\theight{\re_0}+\incFun{\re_0},\theight{\re_1})+1\leq\max(\theight{\re_0},\theight{\re_1})+1+\incFun{\re_0}=\theight{\re_0\catop\re_1}+\incFun{\re_0}=\theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}$, by the inductive hypothesis, the definition of $\max$, $\theight{\ }$, $\incFun{}$, and $\geqSym()$, the assumption $\theight{\re_0}\geq\theight{\re_1}$, and \cref{lemma:bounds}.
+
+           \item $\theight{\re_0}<\theight{\re_1}$:
+                 $\theight{\re_0'\catop\re_1}\stackrel{\mathrm{def}}{=}\max(\theight{\re'_0},\theight{\re_1})+1\leq\max(\theight{\re_0}+\incFun{\re_0},\theight{\re_1})+1=\theight{\re_0\catop\re_1}=\theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}$, by the inductive hypothesis, the definition of $\max$, $\theight{\ }$, $\incFun{}$, and $\geqSym()$, the assumption $\theight{\re_0}<\theight{\re_1}$, and \cref{lemma:bounds}.
+          \end{itemize}
+
+    \item $\Rule{r-cat}{\re_1\parDer{\sym}\re'_1}{\re_0\catop\re_1\parDer{\sym}\re'_1}{\hasEps{\re_0}=\eps}$\\[2ex]
+          By inductive hypothesis $\theight{\re_1'}\leq \theight{\re_1}+\incFun{\re_1}$.
+
+          Therefore, $\theight{\re_1'}\leq \theight{\re_1}+\incFun{\re_1}\leq\theight{\re_1}+1\leq\theight{\re_0\catop\re_1}\leq\theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}$, by the inductive hypothesis, the definition of $\max$, $\theight{\ },$ and $\incFun{}$, and \cref{lemma:bounds}.
+
+    \item $\Rule{l-or}{\re_0\parDer{\sym}\re'_0}{\re_0\orop\re_1\parDer{\sym}\re'_0}{}$\\[2ex]
+          By inductive hypothesis $\theight{\re_0'}\leq \theight{\re_0}+\incFun{\re_0}$.
+
+          Therefore, $\theight{\re_0'}\leq \theight{\re_0}+\incFun{\re_0}\leq\theight{\re_0}+1\leq\theight{\re_0\orop\re_1}=\theight{\re_0\orop\re_1}+\incFun{\re_0\orop\re_1}$, by the inductive hypothesis, the definition of $\max$, $\theight{\ },$ and $\incFun{}$, and \cref{lemma:bounds}.
+    \item rule \rn{r-or} is symmetric to  rule \rn{l-or}.
+    \item $\Rule{star}{\re\parDer{\sym}\re'}{\starop{\re}\parDer{\sym}\re'\catop\starop{\re}}{}$\\[2ex]
+          By inductive hypothesis $\theight{\re'}\leq \theight{\re}+\incFun{\re}$.
+
+          Therefore, $\theight{\re'\catop\starop{\re}}\stackrel{\mathrm{def}}{=}\max(\theight{\re'},{\theight{\starop{\re}}})+1\leq \max(\theight{\re}+\incFun{\re},{\theight{\re}}+1)+1=\theight{\re}+1+1=\theight{\starop{\re}}+1=\theight{\starop{\re}}+\incFun{\starop{\re}}$, by the inductive hypothesis, the definition of $\max$, $\theight{\ },$ and $\incFun{}$, and \cref{lemma:bounds}.
+   \end{itemize}
+ \end{description}
+\end{proof}
+
+The following corollary can be directly derived from \cref{theo:inc-bound} and \cref{lemma:bounds}.
+\begin{corollary}\label[corollary]{cor:bound}
+ For all $\re,\re'\in\reSet$, and $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\theight{\re'}\leq\theight{\re}+1$.
+\end{corollary}
+~\Cref{theo:inc-bound} shows that the height of the derivative of an expression $\re$ \wrt~ a symbol is bounded by $\theight{\re}+1$.
+The following results prove a strong property: the height of the partial derivative of a partial derivative cannot increase; that is, after the first reduction step, the height of the derivative of an expression $\re$ \wrt~ a symbol is bounded by $\theight{\re}$.
+Therefore, one can conclude that the height of the derivative of an expression $\re$ \wrt~ an arbitrary  word (not just a symbol) is bounded by $\theight{\re}+1$.
+\begin{lemma}\label[lemma]{lemma:zero-inc}
+ For all $\re,\re'\in\reSet$, and $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\incFun{\re'}=0$.
+\end{lemma}
+\begin{proof}
+ By induction and case analysis on the rules defining $\re\parDer{\sym}\re'$.
+ \begin{description}
+  \item[base case:] The only base rule is \rn{sym}.
+   Hence, $\re=\sym$, $\re'=\eps$, and
+   $\incFun{\eps}=0$.
+  \item[inductive step:] the proof proceeds by case analysis on the rule applied
+   at the root of the derivation tree.
+   \begin{itemize}
+    \item $\Rule{l-cat}{\re_0\parDer{\sym}\re'_0}{\re_0\catop\re_1\parDer{\sym}\re'_0\catop\re_1}{}$\\[2ex]
+          If $\geqFun{\re_0}{\re_1}=1$, then by definition of $\incFun{}$ and inductive hypothesis, $\incFun{\re'_0\catop\re_1}=\incFun{\re'_0}=0$.
+          If $\geqFun{\re_0}{\re_1}=0$, then by definition of $\incFun{}$ $\incFun{\re'_0\catop\re_1}=0$.
+
+    \item $\Rule{r-cat}{\re_1\parDer{\sym}\re'_1}{\re_0\catop\re_1\parDer{\sym}\re'_1}{\hasEps{\re_0}=\eps}$\\[2ex]
+          $\incFun{\re'_1}=0$ directly follows from the inductive hypothesis.
+
+    \item the proof for rules \rn{l-or} and \rn{r-or} is the same as for rule \rn{r-cat}.
+
+    \item the proof for rule \rn{star} is the same as for rule \rn{l-cat}.
+   \end{itemize}
+ \end{description}
+\end{proof}
+
+We can now generalize \Cref{theo:inc-bound} to derivatives \wrt~ any words.
+\begin{theorem}\label[theorem]{theo:gen-inc-bound}
+ For all $\re,\re'\in\reSet$, and $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\theight{\re'}\leq\theight{\re}+\incFun{\re}$.
+\end{theorem}
+\begin{proof}
+ By induction on the length of $\word$.
+ \begin{description}
+  \item[base case:] if $\word=\emptyWord$, then by definition $\re'=\re$, hence
+   $\theight{\re'}=\theight{\re}$, and by \cref{lemma:bounds}, $\theight{\re'}=\theight{\re}\leq\theight{\re}+\incFun{\re}$.
+
+  \item[inductive step:]
+   if $\word=\sym\strcons\word'$ for some $\sym\in\symAlph$, $\word'\in\symAlph^*$, then by definition there exists $\re''\in\reSet$ s.t. $\re\parDer{\sym}\re''$ and $\re''\parDer{\word'}\re'$. By \cref{theo:inc-bound} $\theight{\re''}\leq\theight{\re}+\incFun{\re}$ and by inductive hypothesis $\theight{\re'}\leq\theight{\re''}+\incFun{\re''}$. Moreover, by \cref{lemma:zero-inc},
+   $\incFun{\re''}=0$, therefore $\theight{\re'}\leq\theight{\re''}$ and, by transitivity,
+   $\theight{\re'}\leq\theight{\re''}\leq\theight{\re}+\incFun{\re}$.
+ \end{description}
+\end{proof}
+
+\Cref{lemma:bounds} allows to conclude the final result stating that the height of the derivatives of $\re$ is bounded by $\theight{\re}+1$.
+\begin{corollary}\label[corollary]{cor:gen-inc-bound}
+ For all $\re,\re'\in\reSet$, and $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\theight{\re'}\leq\theight{\re}+1$.
+\end{corollary}
+
+\subsection{Size of partial derivatives}\label{sec:size}
+\begin{figure}
+ $$
+  \begin{array}{c}
+   \tsize{\eps}=\tsize{\sym}=1                                                    \\
+   \tsize{\re_0\catop\re_1}=\tsize{\re_0\orop\re_1}=\tsize{\re_0}+\tsize{\re_1}+1 \\
+   \tsize{\starop{\re}}=\tsize{\re}+1
+  \end{array}
+ $$
+ \caption{Definition of the size of regular expressions}
+ \label{fig:size}
+\end{figure}
+
+\begin{figure}
+ $$
+  \begin{array}{l}
+   % \gtFun{\re_0}{\re_1}=
+   % \begin{cases}
+   %   1, & \text{if } \theight{\re_0} > \theight{\re_1} \\
+   %   0, & \text{ otherwise}
+   % \end{cases} \quad
+   \incFunSize{\sym}=\incFunSize{\eps}=0                                      \qquad
+   \incFunSize{\re_0\catop\re_1}=\max(\incFunSize{\re_0},\incFunSize{\re_1}-\tsize{\re_0}-1) \\
+   \incFunSize{\re_0\orop\re_1}= \max(\incFunSize{\re_0}-\tsize{\re_1}-1,\incFunSize{\re_1}-\tsize{\re_0}-1)                                        \qquad
+   \incFunSize{\starop{\re}}=\tsize{\re}+\incFunSize{\re}+1
+  \end{array}
+ $$
+ \caption{Definition of the increment function $\incFunSize{\re}$}
+ \label{fig:incFunSize}
+\end{figure}
+
+In this section we investigate the upper bound on the size of the partial derivatives of a given regular expression.
+
+The standard definition of the size of a regular expression considered as a tree can be found in \cref{fig:size}.
+
+The results of~\cref{sec:height} must be adapted to the less trivial case of the size of expressions. Indeed, while for the height the upper bound of the increment is the constant 1, for the size this value depends on the square of the initial regular expression.
+
+For instance, let us consider the following reduction steps which compute the partial derivative of $\starop{\starop{\starop{\sym}}}$
+\wrt~ $\sym\sym$:
+\begin{flushleft}
+ $
+  \begin{array}{l}
+   \starop{\starop{\starop{\sym}}}\parDer{\sym}((\eps\catop\starop{\sym})\catop\starop{\starop{\sym}})\catop\starop{\starop{\starop{\sym}}}\parDer{\sym}((\eps\catop\starop{\sym})\catop\starop{\starop{\sym}})\catop\starop{\starop{\starop{\sym}}} \\
+   \tsize{\starop{\starop{\starop{\sym}}}}=4\qquad  \tsize{((\eps\catop\starop{\sym})\catop\starop{\starop{\sym}})\catop\starop{\starop{\starop{\sym}}}}=13
+  \end{array}
+ $
+\end{flushleft}
+After the first step the size increases by 9 and remains unchanged after the second step.
+For expressions of the general shape $\re=\starop{\sym}\ldots*$ it can be proved by induction on $n=\tsize{\re}\geq 2$ that if $\re\parDer{\sym}\re'$, then
+$\tsize{\re'}=\tsize{\re}+\frac{n^2+n}{2}-1$.
+
+As another example, let us consider the following reduction steps which compute the partial derivative of $(\starop{\sym}\catop\starop{\asym})\catop\starop{\yasym}$
+\wrt~ $\sym\asym\yasym$:
+\begin{flushleft}
+ $
+  \begin{array}{l}
+   (\starop{\sym}\catop\starop{\asym})\catop\starop{\yasym}\parDer{\sym} ((\eps\catop\starop{\sym})\catop\starop{\asym})\catop\starop{\yasym}\parDer{\asym} (\eps\catop\starop{\asym})\catop\starop{\yasym}\parDer{\yasym}\eps\catop\starop{\yasym} \\
+   \tsize{(\starop{\sym}\catop\starop{\asym})\catop\starop{\yasym}}=8\qquad  \tsize{((\eps\catop\starop{\sym})\catop\starop{\asym})\catop\starop{\yasym}}=10 \qquad \tsize{(\eps\catop\starop{\asym})\catop\starop{\yasym}}=7 \qquad \tsize{\eps\catop\starop{\yasym}}=4
+  \end{array}
+ $
+\end{flushleft}
+After the first step the size increases by 2, while decreases by 3 after each of the other steps.
+
+We follow the same strategy as in \cref{sec:height} and define in \cref{fig:incFunSize} the function $\incFunSize{\re}$, analogous to $\incFun{\re}$, but  for the size of $\re$.
+
+The following lemma is analogous to \cref{lemma:bounds}.
+\begin{lemma}\label[lemma]{lemma:bounds-size}
+ For all $\re\in\reSet$
+ \[0\leq\incFunSize{\re}\leq \tsize{\re}^2\]
+\end{lemma}
+\begin{proof}
+ Directly by induction on the definition of $\incFunSize{\re}$.
+ We only show the proof for $\incFunSize{\re}\leq \tsize{\re}^2$ and omit the straightforward proof for $0\leq\incFunSize{\re}$.
+ \begin{description}
+  \item[base case:]  $\incFunSize{\sym}=\incFunSize{\eps}=0\leq 1 = \tsize{\sym}^2=\tsize{\eps}^2$
+  \item[inductive step:]
+   the proof proceeds by case analysis on the shape of $\re$.
+   \begin{itemize}
+    \item $\incFunSize{\re_0\catop\re_1}=\max(\incFunSize{\re_0},\incFunSize{\re_1}-\tsize{\re_0}-1)\leq\max(\incFunSize{\re_0},\incFunSize{\re_1})\leq\max(\tsize{\re_0}^2,\tsize{\re_1}^2)\leq \tsize{\re_0}^2+\tsize{\re_1}^2 \leq (\tsize{\re_0}+\tsize{\re_1})^2\leq (\tsize{\re_0}+\tsize{\re_1}+1)^2=\tsize{\re_0\catop\re_1}^2$, by the inductive hypothesis, the definition of $\max$, of square and of $\tsize{\ }$, and by the straightforward property $\tsize{\re}\geq 1$.
+    \item $\incFunSize{\re_0\orop\re_1}\leq\tsize{\re_0\orop\re_1}^2$ can be proven similarly as in the previous case.
+    \item $\incFunSize{\starop{\re}}=\tsize{\re}+\incFunSize{\re}+1\leq \tsize{\re}^2+\tsize{\re}+1\leq \tsize{\re}^2+2\cdot\tsize{\re}+1=(\tsize{\re}+1)^2=\tsize{\starop{\re}}^2$, by the inductive hypothesis, the definition of square and of $\tsize{\ }$, and by the straightforward property $\tsize{\re}\geq 1$.
+   \end{itemize}
+ \end{description}
+
+\end{proof}
 
 The definition of $\incFun{\re}$ is of course driven by the reduction rules in \cref{fig:parDer}. We comment only the non trivial cases: if $\re=\re_0\orop\re_1$, then we expect $\theight{\re'_i}\leq\theight{\re_i}+1$, $i=0,1$,
 hence $\theight{\re'_i}\leq\theight{\re}$ and $\incFun{\re}=0$;

@@ -35,6 +35,7 @@
 \newcommand{\none}{\term{0}}
 \newcommand{\sym}{\term{a}}
 \newcommand{\asym}{\term{b}}
+\newcommand{\yasym}{\term{c}}
 \newcommand{\all}{\term{1}}
 \newcommand{\orop}{\mathbin{+}}
 \newcommand{\shuffleop}{\mathbin{||}}
@@ -43,7 +44,7 @@
 \newcommand{\strcatop}{\mathbin{\cdot}}
 \newcommand{\strshuffleop}{\shuffleop}
 \newcommand{\andop}{\mathbin{\&}}
-\newcommand{\starop}[1]{{#1}^*}
+\newcommand{\starop}[1]{{#1}*}
 \newcommand{\symAlph}{\Sigma}
 
 %derivative
@@ -60,9 +61,13 @@
 \newcommand{\tpath}{p} %% generic tree path
 \newcommand{\pathEl}{b} %% generic path element
 \newcommand{\incSym}{\Delta_{\max}}
+\newcommand{\incSymSize}{\eta_{\max}}
 \newcommand{\incFun}[1]{{\incSym}({#1})}
+\newcommand{\incFunSize}[1]{{\incSymSize}({#1})}
 \newcommand{\incConst}{\mathit{k}}
 \newcommand{\theight}[1]{{\mid}{#1}{\mid}} %% tree height
+\newcommand{\tsizeSym}{{\mid\!\mid}}
+\newcommand{\tsize}[1]{{\tsizeSym}{#1}{\tsizeSym}} %% tree height
 \newcommand{\gtSym}{\mathit{gt}}
 \newcommand{\gtFun}[2]{\gtSym({#1},{#2})}
 \newcommand{\geqSym}{\mathit{geq}}
