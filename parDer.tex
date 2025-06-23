@@ -158,7 +158,7 @@ Before commenting the definition of $\incFun{\re}$, we introduce the following s
 
 The constraint $0\leq\incFun{\re}$ is ensured by the definition of $\incFun{\re}$ because we are interested in investigating the upper bound,\footnote{$M$ as defined above, can be an arbitrary negative integer. For instance, the partial derivatives of $\sym\orop\asym$ \wrt~a symbol all have height 0, hence $M=-1$ in this case.}. The constraint $\incFun{\re}\leq 1$ corresponds to the intuition shown above, that needs to be proved.
 
-The definition of $\incFun{\re}$ is driven by the reduction rules in \cref{fig:parDer}. We comment only the non trivial cases: if $\re=\re_0\orop\re_1$, then we expect $\theight{\re'_i}\leq\theight{\re_i}+1$, $i=0,1$,
+The definition of $\incFun{\re}$ is driven by the reduction rules in \cref{fig:parDer}. We comment only the non-trivial cases: if $\re=\re_0\orop\re_1$, then we expect $\theight{\re'_i}\leq\theight{\re_i}+1$, $i=0,1$,
 hence $\theight{\re'_i}\leq\theight{\re}$ and $\incFun{\re}=0$;
 if $\re=\starop{\re_0}$, then we expect $\theight{\re'_0}\leq\theight{\re_0}+1$,
 hence $\theight{\re'_0\catop\starop{\re_0}}\leq\theight{\re}+1$ and $\incFun{\re}=1$. Finally, the definition for $\re=\re_0\catop\re_1$ requires more care:
@@ -347,79 +347,79 @@ The following lemma is analogous to \cref{lemma:bounds}.
 
 \end{proof}
 
-The definition of $\incFun{\re}$ is of course driven by the reduction rules in \cref{fig:parDer}. We comment only the non trivial cases: if $\re=\re_0\orop\re_1$, then we expect $\theight{\re'_i}\leq\theight{\re_i}+1$, $i=0,1$,
-hence $\theight{\re'_i}\leq\theight{\re}$ and $\incFun{\re}=0$;
-if $\re=\starop{\re_0}$, then we expect $\theight{\re'_0}\leq\theight{\re_0}+1$,
-hence $\theight{\re'_0\catop\starop{\re_0}}\leq\theight{\re}+1$ and $\incFun{\re}=1$. Finally, the definition for $\re=\re_0\catop\re_1$ requires more care:
-if rule $\rn{l-cat}$ is applied, then $\theight{\re_0'\catop\re_1}=\theight{\re}+1$, but only when $\theight{\re_0'}=\theight{\re_0}+1$ and $\theight{\re_0}\geq\theight{\re_1}$, otherwise $\theight{\re_0'\catop\re_1}\leq\theight{\re}$; if rule $\rn{r-cat}$ is applied, then $\theight{\re'_1}\leq\theight{\re}$, as happens for rule $\rn{r-or}$. Therefore $\incFun{\re}=1$ iff $\incFun{\re_0}=1$ and $\theight{\re_0}\geq\theight{\re_1}$, that is, $\geqFun{\re_0}{\re_1}=1$. In all other cases, that is $\incFun{\re_0}=0$ or $\geqFun{\re_0}{\re_1}=0$, $\incFun{\re}=0$.
+The definition of $\incFunSize{\re}$ is driven by the reduction rules in \cref{fig:parDer}. We comment only the non-trivial cases: if $\re=\re_0\orop\re_1$, then we expect $\tsize{\re'_i}\leq\tsize{\re_i}+1$, $i=0,1$,
+hence $\tsize{\re'_i}\leq\tsize{\re}$ and $\incFunSize{\re}=0$;
+if $\re=\starop{\re_0}$, then we expect $\tsize{\re'_0}\leq\tsize{\re_0}+1$,
+hence $\tsize{\re'_0\catop\starop{\re_0}}\leq\tsize{\re}+1$ and $\incFunSize{\re}=1$. Finally, the definition for $\re=\re_0\catop\re_1$ requires more care:
+if rule $\rn{l-cat}$ is applied, then $\tsize{\re_0'\catop\re_1}=\tsize{\re}+1$, but only when $\tsize{\re_0'}=\tsize{\re_0}+1$ and $\tsize{\re_0}\geq\tsize{\re_1}$, otherwise $\tsize{\re_0'\catop\re_1}\leq\tsize{\re}$; if rule $\rn{r-cat}$ is applied, then $\tsize{\re'_1}\leq\tsize{\re}$, as happens for rule $\rn{r-or}$. Therefore $\incFunSize{\re}=1$ iff $\incFunSize{\re_0}=1$ and $\tsize{\re_0}\geq\tsize{\re_1}$, that is, $\geqFun{\re_0}{\re_1}=1$. In all other cases, that is $\incFunSize{\re_0}=0$ or $\geqFun{\re_0}{\re_1}=0$, $\incFunSize{\re}=0$.
 
-The following theorem proves the soundness of the definition of $\incFun{}$ \wrt~ its intended meaning. As a consequence, the height of the derivative of an expression $\re$ \wrt~ a symbol is always bounded by $\theight{\re}+1$.
+The following theorem proves the soundness of the definition of $\incFunSize{}$ \wrt~ its intended meaning. As a consequence, the height of the derivative of an expression $\re$ \wrt~ a symbol is always bounded by $\tsize{\re}+1$.
 \begin{theorem}\label[theorem]{theo:inc-bound}
- For all $\re,\re'\in\reSet$, $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\theight{\re'}\leq \theight{\re}+\incFun{\re}$.
+ For all $\re,\re'\in\reSet$, $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\tsize{\re'}\leq \tsize{\re}+\incFunSize{\re}$.
 \end{theorem}
 \begin{proof}
  By induction and case analysis on the rules defining $\re\parDer{\sym}\re'$.
  \begin{description}
   \item[base case:] The only base rule is \rn{sym}.
    Hence, $\re=\sym$, $\re'=\eps$, and
-   $\theight{\eps}=0=\theight{\sym}=\theight{\sym}+0=\theight{\sym}+\incFun{\sym}$.
+   $\tsize{\eps}=0=\tsize{\sym}=\tsize{\sym}+0=\tsize{\sym}+\incFunSize{\sym}$.
   \item[inductive step:] the proof proceeds by case analysis on the rule applied
    at the root of the derivation tree.
    \begin{itemize}
     \item $\Rule{l-cat}{\re_0\parDer{\sym}\re'_0}{\re_0\catop\re_1\parDer{\sym}\re'_0\catop\re_1}{}$\\[2ex]
-          By inductive hypothesis $\theight{\re_0'}\leq \theight{\re_0}+\incFun{\re_0}$.
+          By inductive hypothesis $\tsize{\re_0'}\leq \tsize{\re_0}+\incFunSize{\re_0}$.
           We distinguish two cases:
           \begin{itemize}
-           \item $\theight{\re_0}\geq\theight{\re_1}$:
-                 $\theight{\re_0'\catop\re_1}\stackrel{\mathrm{def}}{=}\max(\theight{\re'_0},\theight{\re_1})+1\leq\max(\theight{\re_0}+\incFun{\re_0},\theight{\re_1})+1\leq\max(\theight{\re_0},\theight{\re_1})+1+\incFun{\re_0}=\theight{\re_0\catop\re_1}+\incFun{\re_0}=\theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}$, by the inductive hypothesis, the definition of $\max$, $\theight{\ }$, $\incFun{}$, and $\geqSym()$, the assumption $\theight{\re_0}\geq\theight{\re_1}$, and \cref{lemma:bounds}.
+           \item $\tsize{\re_0}\geq\tsize{\re_1}$:
+                 $\tsize{\re_0'\catop\re_1}\stackrel{\mathrm{def}}{=}\max(\tsize{\re'_0},\tsize{\re_1})+1\leq\max(\tsize{\re_0}+\incFunSize{\re_0},\tsize{\re_1})+1\leq\max(\tsize{\re_0},\tsize{\re_1})+1+\incFunSize{\re_0}=\tsize{\re_0\catop\re_1}+\incFunSize{\re_0}=\tsize{\re_0\catop\re_1}+\incFunSize{\re_0\catop\re_1}$, by the inductive hypothesis, the definition of $\max$, $\tsize{\ }$, $\incFunSize{}$, and $\geqSym()$, the assumption $\tsize{\re_0}\geq\tsize{\re_1}$, and \cref{lemma:bounds}.
 
-           \item $\theight{\re_0}<\theight{\re_1}$:
-                 $\theight{\re_0'\catop\re_1}\stackrel{\mathrm{def}}{=}\max(\theight{\re'_0},\theight{\re_1})+1\leq\max(\theight{\re_0}+\incFun{\re_0},\theight{\re_1})+1=\theight{\re_0\catop\re_1}=\theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}$, by the inductive hypothesis, the definition of $\max$, $\theight{\ }$, $\incFun{}$, and $\geqSym()$, the assumption $\theight{\re_0}<\theight{\re_1}$, and \cref{lemma:bounds}.
+           \item $\tsize{\re_0}<\tsize{\re_1}$:
+                 $\tsize{\re_0'\catop\re_1}\stackrel{\mathrm{def}}{=}\max(\tsize{\re'_0},\tsize{\re_1})+1\leq\max(\tsize{\re_0}+\incFunSize{\re_0},\tsize{\re_1})+1=\tsize{\re_0\catop\re_1}=\tsize{\re_0\catop\re_1}+\incFunSize{\re_0\catop\re_1}$, by the inductive hypothesis, the definition of $\max$, $\tsize{\ }$, $\incFunSize{}$, and $\geqSym()$, the assumption $\tsize{\re_0}<\tsize{\re_1}$, and \cref{lemma:bounds}.
           \end{itemize}
 
     \item $\Rule{r-cat}{\re_1\parDer{\sym}\re'_1}{\re_0\catop\re_1\parDer{\sym}\re'_1}{\hasEps{\re_0}=\eps}$\\[2ex]
-          By inductive hypothesis $\theight{\re_1'}\leq \theight{\re_1}+\incFun{\re_1}$.
+          By inductive hypothesis $\tsize{\re_1'}\leq \tsize{\re_1}+\incFunSize{\re_1}$.
 
-          Therefore, $\theight{\re_1'}\leq \theight{\re_1}+\incFun{\re_1}\leq\theight{\re_1}+1\leq\theight{\re_0\catop\re_1}\leq\theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}$, by the inductive hypothesis, the definition of $\max$, $\theight{\ },$ and $\incFun{}$, and \cref{lemma:bounds}.
+          Therefore, $\tsize{\re_1'}\leq \tsize{\re_1}+\incFunSize{\re_1}\leq\tsize{\re_1}+1\leq\tsize{\re_0\catop\re_1}\leq\tsize{\re_0\catop\re_1}+\incFunSize{\re_0\catop\re_1}$, by the inductive hypothesis, the definition of $\max$, $\tsize{\ },$ and $\incFunSize{}$, and \cref{lemma:bounds}.
 
     \item $\Rule{l-or}{\re_0\parDer{\sym}\re'_0}{\re_0\orop\re_1\parDer{\sym}\re'_0}{}$\\[2ex]
-          By inductive hypothesis $\theight{\re_0'}\leq \theight{\re_0}+\incFun{\re_0}$.
+          By inductive hypothesis $\tsize{\re_0'}\leq \tsize{\re_0}+\incFunSize{\re_0}$.
 
-          Therefore, $\theight{\re_0'}\leq \theight{\re_0}+\incFun{\re_0}\leq\theight{\re_0}+1\leq\theight{\re_0\orop\re_1}=\theight{\re_0\orop\re_1}+\incFun{\re_0\orop\re_1}$, by the inductive hypothesis, the definition of $\max$, $\theight{\ },$ and $\incFun{}$, and \cref{lemma:bounds}.
+          Therefore, $\tsize{\re_0'}\leq \tsize{\re_0}+\incFunSize{\re_0}\leq\tsize{\re_0}+1\leq\tsize{\re_0\orop\re_1}=\tsize{\re_0\orop\re_1}+\incFunSize{\re_0\orop\re_1}$, by the inductive hypothesis, the definition of $\max$, $\tsize{\ },$ and $\incFunSize{}$, and \cref{lemma:bounds}.
     \item rule \rn{r-or} is symmetric to  rule \rn{l-or}.
     \item $\Rule{star}{\re\parDer{\sym}\re'}{\starop{\re}\parDer{\sym}\re'\catop\starop{\re}}{}$\\[2ex]
-          By inductive hypothesis $\theight{\re'}\leq \theight{\re}+\incFun{\re}$.
+          By inductive hypothesis $\tsize{\re'}\leq \tsize{\re}+\incFunSize{\re}$.
 
-          Therefore, $\theight{\re'\catop\starop{\re}}\stackrel{\mathrm{def}}{=}\max(\theight{\re'},{\theight{\starop{\re}}})+1\leq \max(\theight{\re}+\incFun{\re},{\theight{\re}}+1)+1=\theight{\re}+1+1=\theight{\starop{\re}}+1=\theight{\starop{\re}}+\incFun{\starop{\re}}$, by the inductive hypothesis, the definition of $\max$, $\theight{\ },$ and $\incFun{}$, and \cref{lemma:bounds}.
+          Therefore, $\tsize{\re'\catop\starop{\re}}\stackrel{\mathrm{def}}{=}\max(\tsize{\re'},{\tsize{\starop{\re}}})+1\leq \max(\tsize{\re}+\incFunSize{\re},{\tsize{\re}}+1)+1=\tsize{\re}+1+1=\tsize{\starop{\re}}+1=\tsize{\starop{\re}}+\incFunSize{\starop{\re}}$, by the inductive hypothesis, the definition of $\max$, $\tsize{\ },$ and $\incFunSize{}$, and \cref{lemma:bounds}.
    \end{itemize}
  \end{description}
 \end{proof}
 
 The following corollary can be directly derived from \cref{theo:inc-bound} and \cref{lemma:bounds}.
 \begin{corollary}\label[corollary]{cor:bound}
- For all $\re,\re'\in\reSet$, and $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\theight{\re'}\leq\theight{\re}+1$.
+ For all $\re,\re'\in\reSet$, and $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\tsize{\re'}\leq\tsize{\re}+1$.
 \end{corollary}
-~\Cref{theo:inc-bound} shows that the height of the derivative of an expression $\re$ \wrt~ a symbol is bounded by $\theight{\re}+1$.
-The following results prove a strong property: the height of the partial derivative of a partial derivative cannot increase; that is, after the first reduction step, the height of the derivative of an expression $\re$ \wrt~ a symbol is bounded by $\theight{\re}$.
-Therefore, one can conclude that the height of the derivative of an expression $\re$ \wrt~ an arbitrary  word (not just a symbol) is bounded by $\theight{\re}+1$.
+~\Cref{theo:inc-bound} shows that the height of the derivative of an expression $\re$ \wrt~ a symbol is bounded by $\tsize{\re}+1$.
+The following results prove a strong property: the height of the partial derivative of a partial derivative cannot increase; that is, after the first reduction step, the height of the derivative of an expression $\re$ \wrt~ a symbol is bounded by $\tsize{\re}$.
+Therefore, one can conclude that the height of the derivative of an expression $\re$ \wrt~ an arbitrary  word (not just a symbol) is bounded by $\tsize{\re}+1$.
 \begin{lemma}\label[lemma]{lemma:zero-inc}
- For all $\re,\re'\in\reSet$, and $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\incFun{\re'}=0$.
+ For all $\re,\re'\in\reSet$, and $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\incFunSize{\re'}=0$.
 \end{lemma}
 \begin{proof}
  By induction and case analysis on the rules defining $\re\parDer{\sym}\re'$.
  \begin{description}
   \item[base case:] The only base rule is \rn{sym}.
    Hence, $\re=\sym$, $\re'=\eps$, and
-   $\incFun{\eps}=0$.
+   $\incFunSize{\eps}=0$.
   \item[inductive step:] the proof proceeds by case analysis on the rule applied
    at the root of the derivation tree.
    \begin{itemize}
     \item $\Rule{l-cat}{\re_0\parDer{\sym}\re'_0}{\re_0\catop\re_1\parDer{\sym}\re'_0\catop\re_1}{}$\\[2ex]
-          If $\geqFun{\re_0}{\re_1}=1$, then by definition of $\incFun{}$ and inductive hypothesis, $\incFun{\re'_0\catop\re_1}=\incFun{\re'_0}=0$.
-          If $\geqFun{\re_0}{\re_1}=0$, then by definition of $\incFun{}$ $\incFun{\re'_0\catop\re_1}=0$.
+          If $\geqFun{\re_0}{\re_1}=1$, then by definition of $\incFunSize{}$ and inductive hypothesis, $\incFunSize{\re'_0\catop\re_1}=\incFunSize{\re'_0}=0$.
+          If $\geqFun{\re_0}{\re_1}=0$, then by definition of $\incFunSize{}$ $\incFunSize{\re'_0\catop\re_1}=0$.
 
     \item $\Rule{r-cat}{\re_1\parDer{\sym}\re'_1}{\re_0\catop\re_1\parDer{\sym}\re'_1}{\hasEps{\re_0}=\eps}$\\[2ex]
-          $\incFun{\re'_1}=0$ directly follows from the inductive hypothesis.
+          $\incFunSize{\re'_1}=0$ directly follows from the inductive hypothesis.
 
     \item the proof for rules \rn{l-or} and \rn{r-or} is the same as for rule \rn{r-cat}.
 
@@ -430,22 +430,22 @@ Therefore, one can conclude that the height of the derivative of an expression $
 
 We can now generalize \Cref{theo:inc-bound} to derivatives \wrt~ any words.
 \begin{theorem}\label[theorem]{theo:gen-inc-bound}
- For all $\re,\re'\in\reSet$, and $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\theight{\re'}\leq\theight{\re}+\incFun{\re}$.
+ For all $\re,\re'\in\reSet$, and $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\tsize{\re'}\leq\tsize{\re}+\incFunSize{\re}$.
 \end{theorem}
 \begin{proof}
  By induction on the length of $\word$.
  \begin{description}
   \item[base case:] if $\word=\emptyWord$, then by definition $\re'=\re$, hence
-   $\theight{\re'}=\theight{\re}$, and by \cref{lemma:bounds}, $\theight{\re'}=\theight{\re}\leq\theight{\re}+\incFun{\re}$.
+   $\tsize{\re'}=\tsize{\re}$, and by \cref{lemma:bounds}, $\tsize{\re'}=\tsize{\re}\leq\tsize{\re}+\incFunSize{\re}$.
 
   \item[inductive step:]
-   if $\word=\sym\strcons\word'$ for some $\sym\in\symAlph$, $\word'\in\symAlph^*$, then by definition there exists $\re''\in\reSet$ s.t. $\re\parDer{\sym}\re''$ and $\re''\parDer{\word'}\re'$. By \cref{theo:inc-bound} $\theight{\re''}\leq\theight{\re}+\incFun{\re}$ and by inductive hypothesis $\theight{\re'}\leq\theight{\re''}+\incFun{\re''}$. Moreover, by \cref{lemma:zero-inc},
-   $\incFun{\re''}=0$, therefore $\theight{\re'}\leq\theight{\re''}$ and, by transitivity,
-   $\theight{\re'}\leq\theight{\re''}\leq\theight{\re}+\incFun{\re}$.
+   if $\word=\sym\strcons\word'$ for some $\sym\in\symAlph$, $\word'\in\symAlph^*$, then by definition there exists $\re''\in\reSet$ s.t. $\re\parDer{\sym}\re''$ and $\re''\parDer{\word'}\re'$. By \cref{theo:inc-bound} $\tsize{\re''}\leq\tsize{\re}+\incFunSize{\re}$ and by inductive hypothesis $\tsize{\re'}\leq\tsize{\re''}+\incFunSize{\re''}$. Moreover, by \cref{lemma:zero-inc},
+   $\incFunSize{\re''}=0$, therefore $\tsize{\re'}\leq\tsize{\re''}$ and, by transitivity,
+   $\tsize{\re'}\leq\tsize{\re''}\leq\tsize{\re}+\incFunSize{\re}$.
  \end{description}
 \end{proof}
 
-\Cref{lemma:bounds} allows to conclude the final result stating that the height of the derivatives of $\re$ is bounded by $\theight{\re}+1$.
+\Cref{lemma:bounds} allows to conclude the final result stating that the height of the derivatives of $\re$ is bounded by $\tsize{\re}+1$.
 \begin{corollary}\label[corollary]{cor:gen-inc-bound}
- For all $\re,\re'\in\reSet$, and $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\theight{\re'}\leq\theight{\re}+1$.
+ For all $\re,\re'\in\reSet$, and $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\tsize{\re'}\leq\tsize{\re}+1$.
 \end{corollary}
