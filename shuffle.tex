@@ -44,20 +44,19 @@ Theorems~\ref{theo:der} and \ref{theo:parDer} still hold along with  \cref{prop:
 
 We extend the result of \cref{theo:gen-inc-bound} and \cref{cor:gen-inc-bound} to the case of the shuffle operators.
 
-Unfortunately the proofs are more challenging because the property stating that after the first reduction step the height of the derivative of an expression $\re$ w.r.t. a symbol is bounded by $\theight{\re}$ no longer holds.
-As a counter example, let us consider the following reduction steps:
-\[
- \begin{array}{ll}
-  \re_0\parDer{\sym}\re_1\parDer{\asym}\re_2\parDer{\sym}\re_3 & \mbox{where }\sym\neq\asym
- \end{array}
- \begin{array}[t]{ll}
-  \re_0=(\eps\shuffleop\starop{\sym})\catop(\asym\shuffleop\starop{\sym}) &
-  \re_1=(\eps\shuffleop\eps\catop\starop{\sym})\catop(\asym\shuffleop\starop{\sym})                                     \\
-  \re_2=\eps\shuffleop\starop{\sym}                                       & \re_3=\eps\shuffleop\eps\catop\starop{\sym}
- \end{array}
-\]
-We have $\theight{\re_1}=\theight{\re_0}+1$ (first reduction step), but also $\theight{\re_3}=\theight{\re_2}+1$ (third reduction step). In particular, $\incFun{\re_2}=
- \max(0,1\cdot\incFun{\starop{\sym}})=1$, therefore \cref{lemma:zero-inc} no longer holds.
+Unfortunately the proofs are more challenging because the claim of \cref{lemma:zero-inc} no longer holds: There exist partial derivatives $\re$ \st~$\incFun{\re}>0$.
+As a counter example, let us consider the following reduction steps computing the partial derivatives of $(\eps\shuffleop\starop{\sym})\catop(\asym\shuffleop\starop{\sym})$ \wrt~ $\sym\asym\sym$:
+\begin{flushleft}
+ $
+  \begin{array}{l}
+   \re_0\parDer{\sym}\re_1\parDer{\asym}\re_2\parDer{\sym}\re_3 \\
+   \re_0=(\eps\shuffleop\starop{\sym})\catop(\asym\shuffleop\starop{\sym}) \qquad
+   \re_1=(\eps\shuffleop\eps\catop\starop{\sym})\catop(\asym\shuffleop\starop{\sym})                                     \qquad
+   \re_2=\eps\shuffleop\starop{\sym}                                       \qquad \re_3=\eps\shuffleop\eps\catop\starop{\sym}
+  \end{array}
+ $
+\end{flushleft}
+We have $\theight{\re_1}=\theight{\re_0}+1$ (first reduction step), but also $\theight{\re_3}=\theight{\re_2}+1$ (third reduction step). Therefore, necessarily $\incFun{\re_2}>0$, by definition of $\incFun{}$.
 
 To prove the extended versions of the results of \cref{sec:parDer} we first extend the definition of $\incFun{}$ given in \cref{fig:incFun} with the case for the shuffle.
 \[
@@ -94,7 +93,9 @@ For all $\re,\re'\in\reSetExt$, $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, th
  \end{itemize}
 \end{proof}
 
-To be able to prove the generalization of \cref{theo:gen-inc-bound} for $\reSetExt$ two lemmas have to be introduced.
+Since both \cref{lemma:bounds} and \cref{theo:inc-bound} hold for $\reSetExt$, \cref{cor:bound} holds for $\reSetExt$ as well.
+
+To prove the invariant of \cref{cor:inv} for $\reSetExt$, we modularize the proof by introducing two lemmas.
 
 The first lemma is a weaker version of \cref{lemma:zero-inc}.
 
@@ -237,48 +238,59 @@ The second lemma establishes an invariant on $\incFun{}$ when the height of the 
  \end{description}
 \end{proof}
 
-\begin{lemma}\label[lemma]{lemma:triang}
- For all $\re,\re'\in\reSetExt$, $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\theight{\re'}-\theight{\re}+\incFun{\re'}\leq \incFun{\re}$.
-\end{lemma}
+\begin{theorem}\label[theorem]{theo:inv}
+ For all $\re,\re'\in\reSetExt$, $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\theight{\re'}\leq\theight{\re}+\incFun{\re}-\incFun{\re'}$.
+\end{theorem}
 
 \begin{proof}
- By \cref{cor:bound} $\theight{\re'}-\theight{\re}\leq 1$.
+ By \cref{cor:bound} (extended to $\reSetExt$) $\theight{\re'}\leq\theight{\re}+ 1$.
  Three cases are distinguished.
  \begin{itemize}
-  \item $\theight{\re'}-\theight{\re}=1$: by \cref{theo:gen-inc-bound}, $1\leq\incFun{\re}$ and by \cref{lemma:ext-zero-inc},
-        $\incFun{\re'}=0$, therefore $\theight{\re'}-\theight{\re}+\incFun{\re'}=1\leq\incFun{\re}$.
-  \item $\theight{\re'}-\theight{\re}=0$: by \cref{lemma:ext-leq-inc},
-        $\theight{\re'}-\theight{\re}+\incFun{\re'}=\incFun{\re'}\leq\incFun{\re}$.
-  \item $\theight{\re'}-\theight{\re}<0$: by \cref{cor:bound},
-        $\theight{\re'}-\theight{\re}+\incFun{\re'}\leq 0 \leq \incFun{\re'}$.
+  \item $\theight{\re'}=\theight{\re}+1$: by \cref{lemma:ext-zero-inc}
+        $\incFun{\re'}=0$, therefore by \cref{theo:inc-bound} (extended to $\reSetExt$) $\theight{\re'}\leq\theight{\re}+\incFun{\re}=\theight{\re}+\incFun{\re}-\incFun{\re'}$.
+  \item $\theight{\re'}=\theight{\re}$: by \cref{lemma:ext-leq-inc} $\incFun{\re}-\incFun{\re'}\geq 0$, hence
+        $\theight{\re'}=\theight{\re}\leq\theight{\re}+\incFun{\re}-\incFun{\re'}$.
+  \item $\theight{\re'}<\theight{\re}$: by \cref{lemma:bounds} (extended to $\reSetExt$) $-1\leq\incFun{\re}-\incFun{\re'}$, hence
+        $\theight{\re'}\leq\theight{\re}-1\leq\theight{\re}+\incFun{\re}-\incFun{\re'}$.
  \end{itemize}
 \end{proof}
 
-It is now possible to prove \cref{theo:gen-inc-bound} extended to $\reSetExt$.
+From \cref{theo:inv} and \cref{lemma:bounds} (extended to $\reSetExt$) we can
+extend for free \cref{theo:gen-inc-bound} and \cref{cor:gen-inc-bound}  to $\reSetExt$.
 
-\subsubsection*{Proof of \cref{theo:gen-inc-bound} extended to $\reSetExt$
-}
-For all $\re,\re'\in\reSetExt$, $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\theight{\re'}\leq \theight{\re}+\incFun{\re}$.
+\begin{theorem}
+ For all $\re,\re'\in\reSetExt$, and $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\theight{\re'}\leq\theight{\re}+\incFun{\re}-\incFun{\re'}$.
+\end{theorem}
 
-\begin{proof}
- By induction on the length of $\word$.
- \begin{description}
-  \item[base case:] if $\word=\emptyWord$, then by definition $\re'=\re$, hence
-   $\theight{\re'}=\theight{\re}$, and by \cref{lemma:bounds}, $\theight{\re'}=\theight{\re}\leq\theight{\re}+\incFun{\re}$.
+\begin{corollary}
+ For all $\re,\re'\in\reSetExt$, and $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\theight{\re'}\leq\theight{\re}+1$.
+\end{corollary}
 
-  \item[inductive step:]
-   if $\word=\sym\strcons\word'$ for some $\sym\in\symAlph$, $\word'\in\symAlph^*$, then by definition there exists $\re''\in\reSet$ s.t. $\re\parDer{\sym}\re''$ and $\re''\parDer{\word'}\re'$. By inductive hypothesis and by \cref{lemma:triang}, $\theight{\re'}\leq\theight{\re''}+\incFun{\re''}=\theight{\re''}-\theight{\re}+\incFun{\re''}+\theight{\re}\leq\theight{\re}+\incFun{\re}$.
+% It is now possible to prove \cref{theo:gen-inc-bound} extended to $\reSetExt$.
 
-   %    Since by \cref{cor:bound} $\theight{\re''}\leq\theight{\re}+1$, we can distinguish three cases:
-   %    \begin{itemize}
-   %     \item $\theight{\re''}=\theight{\re}+1$: by \cref{lemma:ext-zero-inc}, $\incFun{\re''}=0$,
-   %           therefore $\theight{\re'}\leq\theight{\re}+\incFun{\re}+\incFun{\re''}=\theight{\re}+\incFun{\re}$.
-   %     \item $\theight{\re''}=\theight{\re}$: by inductive hypothesis and \cref{lemma:ext-leq-inc},
-   %           $\theight{\re'}\leq\theight{\re''}+\incFun{\re''}=\theight{\re}+\incFun{\re''}\leq\theight{\re}+\incFun{\re}$.
-   %     \item $\theight{\re''}<\theight{\re}$ (that is, $\theight{\re''}\leq\theight{\re}-1$): by inductive hypothesis and \cref{lemma:bounds},
-   %           $\theight{\re'}\leq\theight{\re''}+\incFun{\re''}\leq\theight{\re}-1+\incFun{\re''}\leq\theight{\re}\leq\theight{\re}+\incFun{\re}$.
-   %    \end{itemize}
- \end{description}
-\end{proof}
+% \subsubsection*{Proof of \cref{theo:gen-inc-bound} extended to $\reSetExt$
+% }
+% For all $\re,\re'\in\reSetExt$, $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\theight{\re'}\leq \theight{\re}+\incFun{\re}$.
 
-Finally, from the versions of \cref{theo:gen-inc-bound} and \cref{lemma:bounds}, both extended to $\reSetExt$, \cref{cor:gen-inc-bound} can be directly extended as well: For all $\re,\re'\in\reSetExt$, and $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\theight{\re'}\leq\theight{\re}+1$.
+% \begin{proof}
+%  By induction on the length of $\word$.
+%  \begin{description}
+%   \item[base case:] if $\word=\emptyWord$, then by definition $\re'=\re$, hence
+%    $\theight{\re'}=\theight{\re}$, and by \cref{lemma:bounds}, $\theight{\re'}=\theight{\re}\leq\theight{\re}+\incFun{\re}$.
+
+%   \item[inductive step:]
+%    if $\word=\sym\strcons\word'$ for some $\sym\in\symAlph$, $\word'\in\symAlph^*$, then by definition there exists $\re''\in\reSet$ s.t. $\re\parDer{\sym}\re''$ and $\re''\parDer{\word'}\re'$. By inductive hypothesis and by \cref{lemma:triang}, $\theight{\re'}\leq\theight{\re''}+\incFun{\re''}=\theight{\re''}-\theight{\re}+\incFun{\re''}+\theight{\re}\leq\theight{\re}+\incFun{\re}$.
+
+%    %    Since by \cref{cor:bound} $\theight{\re''}\leq\theight{\re}+1$, we can distinguish three cases:
+%    %    \begin{itemize}
+%    %     \item $\theight{\re''}=\theight{\re}+1$: by \cref{lemma:ext-zero-inc}, $\incFun{\re''}=0$,
+%    %           therefore $\theight{\re'}\leq\theight{\re}+\incFun{\re}+\incFun{\re''}=\theight{\re}+\incFun{\re}$.
+%    %     \item $\theight{\re''}=\theight{\re}$: by inductive hypothesis and \cref{lemma:ext-leq-inc},
+%    %           $\theight{\re'}\leq\theight{\re''}+\incFun{\re''}=\theight{\re}+\incFun{\re''}\leq\theight{\re}+\incFun{\re}$.
+%    %     \item $\theight{\re''}<\theight{\re}$ (that is, $\theight{\re''}\leq\theight{\re}-1$): by inductive hypothesis and \cref{lemma:bounds},
+%    %           $\theight{\re'}\leq\theight{\re''}+\incFun{\re''}\leq\theight{\re}-1+\incFun{\re''}\leq\theight{\re}\leq\theight{\re}+\incFun{\re}$.
+%    %    \end{itemize}
+%  \end{description}
+% \end{proof}
+
+% Finally, from the versions of \cref{theo:gen-inc-bound} and \cref{lemma:bounds}, both extended to $\reSetExt$, \cref{cor:gen-inc-bound} can be directly extended as well: For all $\re,\re'\in\reSetExt$, and $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\theight{\re'}\leq\theight{\re}+1$.
