@@ -265,7 +265,9 @@ The following theorem shows that the invariant property of \cref{cor:inv} can be
  \end{description}
 \end{proof}
 
-The proof of \cref{theo:gen-inc-bound} is independent from the definition of $\incFun{}$. Indeed, the same claim holds also for the other cases considered in the paper; what changes is the definition of the function returning the upper bound of the increment of a partial derivation.
+The proof of \cref{theo:gen-inc-bound} is independent from the definition of $\incFun{}$, providing that the invariant of \cref{cor:inv} holds. Therefore, the crucial point  is the definition of the function returning the upper bound of the increment of a partial derivation.
+
+The result on the space complexity of derivatives can be directly derived from  \cref{theo:gen-inc-bound} and \cref{lemma:bounds}.
 
 \begin{corollary}\label[corollary]{cor:gen-inc-bound}
  For all $\re,\re'\in\reSet$, and $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\theight{\re'}\leq\theight{\re}+1$.
@@ -406,49 +408,42 @@ Although the analogous of \cref{lemma:zero-inc} cannot be proved for $\incFunSiz
           \end{itemize}
 
     \item $\Rule{r-cat}{\re_1\parDer{\sym}\re'_1}{\re_0\catop\re_1\parDer{\sym}\re'_1}{\hasEps{\re_0}=\eps}$\\[2ex]
-          By inductive hypothesis $\tsize{\re_1'}\leq \tsize{\re_1}+\incFunSize{\re_1}$.
+          By inductive hypothesis $\tsize{\re_1'}\leq \tsize{\re_1}+\incFunSize{\re_1}-\incFunSize{\re'_1}$.
 
-          Therefore, $\tsize{\re_1'}\leq \tsize{\re_1}+\incFunSize{\re_1}\leq\tsize{\re_1}+1\leq\tsize{\re_0\catop\re_1}\leq\tsize{\re_0\catop\re_1}+\incFunSize{\re_0\catop\re_1}$, by the inductive hypothesis, the definition of $\max$, $\tsize{\ },$ and $\incFunSize{}$, and \cref{lemma:bounds}.
+          Therefore, $\tsize{\re_1'}\leq \tsize{\re_1}+\incFunSize{\re_1}-\incFunSize{\re'_1}=\tsize{\re_0\catop\re_1}+\incFunSize{\re_1}-\tsize{\re_0}-1-\incFunSize{\re'_1}\leq\tsize{\re_0\catop\re_1}+\incFunSize{\re_0\catop\re_1}-\incFunSize{\re'_1}$, by the inductive hypothesis, the definition of $\max$, $\tsize{\ },$ and $\incFunSize{}$.
 
-    \item $\Rule{l-or}{\re_0\parDer{\sym}\re'_0}{\re_0\orop\re_1\parDer{\sym}\re'_0}{}$\\[2ex]
-          By inductive hypothesis $\tsize{\re_0'}\leq \tsize{\re_0}+\incFunSize{\re_0}$.
-
-          Therefore, $\tsize{\re_0'}\leq \tsize{\re_0}+\incFunSize{\re_0}\leq\tsize{\re_0}+1\leq\tsize{\re_0\orop\re_1}=\tsize{\re_0\orop\re_1}+\incFunSize{\re_0\orop\re_1}$, by the inductive hypothesis, the definition of $\max$, $\tsize{\ },$ and $\incFunSize{}$, and \cref{lemma:bounds}.
-    \item rule \rn{r-or} is symmetric to  rule \rn{l-or}.
+    \item the case for rules \rn{l-or} and \rn{r-or} is analogous to that for rule \rn{r-cat}.
     \item $\Rule{star}{\re\parDer{\sym}\re'}{\starop{\re}\parDer{\sym}\re'\catop\starop{\re}}{}$\\[2ex]
-          By inductive hypothesis $\tsize{\re'}\leq \tsize{\re}+\incFunSize{\re}$.
+          By inductive hypothesis $\tsize{\re'}\leq \tsize{\re}+\incFunSize{\re}-\incFunSize{\re'}$.
 
-          Therefore, $\tsize{\re'\catop\starop{\re}}\stackrel{\mathrm{def}}{=}\max(\tsize{\re'},{\tsize{\starop{\re}}})+1\leq \max(\tsize{\re}+\incFunSize{\re},{\tsize{\re}}+1)+1=\tsize{\re}+1+1=\tsize{\starop{\re}}+1=\tsize{\starop{\re}}+\incFunSize{\starop{\re}}$, by the inductive hypothesis, the definition of $\max$, $\tsize{\ },$ and $\incFunSize{}$, and \cref{lemma:bounds}.
+          We distinguish two cases:
+          \begin{itemize}
+           \item $\incFunSize{\re'}\geq\incFunSize{\starop{\re}}-\tsize{\re'}-1$:
+                 $\tsize{\re'\catop\starop{\re}}\stackrel{\mathrm{def}}{=}\tsize{\re'}+\tsize{\starop{\re}}+1\leq\tsize{\re}+\incFunSize{\re}-\incFunSize{\re'}+\tsize{\starop{\re}}+1=\tsize{\starop{\re}}+\incFunSize{\starop{\re}}-\incFunSize{\re'}=\tsize{\starop{\re}}+\incFunSize{\starop{\re}}-\incFunSize{\re'\catop\starop{\re}}$, by the inductive hypothesis, the definition of $\max$, $\tsize{\ }$, $\incFunSize{}$, and the assumption $\incFunSize{\re'}\geq\incFunSize{\starop{\re}}-\tsize{\re'}-1$.
+
+           \item $\incFunSize{\re'}<\incFunSize{\starop{\re}}-\tsize{\re'}-1$:
+                 $\tsize{\re'\catop\starop{\re}}\stackrel{\mathrm{def}}{=}\tsize{\re'}+\tsize{\starop{\re}}+1=\tsize{\re'}+\tsize{\starop{\re}}+1+\incFunSize{\re'\catop\starop{\re}}-\incFunSize{\re'\catop\starop{\re}}=\tsize{\re'}+\tsize{\starop{\re}}+1+\incFunSize{\starop{\re}}-\tsize{\re'}-1-\incFunSize{\re'\catop\starop{\re}}=\tsize{\starop{\re}}+\incFunSize{\starop{\re}}-\incFunSize{\re'\catop\starop{\re}}$, by the definition of $\max$, $\tsize{\ }$, $\incFunSize{}$, and the assumption $\incFunSize{\re'}<\incFunSize{\starop{\re}}-\tsize{\re'}-1$.
+          \end{itemize}
    \end{itemize}
  \end{description}
 \end{proof}
 
-The following corollary can be directly derived from \cref{theo:inc-bound} and \cref{lemma:bounds}.
-\begin{corollary}\label[corollary]{cor:bound}
- For all $\re,\re'\in\reSet$, and $\sym\in\symAlph$, if $\re\parDer{\sym}\re'$, then $\tsize{\re'}\leq\tsize{\re}+1$.
-\end{corollary}
-~\Cref{theo:inc-bound} shows that the height of the derivative of an expression $\re$ \wrt~ a symbol is bounded by $\tsize{\re}+1$.
-The following results prove a strong property: the height of the partial derivative of a partial derivative cannot increase; that is, after the first reduction step, the height of the derivative of an expression $\re$ \wrt~ a symbol is bounded by $\tsize{\re}$.
-Therefore, one can conclude that the height of the derivative of an expression $\re$ \wrt~ an arbitrary  word (not just a symbol) is bounded by $\tsize{\re}+1$.
-
-We can now generalize \Cref{theo:inc-bound} to derivatives \wrt~ any words.
-\begin{theorem}\label[theorem]{theo:gen-inc-bound}
- For all $\re,\re'\in\reSet$, and $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\tsize{\re'}\leq\tsize{\re}+\incFunSize{\re}$.
+Having proved the invariant of \cref{theo:inc-bound-size}, we can derive the main result analogously as done in \cref{sec:height}.
+\begin{theorem}\label[theorem]{theo:gen-inc-bound-size}
+ For all $\re,\re'\in\reSet$, and $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\tsize{\re'}\leq\tsize{\re}+\incFunSize{\re}-\incFunSize{\re'}$.
 \end{theorem}
 \begin{proof}
- By induction on the length of $\word$.
- \begin{description}
-  \item[base case:] if $\word=\emptyWord$, then by definition $\re'=\re$, hence
-   $\tsize{\re'}=\tsize{\re}$, and by \cref{lemma:bounds}, $\tsize{\re'}=\tsize{\re}\leq\tsize{\re}+\incFunSize{\re}$.
-
-  \item[inductive step:]
-   if $\word=\sym\strcons\word'$ for some $\sym\in\symAlph$, $\word'\in\symAlph^*$, then by definition there exists $\re''\in\reSet$ s.t. $\re\parDer{\sym}\re''$ and $\re''\parDer{\word'}\re'$. By \cref{theo:inc-bound} $\tsize{\re''}\leq\tsize{\re}+\incFunSize{\re}$ and by inductive hypothesis $\tsize{\re'}\leq\tsize{\re''}+\incFunSize{\re''}$. Moreover, by \cref{lemma:zero-inc},
-   $\incFunSize{\re''}=0$, therefore $\tsize{\re'}\leq\tsize{\re''}$ and, by transitivity,
-   $\tsize{\re'}\leq\tsize{\re''}\leq\tsize{\re}+\incFunSize{\re}$.
- \end{description}
+ See \cref{theo:gen-inc-bound}
 \end{proof}
 
-\Cref{lemma:bounds} allows to conclude the final result stating that the height of the derivatives of $\re$ is bounded by $\tsize{\re}+1$.
+The result on the space complexity of derivatives directly follows from  \cref{theo:gen-inc-bound-size} and \cref{lemma:bounds-size}.
+
 \begin{corollary}\label[corollary]{cor:gen-inc-bound}
- For all $\re,\re'\in\reSet$, and $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\tsize{\re'}\leq\tsize{\re}+1$.
+ For all $\re,\re'\in\reSet$, and $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\tsize{\re'}\leq\tsize{\re}+\tsize{\re}^2$. Hence $\tsize{\re'}$ is $O(\tsize{\re}^2)$.
 \end{corollary}
+
+\begin{proof}
+ By \cref{theo:gen-inc-bound-size} $\tsize{\re'}\leq\tsize{\re}+\incFunSize{\re}-\incFunSize{\re'}$. By \cref{lemma:bounds}
+ $\incFunSize{\re}-\incFunSize{\re'}\leq\incFunSize{\re}\leq\tsize{\re}^2$, hence
+ $\tsize{\re'}\leq\tsize{\re}+\tsize{\re}^2$.
+\end{proof}
