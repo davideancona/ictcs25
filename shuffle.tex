@@ -294,3 +294,50 @@ extend for free \cref{theo:gen-inc-bound} and \cref{cor:gen-inc-bound}  to $\reS
 % \end{proof}
 
 % Finally, from the versions of \cref{theo:gen-inc-bound} and \cref{lemma:bounds}, both extended to $\reSetExt$, \cref{cor:gen-inc-bound} can be directly extended as well: For all $\re,\re'\in\reSetExt$, and $\word\in\symAlph^*$, if $\re\parDer{\word}\re'$, then $\theight{\re'}\leq\theight{\re}+1$.
+
+\subsection{Size of partial derivatives with the shuffle operator}
+
+Similar as done in the previous section, we extend the result of \cref{theo:gen-inc-bound-size} and \cref{cor:gen-inc-bound-size} to the case of the shuffle operators in the case of the size $\tsize{\re}$ of a regular expression $\re$.
+
+Also for the size, the introduction of shuffle does not affect the space complexity of partial derivatives. However, in this case the proofs can be extended in an easier way, although the definition of $\incFunSize{\re_0\shuffleop\re_1}$ requires some care.
+
+Indeed, one would be tempted to consider the following (incorrect) definition:
+\[
+ \incFunSize{\re_0\shuffleop\re_1}=\max(\incFunSize{\re_0},\incFunSize{\re_1})
+ \qquad\qquad\qquad\qquad\mbox{(incorrect definition)}
+\]
+This is in line with $\incFunSize{\re_0\catop\re_1}$,
+but, unfortunately, verifies only the weaker inequality
+$\tsize{\re}\leq\tsize{\re_0\shuffleop\re_1}+\incFunSize{\re_0\shuffleop\re_1}$, if $\re_0\shuffleop\re_1\parDer{\sym}\re$, but not $\tsize{\re}\leq\tsize{\re_0\shuffleop\re_1}+\incFunSize{\re_0\shuffleop\re_1}-\incFunSize{\re}$.
+
+To show this, let us consider the following reduction step computing the partial derivative of $\starop{\sym}\shuffleop\starop{\asym}$ \wrt~ $\sym$:
+\begin{flushleft}
+ $
+  \begin{array}{l}
+   \starop{\sym}\shuffleop\starop{\asym}\parDer{\sym}\eps\catop\starop{\sym}\shuffleop\starop{\asym} \\
+   \tsize{\starop{\sym}\shuffleop\starop{\asym}}=5 \qquad
+   \incFunSize{\starop{\sym}\shuffleop\starop{\asym}}=2 \qquad
+   \tsize{\eps\catop\starop{\sym}\shuffleop\starop{\asym}}=7 \qquad
+   \incFunSize{\eps\catop\starop{\sym}\shuffleop\starop{\asym}}=2
+  \end{array}
+ $
+\end{flushleft}
+We have $\tsize{\eps\catop\starop{\sym}\shuffleop\starop{\asym}}=7\leq 5+2=\tsize{\starop{\sym}\shuffleop\starop{\asym}}+\incFunSize{\starop{\sym}\shuffleop\starop{\asym}}$, but
+$\tsize{\eps\catop\starop{\sym}\shuffleop\starop{\asym}}=7\not\leq 5+2-2=\tsize{\starop{\sym}\shuffleop\starop{\asym}}+\incFunSize{\starop{\sym}\shuffleop\starop{\asym}}-\incFunSize{\eps\catop\starop{\sym}\shuffleop\starop{\asym}}$.
+
+To guarantee the invariant $\tsize{\re'}\leq\tsize{\re}+\incFunSize{\re}-\incFunSize{\re'}$, the following definition has to be considered:
+\[
+ \incFunSize{\re_0\shuffleop\re_1}=\incFunSize{\re_0}+\incFunSize{\re_1}
+\]
+
+To prove the extended versions of the results of \cref{sec:parDer} we first extend the definition of $\incFun{}$ given in \cref{fig:incFun} with the case for the shuffle.
+\[
+ \incFun{\re_0\shuffleop\re_1}=\max(\geqFun{\re_0}{\re_1}\cdot\incFun{\re_0},\geqFun{\re_1}{\re_0}\cdot\incFun{\re_1})
+\]
+Before explaining the definition of $\incFun{}$ above, we note that the claim of \cref{lemma:bounds} holds also for $\reSetExt$ and can still be proved by induction on the definition of $\incFun{}$: $0\leq\incFun{\re}\leq 1$.
+Consequently, if the height of one sub-expression $\re_i$ is strictly greater than the other $\re_{1-i}$, then only the partial derivative of $\re_i$ can contribute to the increment of the height of the partial derivative of $\re_0\shuffleop\re_1$, because increments are always bounded by 1.
+Note that $\max(\incFun{\re_i},0)=\incFun{\re_i}$, since $\incFun{\re_i}\geq 0$, therefore $\incFun{\re_0\shuffleop\re_1}=\incFun{\re_i}$, if $\theight{\re_i}>\theight{\re_{1-i}}$ for $i=0,1$.
+
+If $\theight{\re_0}=\theight{\re_1}$, then both the derivatives of $\re_0$ and $\re_1$ can contribute to the increment of the height of the partial derivative of $\re_0\shuffleop\re_1$.
+Since \rn{l-shf} or \rn{r-shf} can be non-deterministically applied, the maximum increment
+$\max(\incFun{\re_0},\incFun{\re_1})$ needs to be considered.

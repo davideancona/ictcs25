@@ -302,7 +302,7 @@ The result on the space complexity of derivatives can be directly derived from  
    % \end{cases} \quad
    \incFunSize{\sym}=\incFunSize{\eps}=0                                      \qquad
    \incFunSize{\re_0\catop\re_1}=\max(\incFunSize{\re_0},\incFunSize{\re_1}-\tsize{\re_0}-1) \\
-   \incFunSize{\re_0\orop\re_1}= \max(\incFunSize{\re_0}-\tsize{\re_1}-1,\incFunSize{\re_1}-\tsize{\re_0}-1)                                        \qquad
+   \incFunSize{\re_0\orop\re_1}= \max(\incFunSize{\re_0}-\tsize{\re_1}-1,\incFunSize{\re_1}-\tsize{\re_0}-1,0)                                        \qquad
    \incFunSize{\starop{\re}}=\tsize{\re}+\incFunSize{\re}+1
   \end{array}
  $$
@@ -340,7 +340,7 @@ As another example, let us consider the following reduction steps which compute 
   \end{array}
  $
 \end{flushleft}
-After the first step the size does not change, while increases by 3 after the second steps. This examples shows that the strong claim of \cref{lemma:zero-inc} cannot hold for $\tsize{\ }$.
+After the first step the size does not change, while increases by 3 after the second steps. This example shows that the strong claim of \cref{lemma:zero-inc} cannot hold for $\tsize{\ }$.
 
 % As another example, let us consider the following reduction steps which compute the partial derivative of $(\starop{\sym}\catop\starop{\asym})\catop\starop{\yasym}$
 % \wrt~ $\sym\asym\yasym$:
@@ -379,7 +379,7 @@ The following lemma is analogous to \cref{lemma:bounds}.
 
 As for $\incFun{\re}$, the definition of $\incFunSize{\re}$ is driven by the reduction rules in \cref{fig:parDer}. We comment only the non-trivial cases: if $\re=\re_0\orop\re_1$, then the partial derivative can be obtained
 by applying either rule \rn{l-or} or \rn{r-or}. For the former rule,
-the partial derivative of $\re_0$ can increase of at most $\incFunSize{\re_0}$, but all the nodes of $\re_1$ and the $\orop$ operator are removed, which corresponds to $\incFunSize{\re_0}-\tsize{\re_1}-1$. The reasoning for the latter rule is symmetric. Then the maximum has to be considered to return a valid upper bound.
+the partial derivative of $\re_0$ can increase of at most $\incFunSize{\re_0}$, but all the nodes of $\re_1$ and the $\orop$ operator are removed, which corresponds to $\incFunSize{\re_0}-\tsize{\re_1}-1$. The reasoning for the latter rule is symmetric. Then the maximum between these two values has to be considered to return a valid upper bound; furthermore, the bound must be non-negative to ensure that \cref{lemma:bounds-size} holds.
 If $\re=\starop{\re_0}$, then the new term $\re'$ needs to be considered, whose size is bounded by $\tsize{\re}+\incFunSize{\re}$. Furthermore, the concatenation operator is added, hence the function returns $\tsize{\re}+\incFunSize{\re}+1$. Finally, in the definition for $\re=\re_0\catop\re_1$ rule \rn{r-cat} is managed as rule \rn{r-or} (or \rn{l-or}).
 In rule \rn{l-cat} $\re_0$ is replaced by $\re_0'$, while $\re_1$ and concatenation are kept, hence the upper bound of the increment is $\incFunSize{\re_0}$. As for $\re_0\orop\re_1$ the maximum needs to be considered.
 
