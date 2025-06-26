@@ -1,0 +1,28 @@
+Partial derivatives of regular expressions are an elegant formalism introduced by Antimirov to define an algorithm
+that generates, from regular expressions, equivalent non-deterministic finite automata (NFA) with a limited
+number of states.
+
+While Antimirov’s work addresses the classical problem of word recognition in regular languages, here we are
+interested in runtime verification (RV) of simple properties expressible with regular expressions. In this context,
+the words to be recognized are finite traces of monitorable events, which define the alphabet of the language, and
+the corresponding NFA generated from the regular expression may have an intractable number of states.
+
+This often occurs because the properties to be verified consist of sub-traces of mutually independent events,
+which are allowed to interleave during the execution of the system under scrutiny (SUS). For this reason, regular
+expressions used for RV are extended with the shuffle operator. Although regular languages are closed under
+shuffle, the operator allows for more readable and compact specifications.
+
+By exploiting partial derivatives, it is possible to follow a rewriting-based approach to RV, where only a single
+partial derivative needs to be stored at each reduction step, instead of generating a finite automaton with an
+intractable number of states.
+
+This raises the question of the space complexity of the largest partial derivative that can be generated. While
+the upper bound on the total number of generated partial derivatives has been shown to be linear in the size of
+the initial regular expression, no results can be found in the literature regarding the size of the largest derivative.
+
+In this paper, we investigate this problem with respect to two different metrics of regular expressions: their
+height and their total number of nodes when considered as trees. In particular, we show that the height of the
+largest partial derivative can increase by at most one, while the number of nodes of the largest partial derivative
+is bounded by 𝑛^2, where 𝑛 is the number of nodes of the initial regular expression.
+
+Surprisingly, these results still hold when regular expressions are extended with shuffle.

@@ -12,12 +12,15 @@ In this section we extend the syntax of regular expressions by adding the shuffl
 \]
 We denote with $\reSetExt$ the set of regular expressions extended with the shuffle operator.
 
-Although it is well-known that the shuffle operator does not increase the abstract expressive power of regular expressions, in practice it is still very useful in RV to write more compact and clear
-specifications when correct system behaviors can be described as independently interleaved event traces.
+Although it is well-known that the shuffle operator does not increase the abstract expressive power of regular expressions, in practice it is still very useful in RV to write much more compact and clear
+specifications when correct system behaviors can be described as independently interleaved event traces. Indeed, it has been proved \cite{BrodaEtAl18,MayerElAl94} that there exists a family of regular expressions $\re$ with shuffle for which the equivalent NFA needs at least $2^{\tsize{\re}}$ states.
 
-Let us consider for instance the events $o_n$, $a_n$, and $c_n$, with the meaning
-``file $n$ has been opened'', ``accessed'', and ``closed'', respectively, where $n=0,1$ is the corresponding file descriptor.
-If the SUS is allowed to manage the two files independently, then a specification for the correct use of them can be defined quite concisely by the regular expression $o_0\catop\starop{a_0}\catop c_0\shuffleop o_1\catop\starop{a_1}\catop c_1$.
+Let us consider for instance the distinct events $o_n$, $a_n$, and $c_n$, with the meaning
+``file $n$ has been opened'', ``accessed'', and ``closed'', respectively, where $n=1,2$ is the corresponding file descriptor.
+If the SUS is allowed to manage the two files independently, then a specification for the correct use of them can be defined quite concisely by the regular expression $o_1\catop\starop{a_1}\catop c_1\shuffleop o_2\catop\starop{a_2}\catop c_2$.
+
+If, for simplicity, we assume that files can be accessed only once, and we generalize over the number of files, then the specification becomes the regular expression $o_1\catop a_1\catop c_1\shuffleop\ldots\shuffleop o_n\catop a_n \catop c_n$ over the alphabet of $3n$ distinct symbols $\{o_1,a_1,c_1,\dots, o_n,a_n,c_n\}$. For such an expression, an equivalent NFA must have at least
+$4^n$ states.
 
 \begin{figure}[h]
  $$

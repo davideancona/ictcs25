@@ -1,0 +1,26 @@
+\section{Introduction}\label{sec:intro}
+
+Derivatives of regular expressions were introduced by Brzozowski \cite{Brzozowski64}
+to provide a very compact operational semantics for them, and to derive an algorithm for generating equivalent deterministic finite automata (DFA).
+
+In a nutshell, derivatives can be defined by means of a labeled transition system between regular expressions, where labels are the alphabet symbols. Given a fixed symbol, at each step there is always a unique transition, therefore the system defines a deterministic automaton where the initial state is an initial regular expression $\re$, and all other states are regular expressions that are derivatives obtained from $\re$.
+
+Such an automaton is provably equivalent to $\re$,
+if the set of its final states is defined as the set of all the corresponding regular expressions which recognize the empty word.
+The main issue with this approach is that the number of syntactically different derivatives of $\re$ can be unbounded, hence, to obtain an equivalent DFA, a finite quotient algebra of states modulo a suitable congruence has to be considered.
+
+Inspired by Brzozowski's work, Antimirov \cite{Antimirov96} defined partial derivatives of regular expressions to define an algorithm that generates, from regular expressions, equivalent non-deterministic finite automata (NFA) with a limited number of states. The main breakthrough at the root of Antimirov's work is that the number of syntactically distinct partial derivatives of $\re$ is provably linear in the size of $\re$. Therefore, the same construction
+proposed by Brzozowski can be used with syntactic equality without considering any weaker notion of congruence. However, the corresponding automaton is, in general non-deterministic, because
+of the transition system defining partial derivatives: given a fixed symbol, at each step there can be zero or more transitions.
+
+While Antimirov's work addresses the classical problem of word recognition in regular languages, here we are interested in runtime verification (RV) of simple properties expressible with regular expressions. In this context,  words are finite traces of monitorable events, which define the alphabet of the language, and the corresponding NFA generated from the regular expression may have an intractable number of states.
+
+This typically occurs when the properties to be verified consist of sub-traces of mutually independent events, which are allowed to interleave during the execution of the system under scrutiny (SUS). For this reason, regular expressions used for RV are extended with the shuffle operator. Although regular languages are closed under shuffle, the operator allows for more readable and compact specifications.
+
+By exploiting partial derivatives, it is possible to follow a rewriting-based approach to RV, where only a single partial derivative needs to be stored at each reduction step, instead of generating a finite automaton with an intractable number of states.
+
+This raises the question of the space complexity of the largest partial derivative that can be generated. While the total number of generated partial derivatives is known to be linear in the size of the initial regular expression, no results can be found in the literature regarding the size of the largest partial derivative.
+
+In this paper, we investigate this problem with respect to two different metrics of regular expressions: their height and their total number of nodes when considered as trees. In particular, we show that the height of the largest partial derivative can increase by at most one, while the number of nodes in the largest partial derivative is bounded by $n^2$, where $n$ is the number of nodes of the initial regular expression.
+
+Surprisingly, these results still hold when regular expressions are extended with shuffle.
