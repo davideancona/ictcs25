@@ -1,6 +1,6 @@
 \section{Introduction}\label{sec:intro}
 
-Derivatives of regular expressions were introduced by Brzozowski \cite{Brzozowski64}
+Derivatives of regular expressions were introduced by Brzozowski \cite{Brzozowski64,OwensEtAl09}
 to provide a very compact operational semantics for them, and to derive an algorithm for generating equivalent deterministic finite automata (DFA).
 
 In a nutshell, derivatives can be defined by means of a labeled transition system between regular expressions, where labels are the alphabet symbols. Given a fixed symbol, at each step there is always a unique transition, therefore the system defines a deterministic automaton where the initial state is an initial regular expression $\re$, and all other states are regular expressions that are derivatives obtained from $\re$.
@@ -13,9 +13,15 @@ Inspired by Brzozowski's work, Antimirov \cite{Antimirov96} defined partial deri
 proposed by Brzozowski can be used with syntactic equality without considering any weaker notion of congruence. However, the corresponding automaton is, in general non-deterministic, because
 of the transition system defining partial derivatives: given a fixed symbol, at each step there can be zero or more transitions.
 
-While Antimirov's work addresses the classical problem of word recognition in regular languages, here we are interested in runtime verification (RV) of simple properties expressible with regular expressions. In this context,  words are finite traces of monitorable events, which define the alphabet of the language, and the corresponding NFA generated from the regular expression may have an intractable number of states.
+While Antimirov's work addresses the classical problem of word recognition in regular languages, here we are interested in runtime verification (RV)~\cite{LeuckerSchallhart09} of simple properties expressible with regular expressions.
 
-This typically occurs when the properties to be verified consist of sub-traces of mutually independent events, which are allowed to interleave during the execution of the system under scrutiny (SUS). For this reason, regular expressions used for RV are extended with the shuffle operator. Although regular languages are closed under shuffle, the operator allows for more readable and compact specifications.
+RV is a dynamic technique used to check the trace of events generated during a single execution of the System Under Scrutiny (SUS). This is done with monitors automatically generated from specifications that describe the correct behavior of the SUS (suitably instrumented to produce the trace to be analyzed).
+
+RV is complementary to both formal verification and testing: like formal methods, it is based on specification languages, although it is not exhaustive; like testing, it is scalable and suitable for real-world systems and complex properties. Differently from testing, RV can detect errors even in non-deterministic systems~\cite{HavelundRosu2004,SharmaEtAl2009,TowardsIoT17,SchiavioEtAl19}, and therefore represents a valuable complement to testing approaches~\cite{BesnardEtAl23}.
+
+When properties to be dynamically verified can be defined with regular expressions, words are finite traces of monitorable events, which define the alphabet of the language, and the monitor is the DFA or NFA generated from the regular expression. However, in RV this approach may be unfeasible because of the intractable number of states of the generated automaton, even when an NFA is generated.
+
+This typically occurs when the properties to be verified consist of sub-traces of mutually independent events, which are allowed to interleave during the execution of the system under scrutiny (SUS). Let us consider, for instance, the challenge of verifying that files are correctly opened and closed, in a system which can handle several files independently. For this reason, in the context of RV regular expressions are extended with the shuffle operator \cite{RML2021}. Although regular languages are closed under shuffle, the operator allows for more readable and compact specifications.
 
 By exploiting partial derivatives, it is possible to follow a rewriting-based approach to RV, where only a single partial derivative needs to be stored at each reduction step, instead of generating a finite automaton with an intractable number of states.
 
