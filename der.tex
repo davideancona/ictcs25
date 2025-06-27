@@ -1,5 +1,9 @@
 \section{Derivatives of regular expressions}\label{sec:der}
 
+This section provides the basic notions on derivatives, by assuming familiarity with regular expressions.
+
+Let $\symAlph$ denote a given non-empty finite set of symbols $\symAlph$, called \emph{alphabet}. We call \emph{word} an element of $\symAlph^*$, and denote with $\emptyWord$ the empty word. Furthermore, $\sym\strcons\word$ denotes the word where $\sym$ is the first symbol, and $\word$ the rest of the word, while $\word\strcatop\word'$ denotes word concatenation.
+The set $\reSet$ of regular expressions over $\symAlph$ is defined by the grammar in \cref{fig:syn}. We use the standard precedence rules: the Kleene star operator $\starop{\re}$  has higher precedence than concatenation $\re_0\catop\re_1$, which in turn has higher precedence than union $\re_0\orop\re_1$.
 \begin{figure}[h]
  \begin{small}
   \begin{center}
@@ -9,16 +13,71 @@
   \end{center}
  \end{small}
  \caption{Syntax of regular expressions}
- \label{regExpSyn}
+ \label{fig:syn}
 \end{figure}
 
-\begin{definition}
+\Cref{def:langOp} introduces the standard operators on regular languages, and \cref{def:sem} the standard semantics of regular expressions.
+
+\begin{definition}\label[definition]{def:langOp}
+ For all $\lang,\lang_0,\lang_1\subseteq\symAlph^*$
  \[
-  \word^{-1}(\lang) = \{ \word' \mid \word\strcons\word'\in\lang \}
+  \begin{array}{l}
+   \lang_1\strcatop\lang_2=\{\word_1\strcatop\word_2\mid \word_1\in\lang_1,\word_2\in\lang_2\} \\
+   \lang^0=\{\emptyWord\}, \lang^{n+1}=\lang\strcons\lang^n \mbox{for all $n\geq 0$}           \\
+   \starop{\lang} = \bigcup_{n\geq 0}\lang^n
+  \end{array}
+ \]
+\end{definition}
+\begin{definition}\label[definition]{def:sem}
+ \[
+  \begin{array}{l}
+   \sem{\none}=\emptyset\quad \sem{\eps}=\{\emptyWord\} \quad \sem{\sym}=\{\sym\} \quad
+   \sem{\re_0\catop\re_1}=\sem{\re_0}\strcatop\sem{\re_1} \quad \sem{\re_0\orop\re_1}=\sem{\re_0}\cup\sem{\re_1} \\ \sem{\starop{\re_0}}=\starop{\sem{\re_0}}
+  \end{array}
  \]
 \end{definition}
 
-\begin{figure}[h]
+Note the difference between $\eps$ (a constant in the syntax of regular expressions) and $\emptyWord$ (the empty word).
+
+The derivative of a language $L$ \wrt~a word $\word\in\symAlph^*$, denoted by $\word^{-1}(\lang)$, is defined as follows:
+\begin{definition}\label[definition]{def:der}
+ For all $L\subseteq\symAlph^*$, $\word^{-1}(\lang)$
+ \[
+  \word^{-1}(\lang) = \{ \word' \mid \word\strcatop\word'\in\lang \}
+ \]
+\end{definition}
+Directly from \cref{def:der} one can derive
+\begin{equation}
+ \label{eq:der}
+ \word\in\lang \mbox{ iff }
+ \emptyWord\in\word^{-1}(\lang)
+\end{equation}
+
+While the notion of derivative applies to any formal language, regular languages enjoy the following closure property: if $\lang$ is regular, then
+$\word^{-1}(\lang)$ is regular as well, for any word $\word$. In other words, the derivative of a regular expression can be defined by another regular expression.
+
+This property has allowed Brzozowski to define the derivatives of regular expressions in a quite elegant way.
+First, the derivative \wrt~a single symbol is defined (see~\cref{fig:der}), then
+the more general notion of derivative \wrt~a word is derived by reflexive  transitive closure (see~\cref{def:der}).
+
+Here we deliberately follow the style of a labelled transition system, defined by means of inference rules, to highlight two interesting related aspects:
+\begin{itemize}
+ \item derivatives provide an intuitive way to define a small-step semantics for regular expressions;
+ \item a reduction step $\re\der{\sym}\re'$ corresponds to a transition step from state $\re$ to $\re'$ with symbol $\sym$, for an automaton which recognizes the language defined by $\re$.
+\end{itemize}
+By using the notation of Antimirov~\cite{Antimirov96}, which is an adaptation of that introduced by Brzozowski~\cite{Brzozowski64}, we have
+that $\sym^{-1}(\re_0)=\re_1$ iff $\re_0\der{\sym}\re_1$, and $\word^{-1}(\re_0)=\re_1$ iff $\re_0\der{\word}\re_1$.
+
+The definition of $\hasEps{\re}$ in~\cref{fig:der} deserves some comments:
+the intended meaning is that $\hasEps{\re}=\eps$ iff
+$\emptyWord\in\sem{\re}$, and, dually, $\hasEps{\re}=\none$ iff
+$\emptyWord\not\in\sem{\re}$. The base cases of the definition are straightforward; thanks to the auxiliary functions $\conj$, $\disj$ defined on $\eps$ and $\none$ in the corresponding tables, we can deduce that, as expected, $\re_0\catop\re_1$ recognizes $\emptyWord$ iff both $\re_0$ and $\re_1$ recognize $\emptyWord$, while  $\re_0\orop\re_1$ recognizes $\emptyWord$ iff $\re_0$ or $\re_1$ recognizes $\emptyWord$.
+
+The fact that $\hasEps{\re}$ does not return a Boolean value was a deliberate choice of Brzozowski to define rule \rn{cat} in a more compact way:
+if $\hasEps{\re_0}=\eps$, then $\re_0\catop\re_1\der{\sym}\re'_0\orop\eps\catop\re_1'$, since in this case $\re_1$ contributes to the
+derivative. Otherwise, $\re_0\catop\re_1\der{\sym}\re'_0\orop\none\catop\re_1'$, since $\re_1$ does not contribute to the
+derivative.
+\begin{figure}[t]
  \begin{center}
   $$
    \begin{array}{c}
@@ -26,8 +85,8 @@
     \Rule{eps}{}{\eps\der{\sym}\none}\quad
     \Rule{sym-eq}{}{\sym\der{\sym}\eps}\quad
     \Rule{sym-neq}{}{\sym\der{\asym}\none}{}                                       \\[4ex]
-    \Rule{or}{\re_0\der{\sym}\re'_0\quad\re_1\der{\sym}\re'_1}{\re_0\catop\re_1\der{\sym}\re'_0\catop\re_1\orop\hasEps{\re_0}\catop\re'_1}{} \quad
-    \Rule{cat}{\re_0\der{\sym}\re'_0\quad\re_1\der{\sym}\re'_1}{\re_0\orop\re_1\der{\sym}\re'_0\orop\re'_1}{}\quad
+    \Rule{cat}{\re_0\der{\sym}\re'_0\quad\re_1\der{\sym}\re'_1}{\re_0\catop\re_1\der{\sym}\re'_0\catop\re_1\orop\hasEps{\re_0}\catop\re'_1}{} \quad
+    \Rule{or}{\re_0\der{\sym}\re'_0\quad\re_1\der{\sym}\re'_1}{\re_0\orop\re_1\der{\sym}\re'_0\orop\re'_1}{}\quad
     \Rule{star}{\re\der{\sym}\re'}{\starop{\re}\der{\sym}\re'\catop\starop{\re}}{} \\[8ex]
     \hasEps{\eps}=\hasEps{\starop{\re_0}}=\eps\qquad\hasEps{\none}=\hasEps{\sym}=\none \quad
     \hasEps{\re_0\catop\re_1}=\hasEps{\re_0}\conj\hasEps{\re_1}\quad
@@ -59,44 +118,24 @@
  \end{center}
 
  \caption{Transition system defining the derivatives of regular expressions}
- \label{deriv}
+ \label{fig:der}
 \end{figure}
 
-\begin{definition}
+\Cref{def:der} introduces the general notion of derivative \wrt~a word $\word$, by computing the reflexive transitive closure of the one-step relation defined in~\cref{fig:der}. As expected, the definition is by induction on the length of $\word$. The definition introduces also the operational semantics of regular expressions \wrt~ derivatives, driven by~\cref{eq:der}. In the view above, which considers the labelled transition system as a deterministic automaton,
+the definition corresponds to that of accepted language, where the set of final states is the set of all derivatives $\re'$ \st~$\hasEps{\re'}=\eps$.
+\begin{definition}\label[definition]{def:der}
  For all $\re,\re_0,\re_1\in\reSet$, $\sym\in\symAlph$, $\word\in\symAlph^*$
  \[
   \begin{array}{l}
-   \re\der{\emptyWord}\re \\
+   \re\der{\emptyWord}\re \qquad
    \re_0\der{\sym\strcons\word}\re_1 \mbox{ iff } \re_0\der{\sym}\re \mbox{ and } \re\der{\word}\re_1
    \\
-   \opSem{\re}{\der{}}=\{\word\in\wordUniv \mid \mbox{there exists } \re'\in\reSet \mbox{ s.t. } \re\der{\word}\re' \mbox{ and } \hasEps{\re'}=\eps\}
+   \opSem{\re}{\der{}}=\{\word\in\symAlph^* \mid \mbox{there exists } \re'\in\reSet \mbox{ s.t. } \re\der{\word}\re' \mbox{ and } \hasEps{\re'}=\eps\}
   \end{array}
  \]
 \end{definition}
 
-~\Cref{deriv} contains the transition rules defining the derivatives of regular expressions.
-Except for the presentation style, the definition coincides with that introduced by Brzozowski~\cite{Brzozowski64}. By using the notation of Antimirov \cite{Antimirov96}, we have
-that $\sym^{-1}(\re_0)=\re_1$ iff $\re_0\der{\sym}\re_1$, and $\word^{-1}(\re_0)=\re_1$ iff $\re_0\der{\word}\re_1$.
 
-
-\begin{definition}\label{def:langOp}
- For all $\lang,\lang_0,\lang_1\subseteq\symAlph^*$
- \[
-  \begin{array}{l}
-   \lang_1\strcatop\lang_2=\{\word_1\strcatop\word_2\mid \word_1\in\lang_1,\word_2\in\lang_2\} \\
-   \lang^0=\{\emptyWord\}, \lang^{n+1}=\lang\strcons\lang^n \mbox{for all $n\geq 0$}           \\
-   \starop{\lang} = \bigcup_{n\geq 0}\lang^n
-  \end{array}
- \]
-\end{definition}
-\begin{definition}\label{def:sem}
- \[
-  \begin{array}{l}
-   \sem{\none}=\emptyset\quad \sem{\eps}=\{\emptyWord\} \quad \sem{\sym}=\{\sym\} \quad
-   \sem{\re_0\catop\re_1}=\sem{\re_0}\strcatop\sem{\re_1} \quad \sem{\re_0\orop\re_1}=\sem{\re_0}\cup\sem{\re_1} \\ \sem{\starop{\re_0}}=\starop{\sem{\re_0}}
-  \end{array}
- \]
-\end{definition}
 
 \begin{theorem}\label[theorem]{theo:der}
  For all $\re,\re'\in\reSet$, $\word\in\symAlph^*$
