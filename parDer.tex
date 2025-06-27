@@ -15,34 +15,39 @@
  \label{fig:parDer}
 \end{figure}
 
-~\Cref{fig:parDer} contains the transition rules defining the partial derivatives of regular expressions.
-As for the definition of derivatives, the presentation deviates from that of Antimirov \cite{Antimirov96}, and keeps following the transition system style. Besides the different notation, more importantly, here we deliberately define a non-deterministic system, where a single transition step yields a single (non-zero) partial derivative among all possible ones, while in Antimirov's definition the set of all partial derivatives is returned.
+~\Cref{fig:parDer} contains the transition rules defining the partial derivatives of regular expressions \wrt~ a single symbol.
+The definition follows the work of Antimirov \cite{Antimirov96}, but
+as happens for the definition of derivatives, our presentation based on a labelled transition system deviates from that of Antimirov. More importantly, here we deliberately define a non-deterministic system, where a single transition step yields a single non-empty partial derivative among all possible ones, while in Antimirov's definition the set of all partial derivatives is returned.
 
+Compared to the rules in \cref{fig:der}, here we have removed all rules which return the empty derivative. Therefore, there are cases where the partial derivative of a regular expression \wrt\ a symbol (or word) does not exist. This is useful when partial derivatives are used for RV, because in this way errors can be detected with no further checks on the partial derivative: if no moves can be taken, then the partial derivative is empty and  the trace of events (that is, the word) considered so far cannot be the prefix of any correct trace, therefore a violation of the specification can be reported.
+
+Another important difference \wrt\ the definitions in \cref{fig:der} regards the number of rules for concatenation and union. Instead of having a single rule which covers all cases by introducing the $\orop$ operator in the partial derivative, here cases are covered non-deterministically by two dual rules: \rn{l-cat}, \rn{r-cat} and \rn{l-or}, \rn{r-or}  for concatenation and union, respectively.
 For instance, according to Antimirov's definition\footnote{See \cite{Antimirov96}, definition 2.8.},
-the partial derivative of $\sym \asym \orop \sym\yasym$ \wrt~ $\sym $ returns the set of regular expressions $\{\asym,\yasym\}$ (that is, $\delta_\sym(\sym\asym \orop \sym\yasym)=\{\asym,\yasym\}$ with Antimirov's notation). This corresponds to the fact that there exist two possible transition steps from $\sym \asym \orop \sym\yasym$ labeled with $\sym $, namely,
-$\sym \asym \orop \sym\yasym\parDer{\sym}\asym$ and $\sym \asym \orop \sym \yasym\parDer{\sym}\yasym$.
+the partial derivative of $\sym \asym \orop \sym\yasym$ \wrt~symbol $\sym $ returns the set of regular expressions $\{\eps\catop\asym,\eps\catop\yasym\}$ (that is, $\delta_\sym(\sym\asym \orop \sym\yasym)=\{\eps\catop\asym,\eps\catop\yasym\}$ with Antimirov's notation). This corresponds to the fact that there exist two possible transition steps from $\sym \asym \orop \sym\yasym$ labeled with $\sym $, namely,
+$\sym \asym \orop \sym\yasym\parDer{\sym}\eps\catop\asym$ and $\sym \asym \orop \sym \yasym\parDer{\sym}\eps\catop\yasym$.
 
-This difference is directly related to the opposite aim of our work: while Antimirov's approach uses partial derivatives for generating an NFA, here
+This difference is motivated by the main aim of our work: while Antimirov's approach uses partial derivatives for generating an NFA, here
 we use them to define a non-deterministic transition system which already represents the corresponding NFA.
 
-\begin{definition}
+\Cref{def:parDer} is dual to \Cref{def:der}.
+\begin{definition}\label{def:parDer}
  For all $\re,\re_0,\re_1\in\reSet$, $\sym\in\symAlph$, $\word\in\symAlph^*$
  \[
   \begin{array}{l}
    \\
-   \re\parDer{\emptyWord}\re                                                                                       \\
+   \re\parDer{\emptyWord}\re                                                                                       \qquad
    \re_0\parDer{\sym\strcons\word}\re_1 \mbox{ iff } \re_0\parDer{\sym}{}\re \mbox{ and } \re\parDer{\word}{}\re_1 \\
-   \opSem{\re}{\parDer{}}=\{\word\in\wordUniv \mid \mbox{there exists } \re'\in\reSet \mbox{ s.t. } \re\parDer{\word}\re' \mbox{ and } \hasEps{\re'}=\eps\}
+   \opSem{\re}{\parDer{}}=\{\word\in\symAlph^* \mid \mbox{there exists } \re'\in\reSet \mbox{ s.t. } \re\parDer{\word}\re' \mbox{ and } \hasEps{\re'}=\eps\}
   \end{array}
  \]
 \end{definition}
 
+The claims below are dual to \cref{theo:der}, and  directly follow from the results of Antimirov.
 
-\begin{proposition}\label[proposition]{prop:parDer}
- Let $\delta_\word(\re)$ denotes the set of all partial derivatives of $\re\in\reSet$ \wrt~ $\word\in\symAlph^*$.
-
- Then $\delta_\word(\re)=\{\re'\in\reSet \mid \re\parDer{\word}\re'\}$.
-\end{proposition}
+Let $\delta_\word(\re)$ denotes the set of all partial derivatives of $\re\in\reSet$ \wrt~ $\word\in\symAlph^*$:
+\[
+ \delta_\word(\re)=\{\re'\in\reSet \mid \re\parDer{\word}\re'\}.
+\]
 
 % \begin{definition}
 %  Let $\reSet_1$ and $\reSet_2$ be sets of regular expressions.
@@ -60,7 +65,10 @@ we use them to define a non-deterministic transition system which already repres
 \begin{theorem}\label[theorem]{theo:parDer}
  For all $\re\in\reSet$
  \[
-  \opSem{\re}{\parDer{}{}}=\opSem{\re}{\der{}}
+  \begin{array}{l}
+   \word^{-1}(\sem{\re})=\bigcup_{\re'\in\delta_\word(\re)}\sem{\re'} \\
+   \opSem{\re}{\parDer{}{}}=\opSem{\re}{\der{}}
+  \end{array}
  \]
 \end{theorem}
 

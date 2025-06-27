@@ -56,7 +56,7 @@ Directly from \cref{def:der} one can derive
 While the notion of derivative applies to any formal language, regular languages enjoy the following closure property: if $\lang$ is regular, then
 $\word^{-1}(\lang)$ is regular as well, for any word $\word$. In other words, the derivative of a regular expression can be defined by another regular expression.
 
-This property has allowed Brzozowski to define the derivatives of regular expressions in a quite elegant way.
+This property the definition of the derivatives of regular expressions in an elegant way.
 First, the derivative \wrt~a single symbol is defined (see~\cref{fig:der}), then
 the more general notion of derivative \wrt~a word is derived by reflexive  transitive closure (see~\cref{def:der}).
 
@@ -77,6 +77,10 @@ The fact that $\hasEps{\re}$ does not return a Boolean value was a deliberate ch
 if $\hasEps{\re_0}=\eps$, then $\re_0\catop\re_1\der{\sym}\re'_0\orop\eps\catop\re_1'$, since in this case $\re_1$ contributes to the
 derivative. Otherwise, $\re_0\catop\re_1\der{\sym}\re'_0\orop\none\catop\re_1'$, since $\re_1$ does not contribute to the
 derivative.
+
+Note that by definition of the rules, for all $\re$ and $\sym$, there always exists a unique derivative of $\re$ \wrt~$\sym$.
+For instance, if $\sym\neq\asym$, $\sym\neq\yasym$, then
+$\sym \asym \orop \sym\yasym\der{\sym}(\eps\catop\asym\orop\none\catop\none)\orop(\eps\catop\yasym\orop\none\catop\none)$ and $\sym \asym \orop \sym \yasym\der{\asym}(\none\catop\asym\orop\none\catop\none)\orop(\none\catop\yasym\orop\none\catop\eps)$.
 \begin{figure}[t]
  \begin{center}
   $$
@@ -84,7 +88,7 @@ derivative.
     \Rule{empty}{}{\none\der{\sym}\none}\quad
     \Rule{eps}{}{\eps\der{\sym}\none}\quad
     \Rule{sym-eq}{}{\sym\der{\sym}\eps}\quad
-    \Rule{sym-neq}{}{\sym\der{\asym}\none}{}                                       \\[4ex]
+    \Rule{sym-neq}{}{\sym\der{\asym}\none}{\sym\neq\asym}                          \\[4ex]
     \Rule{cat}{\re_0\der{\sym}\re'_0\quad\re_1\der{\sym}\re'_1}{\re_0\catop\re_1\der{\sym}\re'_0\catop\re_1\orop\hasEps{\re_0}\catop\re'_1}{} \quad
     \Rule{or}{\re_0\der{\sym}\re'_0\quad\re_1\der{\sym}\re'_1}{\re_0\orop\re_1\der{\sym}\re'_0\orop\re'_1}{}\quad
     \Rule{star}{\re\der{\sym}\re'}{\starop{\re}\der{\sym}\re'\catop\starop{\re}}{} \\[8ex]
@@ -123,6 +127,7 @@ derivative.
 
 \Cref{def:der} introduces the general notion of derivative \wrt~a word $\word$, by computing the reflexive transitive closure of the one-step relation defined in~\cref{fig:der}. As expected, the definition is by induction on the length of $\word$. The definition introduces also the operational semantics of regular expressions \wrt~ derivatives, driven by~\cref{eq:der}. In the view above, which considers the labelled transition system as a deterministic automaton,
 the definition corresponds to that of accepted language, where the set of final states is the set of all derivatives $\re'$ \st~$\hasEps{\re'}=\eps$.
+It is straightforward to prove that the set of all syntactically distinct derivatives of a regular expression $\re$ is unbounded. Hence, the underlying automaton is infinite, unless some finite quotient algebra of states modulo a suitable congruence is considered.
 \begin{definition}\label[definition]{def:der}
  For all $\re,\re_0,\re_1\in\reSet$, $\sym\in\symAlph$, $\word\in\symAlph^*$
  \[
@@ -136,7 +141,9 @@ the definition corresponds to that of accepted language, where the set of final 
 \end{definition}
 
 
-
+\Cref{theo:der} establishes the results proved by Brzozowski:
+the definitions of $\hasEps{\re}$ and $\re\der{\word}\re'$ are sound
+\wrt\ their intended semantics, and the operational semantics of regular expressions is equivalent to the standard one.
 \begin{theorem}\label[theorem]{theo:der}
  For all $\re,\re'\in\reSet$, $\word\in\symAlph^*$
  \[

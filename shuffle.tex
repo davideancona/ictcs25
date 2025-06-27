@@ -37,7 +37,7 @@ $4^n$ states.
 The transition rules defining the derivative and the partial derivatives for the shuffle operator
 can be found in \cref{fig:shfParDer}. They all correspond to the intuition that events can be interleaved; moreover, the empty trace is contained in $\re_0\shuffleop\re_1$ iff it is contained in $\re_0$ and $\re_1$.
 
-As happens for the other operators, also with the shuffle  the derivative is always defined, while the partial derivative is defined only for non-zero derivatives. For instance, if we assume $\sym_2\neq\sym_0$ and $\sym_2\neq\sym_1$, then
+As happens for the other operators, also with the shuffle  the derivative is always defined, while the partial derivative is defined only for non-empty derivatives. For instance, if we assume $\sym_2\neq\sym_0$ and $\sym_2\neq\sym_1$, then
 $\sym_0\shuffleop \sym_1\der{\sym_2}(\none\shuffleop\sym_1)\orop(\sym_0\shuffleop\none)$, and $\hasEps{(\none\shuffleop\sym_1)\orop(\sym_0\shuffleop\none)}=\none$, but there exists no $\re$ s.t.
 $\sym_0\shuffleop \sym_1\parDer{\sym_2}\re$.
 
