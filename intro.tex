@@ -2,9 +2,9 @@
 
 Derivatives of regular expressions were introduced by Brzozowski \cite{Brzozowski64,OwensEtAl09}
 to provide a very compact operational semantics for them, and to derive an algorithm for generating equivalent deterministic finite automata (DFA).
-
+%
 In a nutshell, derivatives can be defined by means of a labeled transition system between regular expressions, where labels are the alphabet symbols. Given a fixed symbol, at each step there is always a unique transition, therefore the system defines a deterministic automaton where the initial state is an initial regular expression $\re$, and all other states are regular expressions that are derivatives obtained from $\re$.
-
+%
 Such an automaton is provably equivalent to $\re$,
 if the set of its final states is defined as the set of all the corresponding regular expressions which recognize the empty word.
 The main issue with this approach is that the number of syntactically different derivatives of $\re$ can be unbounded, hence, to obtain an equivalent DFA, a finite quotient algebra of states modulo a suitable congruence has to be considered.
