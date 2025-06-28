@@ -1,0 +1,272 @@
+\appendix
+\section{Proofs}\label{sec:appendix}
+\subsection*{Proof of~\cref{theo:inc-bound}}
+\begin{proof}
+ By induction and case analysis on the rules defining $\re\parDer{\sym}\re'$.
+ \begin{description}
+  \item[base case:] The only base rule is \rn{sym}.
+   Hence, $\re=\sym$, $\re'=\eps$, and
+   $\theight{\eps}=0=\theight{\sym}=\theight{\sym}+0=\theight{\sym}+\incFun{\sym}$.
+  \item[inductive step:] the proof proceeds by case analysis on the rule applied
+   at the root of the derivation tree.
+   \begin{itemize}
+    \item $\Rule{l-cat}{\re_0\parDer{\sym}\re'_0}{\re_0\catop\re_1\parDer{\sym}\re'_0\catop\re_1}{}$\\[2ex]
+          By inductive hypothesis $\theight{\re_0'}\leq \theight{\re_0}+\incFun{\re_0}$.
+          We distinguish two cases:
+          \begin{itemize}
+           \item $\theight{\re_0}\geq\theight{\re_1}$:
+                 $\theight{\re_0'\catop\re_1}\stackrel{\mathrm{def}}{=}\max(\theight{\re'_0},\theight{\re_1})+1\leq\max(\theight{\re_0}+\incFun{\re_0},\theight{\re_1})+1\leq\max(\theight{\re_0},\theight{\re_1})+1+\incFun{\re_0}=\theight{\re_0\catop\re_1}+\incFun{\re_0}=\theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}$, by the inductive hypothesis, the definition of $\max$, $\theight{\ }$, $\incFun{}$, and $\geqSym()$, the assumption $\theight{\re_0}\geq\theight{\re_1}$, and \cref{lemma:bounds}.
+
+           \item $\theight{\re_0}<\theight{\re_1}$:
+                 $\theight{\re_0'\catop\re_1}\stackrel{\mathrm{def}}{=}\max(\theight{\re'_0},\theight{\re_1})+1\leq\max(\theight{\re_0}+\incFun{\re_0},\theight{\re_1})+1=\theight{\re_0\catop\re_1}=\theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}$, by the inductive hypothesis, the definition of $\max$, $\theight{\ }$, $\incFun{}$, and $\geqSym()$, the assumption $\theight{\re_0}<\theight{\re_1}$, and \cref{lemma:bounds}.
+          \end{itemize}
+
+    \item $\Rule{r-cat}{\re_1\parDer{\sym}\re'_1}{\re_0\catop\re_1\parDer{\sym}\re'_1}{\hasEps{\re_0}=\eps}$\\[2ex]
+          By inductive hypothesis $\theight{\re_1'}\leq \theight{\re_1}+\incFun{\re_1}$.
+
+          Therefore, $\theight{\re_1'}\leq \theight{\re_1}+\incFun{\re_1}\leq\theight{\re_1}+1\leq\theight{\re_0\catop\re_1}\leq\theight{\re_0\catop\re_1}+\incFun{\re_0\catop\re_1}$, by the inductive hypothesis, the definition of $\max$, $\theight{\ },$ and $\incFun{}$, and \cref{lemma:bounds}.
+
+    \item $\Rule{l-or}{\re_0\parDer{\sym}\re'_0}{\re_0\orop\re_1\parDer{\sym}\re'_0}{}$\\[2ex]
+          By inductive hypothesis $\theight{\re_0'}\leq \theight{\re_0}+\incFun{\re_0}$.
+
+          Therefore, $\theight{\re_0'}\leq \theight{\re_0}+\incFun{\re_0}\leq\theight{\re_0}+1\leq\theight{\re_0\orop\re_1}=\theight{\re_0\orop\re_1}+\incFun{\re_0\orop\re_1}$, by the inductive hypothesis, the definition of $\max$, $\theight{\ },$ and $\incFun{}$, and \cref{lemma:bounds}.
+    \item rule \rn{r-or} is symmetric to  rule \rn{l-or}.
+    \item $\Rule{star}{\re\parDer{\sym}\re'}{\starop{\re}\parDer{\sym}\re'\catop\starop{\re}}{}$\\[2ex]
+          By inductive hypothesis $\theight{\re'}\leq \theight{\re}+\incFun{\re}$.
+
+          Therefore, $\theight{\re'\catop\starop{\re}}\stackrel{\mathrm{def}}{=}\max(\theight{\re'},{\theight{\starop{\re}}})+1\leq \max(\theight{\re}+\incFun{\re},{\theight{\re}}+1)+1=\theight{\re}+1+1=\theight{\starop{\re}}+1=\theight{\starop{\re}}+\incFun{\starop{\re}}$, by the inductive hypothesis, the definition of $\max$, $\theight{\ },$ and $\incFun{}$, and \cref{lemma:bounds}.
+   \end{itemize}
+ \end{description}
+\end{proof}
+
+\subsection*{Proof of \cref{lemma:zero-inc}}
+\begin{proof}
+ By induction and case analysis on the rules defining $\re\parDer{\sym}\re'$.
+ \begin{description}
+  \item[base case:] The only base rule is \rn{sym}.
+   Hence, $\re=\sym$, $\re'=\eps$, and
+   $\incFun{\eps}=0$.
+  \item[inductive step:] the proof proceeds by case analysis on the rule applied
+   at the root of the derivation tree.
+   \begin{itemize}
+    \item $\Rule{l-cat}{\re_0\parDer{\sym}\re'_0}{\re_0\catop\re_1\parDer{\sym}\re'_0\catop\re_1}{}$\\[2ex]
+          If $\geqFun{\re_0}{\re_1}=1$, then by definition of $\incFun{}$ and inductive hypothesis, $\incFun{\re'_0\catop\re_1}=\incFun{\re'_0}=0$.
+          If $\geqFun{\re_0}{\re_1}=0$, then by definition of $\incFun{}$ $\incFun{\re'_0\catop\re_1}=0$.
+
+    \item $\Rule{r-cat}{\re_1\parDer{\sym}\re'_1}{\re_0\catop\re_1\parDer{\sym}\re'_1}{\hasEps{\re_0}=\eps}$\\[2ex]
+          $\incFun{\re'_1}=0$ directly follows from the inductive hypothesis.
+
+    \item the proof for rules \rn{l-or} and \rn{r-or} is the same as for rule \rn{r-cat}.
+
+    \item the proof for rule \rn{star} is the same as for rule \rn{l-cat}.
+   \end{itemize}
+ \end{description}
+\end{proof}
+
+\subsection*{Proof of \cref{lemma:bounds-size}}
+\begin{proof}
+ Directly by induction on the definition of $\incFunSize{\re}$.
+ We only show the proof for $\incFunSize{\re}\leq \tsize{\re}^2$ and omit the straightforward proof for $0\leq\incFunSize{\re}$.
+ \begin{description}
+  \item[base case:]  $\incFunSize{\sym}=\incFunSize{\eps}=0\leq 1 = \tsize{\sym}^2=\tsize{\eps}^2$
+  \item[inductive step:]
+   the proof proceeds by case analysis on the shape of $\re$.
+   \begin{itemize}
+    \item $\incFunSize{\re_0\catop\re_1}=\max(\incFunSize{\re_0},\incFunSize{\re_1}-\tsize{\re_0}-1)\leq\max(\incFunSize{\re_0},\incFunSize{\re_1})\leq\max(\tsize{\re_0}^2,\tsize{\re_1}^2)\leq \tsize{\re_0}^2+\tsize{\re_1}^2 \leq (\tsize{\re_0}+\tsize{\re_1})^2\leq (\tsize{\re_0}+\tsize{\re_1}+1)^2=\tsize{\re_0\catop\re_1}^2$, by the inductive hypothesis, the definition of $\max$, of square and of $\tsize{\ }$, and by the straightforward property $\tsize{\re}\geq 1$.
+    \item $\incFunSize{\re_0\orop\re_1}\leq\tsize{\re_0\orop\re_1}^2$ can be proven similarly as in the previous case.
+    \item $\incFunSize{\starop{\re}}=\tsize{\re}+\incFunSize{\re}+1\leq \tsize{\re}^2+\tsize{\re}+1\leq \tsize{\re}^2+2\cdot\tsize{\re}+1=(\tsize{\re}+1)^2=\tsize{\starop{\re}}^2$, by the inductive hypothesis, the definition of square and of $\tsize{\ }$, and by the straightforward property $\tsize{\re}\geq 1$.
+   \end{itemize}
+ \end{description}
+
+\end{proof}
+
+\subsection*{Proof of \cref{theo:inc-bound-size}}
+\begin{proof}
+ By induction and case analysis on the rules defining $\re\parDer{\sym}\re'$.
+ \begin{description}
+  \item[base case:] The only base rule is \rn{sym}.
+   Hence, $\re=\sym$, $\re'=\eps$, and
+   $\tsize{\eps}=0=\tsize{\sym}=\tsize{\sym}+0-0=\tsize{\sym}+\incFunSize{\sym}-\incFunSize{\eps}$.
+  \item[inductive step:] the proof proceeds by case analysis on the rule applied
+   at the root of the derivation tree.
+   \begin{itemize}
+    \item $\Rule{l-cat}{\re_0\parDer{\sym}\re'_0}{\re_0\catop\re_1\parDer{\sym}\re'_0\catop\re_1}{}$\\[2ex]
+          By inductive hypothesis $\tsize{\re_0'}\leq \tsize{\re_0}+\incFunSize{\re_0}-\incFunSize{\re_0'}$.
+          We distinguish two cases:
+          \begin{itemize}
+           \item $\incFunSize{\re_0'}\geq\incFunSize{\re_1}-\tsize{\re_0'}-1$:
+                 $\tsize{\re_0'\catop\re_1}\stackrel{\mathrm{def}}{=}\tsize{\re'_0}+\tsize{\re_1}+1\leq\tsize{\re_0}+\incFunSize{\re_0}-\incFunSize{\re_0'}+\tsize{\re_1}+1=\tsize{\re_0\catop\re_1}+\incFunSize{\re_0}-\incFunSize{\re_0'}=\tsize{\re_0\catop\re_1}+\incFunSize{\re_0}-\incFunSize{\re_0'\catop\re_1}\leq\tsize{\re_0\catop\re_1}+\incFunSize{\re_0\catop\re_1}-\incFunSize{\re_0'\catop\re_1}$, by the inductive hypothesis, the definition of $\max$, $\tsize{\ }$, $\incFunSize{}$, and the assumption $\incFunSize{\re_0'}\geq\incFunSize{\re_1}-\tsize{\re_0'}-1$.
+
+           \item $\incFunSize{\re_0'}<\incFunSize{\re_1}-\tsize{\re_0'}-1$:
+                 $\tsize{\re_0'\catop\re_1}\stackrel{\mathrm{def}}{=}\tsize{\re'_0}+\tsize{\re_1}+1=\tsize{\re'_0}+\tsize{\re_1}+1+\incFunSize{\re'_0\catop\re_1}-\incFunSize{\re'_0\catop\re_1}=\tsize{\re'_0}+\tsize{\re_1}+1+\incFunSize{\re_1}-\tsize{\re_0'}-1-\incFunSize{\re'_0\catop\re_1}=\tsize{\re_1}+\incFunSize{\re_1}-\incFunSize{\re'_0\catop\re_1}=\tsize{\re_0\catop\re_1}+\incFunSize{\re_1}-\tsize{\re_0}-1-\incFunSize{\re'_0\catop\re_1}\leq\tsize{\re_0\catop\re_1}+\incFunSize{\re_0\catop\re_1}-\incFunSize{\re'_0\catop\re_1}$, by the definition of $\max$, $\tsize{\ }$, $\incFunSize{}$, and the assumption $\incFunSize{\re_0'}<\incFunSize{\re_1}-\tsize{\re_0'}-1$.
+          \end{itemize}
+
+    \item $\Rule{r-cat}{\re_1\parDer{\sym}\re'_1}{\re_0\catop\re_1\parDer{\sym}\re'_1}{\hasEps{\re_0}=\eps}$\\[2ex]
+          By inductive hypothesis $\tsize{\re_1'}\leq \tsize{\re_1}+\incFunSize{\re_1}-\incFunSize{\re'_1}$.
+
+          Therefore, $\tsize{\re_1'}\leq \tsize{\re_1}+\incFunSize{\re_1}-\incFunSize{\re'_1}=\tsize{\re_0\catop\re_1}+\incFunSize{\re_1}-\tsize{\re_0}-1-\incFunSize{\re'_1}\leq\tsize{\re_0\catop\re_1}+\incFunSize{\re_0\catop\re_1}-\incFunSize{\re'_1}$, by the inductive hypothesis, the definition of $\max$, $\tsize{\ },$ and $\incFunSize{}$.
+
+    \item the case for rules \rn{l-or} and \rn{r-or} is analogous to that for rule \rn{r-cat}.
+    \item $\Rule{star}{\re\parDer{\sym}\re'}{\starop{\re}\parDer{\sym}\re'\catop\starop{\re}}{}$\\[2ex]
+          By inductive hypothesis $\tsize{\re'}\leq \tsize{\re}+\incFunSize{\re}-\incFunSize{\re'}$.
+
+          We distinguish two cases:
+          \begin{itemize}
+           \item $\incFunSize{\re'}\geq\incFunSize{\starop{\re}}-\tsize{\re'}-1$:
+                 $\tsize{\re'\catop\starop{\re}}\stackrel{\mathrm{def}}{=}\tsize{\re'}+\tsize{\starop{\re}}+1\leq\tsize{\re}+\incFunSize{\re}-\incFunSize{\re'}+\tsize{\starop{\re}}+1=\tsize{\starop{\re}}+\incFunSize{\starop{\re}}-\incFunSize{\re'}=\tsize{\starop{\re}}+\incFunSize{\starop{\re}}-\incFunSize{\re'\catop\starop{\re}}$, by the inductive hypothesis, the definition of $\max$, $\tsize{\ }$, $\incFunSize{}$, and the assumption $\incFunSize{\re'}\geq\incFunSize{\starop{\re}}-\tsize{\re'}-1$.
+
+           \item $\incFunSize{\re'}<\incFunSize{\starop{\re}}-\tsize{\re'}-1$:
+                 $\tsize{\re'\catop\starop{\re}}\stackrel{\mathrm{def}}{=}\tsize{\re'}+\tsize{\starop{\re}}+1=\tsize{\re'}+\tsize{\starop{\re}}+1+\incFunSize{\re'\catop\starop{\re}}-\incFunSize{\re'\catop\starop{\re}}=\tsize{\re'}+\tsize{\starop{\re}}+1+\incFunSize{\starop{\re}}-\tsize{\re'}-1-\incFunSize{\re'\catop\starop{\re}}=\tsize{\starop{\re}}+\incFunSize{\starop{\re}}-\incFunSize{\re'\catop\starop{\re}}$, by the definition of $\max$, $\tsize{\ }$, $\incFunSize{}$, and the assumption $\incFunSize{\re'}<\incFunSize{\starop{\re}}-\tsize{\re'}-1$.
+          \end{itemize}
+   \end{itemize}
+ \end{description}
+\end{proof}
+
+\subsection*{Proof of \cref{lemma:ext-zero-inc}}
+\begin{proof}
+ By induction and case analysis on the rules defining $\re\parDer{\sym}\re'$.
+ \begin{description}
+  \item[base case:] The only base rule is \rn{sym}.
+   The case is vacuous because $\re=\sym$, $\re'=\eps$, and $\theight{\sym}=\theight{\eps}=0$.
+  \item[inductive step:] \hspace*{\fill}
+   \begin{itemize}
+    \item $\Rule{l-cat}{\re_0\parDer{\sym}\re'_0}{\re_0\catop\re_1\parDer{\sym}\re'_0\catop\re_1}{}$\\[2ex]
+          From the hypothesis and the definition of $\theight{\ }$
+          \begin{equation}
+           \label{eq:l-cat-one}
+           \max(\theight{\re_0'},\theight{\re_1})=\max(\theight{\re_0},\theight{\re_1})+1
+          \end{equation}
+          Therefore $\theight{\re_1}\leq\max(\theight{\re_0},\theight{\re_1})<\max(\theight{\re_0},\theight{\re_1})+1=\max(\theight{\re_0'},\theight{\re_1})$ by the definition of $\max$ and \cref{eq:l-cat-one}.
+
+          Therefore, by the definition of $\max$
+          \begin{equation}
+           \label{eq:l-cat-two}
+           \max(\theight{\re_0'},\theight{\re_1})=\theight{\re_0'}
+          \end{equation}
+          Hence $\theight{\re_0}+1\leq\max(\theight{\re_0},\theight{\re_1})+1=\theight{\re'_0}$ by the definition of $\max$, \cref{eq:l-cat-one} and \cref{eq:l-cat-two}.
+
+          Moreover, by \cref{cor:bound} $\theight{\re_0'}\leq\theight{\re_0}+1$, therefore
+          $\theight{\re_0'}=\theight{\re_0}+1$, and by inductive hypothesis $\incFun{\re'_0}=0$, which implies $\incFun{\re'_0\catop\re_1}=0$ by definition of $\incFun{}$.
+
+    \item $\Rule{r-cat}{\re_1\parDer{\sym}\re'_1}{\re_0\catop\re_1\parDer{\sym}\re'_1}{\hasEps{\re_0}=\eps}$\\[2ex]
+          This case is vacuous because $\theight{\re_1'}\leq\theight{\re_1}+1\leq\max(\theight{\re_0},\theight{\re_1})+1=\theight{\re_0\catop\re_1}$ by \cref{cor:bound} and the definition of $\max$ and $\theight{\ }$.
+
+    \item The case for rules \rn{l-or} and \rn{r-or} is vacuous for the same reason shown for \rn{r-cat}.
+    \item $\Rule{l-shf}{\re_0\parDer{\sym}\re'_0}{\re_0\shuffleop\re_1\parDer{\sym}\re'_0\shuffleop\re_1}{}$\\[2ex]
+          The same proof for \rn{l-cat} shows that $\incFun{\re_0'}=\incFun{\re_0}+1$ and $\theight{\re_1}<\theight{\re'_0}$, therefore $\incFun{\re'_0}=0$ by inductive hypothesis, and $\incFun{\re'_0\shuffleop\re_1}=\max(1\cdot\incFun{\re_0'},0\cdot\incFun{\re_1})=0$ by $\theight{\re_1}<\theight{\re'_0}$ and the definition of $\max$, $\incFun{}$ and $\geqSym()$.
+    \item rule \rn{r-shf} is symmetric to rule \rn{l-shf}.
+    \item $\Rule{star}{\re\parDer{\sym}\re'}{\starop{\re}\parDer{\sym}\re'\catop\starop{\re}}{}$\\[2ex]
+          By definition of $\theight{\ }$ and by the hypothesis $\theight{\re'\catop\starop{\re}}=\theight{\starop{\re}}+1$ we have
+          $\max(\theight{\re'},\theight{\starop{\re}})+1=\theight{\starop{\re}}+1$, therefore
+          $\max(\theight{\re'},\theight{\starop{\re}})=\theight{\starop{\re}}$.
+
+          If $\theight{\re'}<\theight{\starop{\re}}$ then by the definition of $\incFun{}$ and $\geqSym()$ we have $\incFun{\re'\catop\starop{\re}}=\geqFun{\re'}{\starop{\re}}\cdot\incFun{\re'}=0\cdot\incFun{\re'}=0$.
+
+          If $\theight{\re'}\geq\theight{\starop{\re}}$ then $\theight{\re'}=\theight{\starop{\re}}$, since $\max(\theight{\re'},\theight{\starop{\re}})=\theight{\starop{\re}}$.
+          By the definition of $\theight{\ }$ we have $\theight{\re'}=\theight{\re}+1$, therefore
+          by inductive hypothesis $\incFun{\re'}=0$ and by definition of $\incFun{}$ and $\geqSym()$ we have $\incFun{\re'\catop\starop{\re}}=\geqFun{\re'}{\starop{\re}}\cdot\incFun{\re'}=1\cdot\incFun{\re'}=0$.
+   \end{itemize}
+ \end{description}
+\end{proof}
+
+\subsection*{Proof of \cref{lemma:ext-leq-inc}}
+
+\begin{proof}
+ By induction and case analysis on the rules defining $\re\parDer{\sym}\re'$.
+ \begin{description}
+  \item[base case:] The only base rule is \rn{sym}.
+   In this case $\re=\sym$, $\re'=\eps$, therefore $\incFun{\eps}=0=\incFun{\sym}$.
+  \item[inductive step:] \hspace*{\fill}
+   \begin{itemize}
+    \item $\Rule{l-cat}{\re_0\parDer{\sym}\re'_0}{\re_0\catop\re_1\parDer{\sym}\re'_0\catop\re_1}{}$\\[2ex]
+          From the hypothesis and the definition of $\theight{\ }$
+          \begin{equation}
+           \label{eq:l-cat-three}
+           \max(\theight{\re_0'},\theight{\re_1})=\max(\theight{\re_0},\theight{\re_1})
+          \end{equation}
+          Two different cases may occur:
+          \begin{itemize}
+           \item $\theight{\re_0}\geq\theight{\re_1}$\\
+                 From \cref{eq:l-cat-three} and the definition of $\max$, $\max(\theight{\re_0'},\theight{\re_1})=\theight{\re_0}$, hence $\theight{\re_0'}\leq\theight{\re_0}$ by the definition of $\max$.
+
+                 If $\theight{\re_0'}<\theight{\re_0}$, then $\theight{\re_0'}<\theight{\re_1}$ by \cref{eq:l-cat-three} and the definition of $\max$. Therefore $\incFun{\re_0'\catop\re_1}=0\leq\incFun{\re_0\catop\re_1}$ by definition of $\incFun{}$ and \cref{lemma:bounds}.
+
+                 Therefore $\theight{\re_1}\leq\max(\theight{\re_0},\theight{\re_1})<\max(\theight{\re_0},\theight{\re_1})+1=\max(\theight{\re_0'},\theight{\re_1})$ by the definition of $\max$ and \cref{eq:l-cat-one}.
+
+                 If $\theight{\re_0'}=\theight{\re_0}$, then $\incFun{\re_0'}\leq\incFun{\re_0}$ by inductive hypothesis. Since $\theight{\re_0'}=\theight{\re_0}\geq\theight{\re_1}$, we have $\incFun{\re_0'\catop\re_1}=\incFun{\re_0'}\leq\incFun{\re_0}=\incFun{\re_0\catop\re_1}$ by the definition of $\incFun{}$ and $\geqSym()$.
+           \item $\theight{\re_0}<\theight{\re_1}$\\
+                 In this case $\incFun{\re_0\catop\re_1}=0$ by the definition of $\incFun{}$ and $\geqSym()$. Moreover, from \cref{eq:l-cat-three} $\max(\theight{\re_0'},\theight{\re_1})=\theight{\re_1}$, hence $\theight{\re_0'}\leq\theight{\re_1}$ by the definition of $\max$.
+
+                 If $\theight{\re_0'}<\theight{\re_1}$ then $\incFun{\re_0'\catop\re_1}=0=\incFun{\re_0\catop\re_1}$ by the definition of $\incFun{}$ and $\geqSym()$. If $\theight{\re_0'}=\theight{\re_1}$ then $\theight{\re_0}<\theight{\re_1}=\theight{\re_0'}$, therefore $\theight{\re_0}+1\leq\theight{\re_0'}$. Moreover, by \cref{cor:bound} $\theight{\re'_0}\leq\theight{\re_0}+1$, hence $\theight{\re_0'}=\theight{\re_0}+1$, and, by \cref{lemma:ext-zero-inc}, $\incFun{\re_0'}=0$. Finally,
+                 $\incFun{\re_0'\catop\re_1}=\incFun{\re_0'}=0=\incFun{\re_0\catop\re_1}$ by the definition of $\incFun{}$ and $\geqSym()$.
+          \end{itemize}
+
+    \item $\Rule{r-cat}{\re_1\parDer{\sym}\re'_1}{\re_0\catop\re_1\parDer{\sym}\re'_1}{\hasEps{\re_0}=\eps}$\\[2ex]
+          From the hypothesis and the definition of $\theight{\ }$
+          \begin{equation}
+           \label{eq:l-cat}
+           \theight{\re_1'}=\max(\theight{\re_0},\theight{\re_1})+1
+          \end{equation}
+          Two different cases may occur:
+          \begin{itemize}
+           \item $\theight{\re_0}\geq\theight{\re_1}$\\
+                 From \cref{eq:l-cat} and the definition of $\max$, $\theight{\re_1'}=\max(\theight{\re_0},\theight{\re_1})+1\geq\theight{\re_1}+1$. Moreover, by \cref{lemma:bounds},
+                 $\theight{\re_1'}\leq\theight{\re}+1$, therefore $\theight{\re_1'}=\theight{\re}+1$, hence by \cref{lemma:ext-zero-inc} $\incFun{\re_1'}=0$.
+                 Finally, $\incFun{\re_1'}=0\leq\incFun{\re_0\catop\re_1}$ by \cref{lemma:bounds}.
+
+           \item $\theight{\re_0}<\theight{\re_1}$\\
+                 In this case $\incFun{\re_0\catop\re_1}=0$ by the definition of $\incFun{}$ and $\geqSym()$. Moreover, from \cref{eq:l-cat} and the definition of $\max$, $\theight{\re_1'}=\theight{\re_1}+1$, hence  by \cref{lemma:ext-zero-inc}, $\incFun{\re_1'}=0$. Finally,
+                 $\incFun{\re_1'}=0\leq\incFun{\re_0\catop\re_1}$ by \cref{lemma:bounds}.
+          \end{itemize}
+
+    \item The proofs for the rules \rn{l-or} and \rn{r-or} are analogous to the proof for the rule \rn{r-cat}.
+    \item $\Rule{l-shf}{\re_0\parDer{\sym}\re'_0}{\re_0\shuffleop\re_1\parDer{\sym}\re'_0\shuffleop\re_1}{}$\\[2ex]
+          The proof is similar to that for \rn{l-cat}, except from some details on the definition of $\incFun{\re_0\shuffleop\re_1}$, which differs from that of $\incFun{\re_0\catop\re_1}$. We report it for the sake of completeness.
+
+          From the hypothesis and the definition of $\theight{\ }$
+          \begin{equation}
+           \label{eq:l-shuffle}
+           \max(\theight{\re_0'},\theight{\re_1})=\max(\theight{\re_0},\theight{\re_1})
+          \end{equation}
+          Two different cases may occur:
+          \begin{itemize}
+           \item $\theight{\re_0}\geq\theight{\re_1}$\\
+                 From \cref{eq:l-shuffle} and the definition of $\max$, $\max(\theight{\re_0'},\theight{\re_1})=\theight{\re_0}$, hence $\theight{\re_0'}\leq\theight{\re_0}$ by the definition of $\max$.
+
+                 If $\theight{\re_0'}<\theight{\re_0}$, then $\theight{\re_0'}<\theight{\re_1}=\theight{\re_0}$ by \cref{eq:l-shuffle} and the definition of $\max$. Therefore $\geqFun{\re_0'}{\re_1}= 0$ and $\geqFun{\re_1}{\re_0'}=\geqFun{\re_0}{\re_1}=\geqFun{\re_1}{\re_0}=1$ by the definition of $\geqSym()$, and
+                 $\incFun{\re_0'\shuffleop\re_1}=\incFun{\re_1}\leq\max(\incFun{\re_0},\incFun{\re_1})=\incFun{\re_0\shuffleop\re_1}$ by the definition of $\incFun{}$ and $\max$.
+
+
+                 If $\theight{\re_0'}=\theight{\re_0}$, then $\incFun{\re_0'}\leq\incFun{\re_0}$ by inductive hypothesis. Moreover,
+                 $\geqFun{\re_0}{\re_1}=\geqFun{\re'_0}{\re_1}=1$ and $\geqFun{\re_1}{\re_0}=\geqFun{\re_1}{\re'_0}$ by the definition of $\geqSym()$.
+                 Therefore, $\incFun{\re_0'\shuffleop\re_1}=\max(\incFun{\re'_0},\geqFun{\re_1}{\re_0'}\cdot\incFun{\re_1})\leq\max(\incFun{\re_0},\geqFun{\re_1}{\re_0}\cdot\incFun{\re_1})=\incFun{\re_0\shuffleop\re_1}$ by the definition of $\max$.
+           \item $\theight{\re_0}<\theight{\re_1}$\\
+                 In this case $\incFun{\re_0\shuffleop\re_1}=\incFun{\re_1}$ by the definition of $\incFun{}$ and $\geqSym()$. Moreover, from \cref{eq:l-shuffle} $\max(\theight{\re_0'},\theight{\re_1})=\theight{\re_1}$, hence $\theight{\re_0'}\leq\theight{\re_1}$ by the definition of $\max$.
+
+                 If $\theight{\re_0'}<\theight{\re_1}$ then $\incFun{\re_0'\shuffleop\re_1}=\incFun{\re_1}=\incFun{\re_0\shuffleop\re_1}$ by the definition of $\incFun{}$ and $\geqSym()$. If $\theight{\re_0'}=\theight{\re_1}$ then $\theight{\re_0}<\theight{\re_1}=\theight{\re_0'}$, therefore $\theight{\re_0}+1\leq\theight{\re_0'}$. Moreover, by \cref{cor:bound} $\theight{\re'_0}\leq\theight{\re_0}+1$, hence $\theight{\re_0'}=\theight{\re_0}+1$, and, by \cref{lemma:ext-zero-inc}, $\incFun{\re_0'}=0$. Finally,
+                 $\incFun{\re_0'\shuffleop\re_1}=\max(\incFun{\re_0'},\incFun{\re_1})=\max(0,\incFun{\re_1})=\incFun{\re_0\shuffleop\re_1}$ by the definition of $\incFun{}$ and $\geqSym()$.
+          \end{itemize}
+
+
+    \item The rule \rn{r-shf} is symmetric to \rn{l-shf}.
+    \item $\Rule{star}{\re\parDer{\sym}\re'}{\starop{\re}\parDer{\sym}\re'\catop\starop{\re}}{}$\\[2ex]
+          Directly by the definition of $\incFun{}$ and \cref{lemma:bounds}
+          $\incFun{\re'\catop\starop{\re}}\leq 1=\incFun{\starop{\re}}$.
+   \end{itemize}
+ \end{description}
+\end{proof}
+
+\subsection*{Proof of~\cref{theo:inv}}
+
+\begin{proof}
+ By \cref{cor:bound} (extended to $\reSetExt$) $\theight{\re'}\leq\theight{\re}+ 1$.
+ Three cases are distinguished.
+ \begin{itemize}
+  \item $\theight{\re'}=\theight{\re}+1$: by \cref{lemma:ext-zero-inc}
+        $\incFun{\re'}=0$, therefore by \cref{theo:inc-bound} (extended to $\reSetExt$) $\theight{\re'}\leq\theight{\re}+\incFun{\re}=\theight{\re}+\incFun{\re}-\incFun{\re'}$.
+  \item $\theight{\re'}=\theight{\re}$: by \cref{lemma:ext-leq-inc} $\incFun{\re}-\incFun{\re'}\geq 0$, hence
+        $\theight{\re'}=\theight{\re}\leq\theight{\re}+\incFun{\re}-\incFun{\re'}$.
+  \item $\theight{\re'}<\theight{\re}$: by \cref{lemma:bounds} (extended to $\reSetExt$) $-1\leq\incFun{\re}-\incFun{\re'}$, hence
+        $\theight{\re'}\leq\theight{\re}-1\leq\theight{\re}+\incFun{\re}-\incFun{\re'}$.
+ \end{itemize}
+\end{proof}

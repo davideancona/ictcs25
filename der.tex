@@ -22,8 +22,8 @@ The set $\reSet$ of regular expressions over $\symAlph$ is defined by the gramma
  For all $\lang,\lang_0,\lang_1\subseteq\symAlph^*$
  \[
   \begin{array}{l}
-   \lang_1\strcatop\lang_2=\{\word_1\strcatop\word_2\mid \word_1\in\lang_1,\word_2\in\lang_2\} \\
-   \lang^0=\{\emptyWord\}, \lang^{n+1}=\lang\strcons\lang^n \mbox{for all $n\geq 0$}           \\
+   \lang_1\strcatop\lang_2=\{\word_1\strcatop\word_2\mid \word_1\in\lang_1,\word_2\in\lang_2\} \qquad
+   \lang^0=\{\emptyWord\}, \lang^{n+1}=\lang\strcatop\lang^n \mbox{for all $n\geq 0$}           \qquad
    \starop{\lang} = \bigcup_{n\geq 0}\lang^n
   \end{array}
  \]
@@ -32,7 +32,7 @@ The set $\reSet$ of regular expressions over $\symAlph$ is defined by the gramma
  \[
   \begin{array}{l}
    \sem{\none}=\emptyset\quad \sem{\eps}=\{\emptyWord\} \quad \sem{\sym}=\{\sym\} \quad
-   \sem{\re_0\catop\re_1}=\sem{\re_0}\strcatop\sem{\re_1} \quad \sem{\re_0\orop\re_1}=\sem{\re_0}\cup\sem{\re_1} \\ \sem{\starop{\re_0}}=\starop{\sem{\re_0}}
+   \sem{\re_0\catop\re_1}=\sem{\re_0}\strcatop\sem{\re_1} \quad \sem{\re_0\orop\re_1}=\sem{\re_0}\cup\sem{\re_1} \quad \sem{\starop{\re_0}}=\starop{\sem{\re_0}}
   \end{array}
  \]
 \end{definition}
@@ -40,13 +40,13 @@ The set $\reSet$ of regular expressions over $\symAlph$ is defined by the gramma
 Note the difference between $\eps$ (a constant in the syntax of regular expressions) and $\emptyWord$ (the empty word).
 
 The derivative of a language $L$ \wrt~a word $\word\in\symAlph^*$, denoted by $\word^{-1}(\lang)$, is defined as follows:
-\begin{definition}\label[definition]{def:der}
- For all $L\subseteq\symAlph^*$, $\word^{-1}(\lang)$
+\begin{definition}\label[definition]{def:sem-der}
+ For all $\lang\subseteq\symAlph^*$, $\word\in\symAlph^*$
  \[
   \word^{-1}(\lang) = \{ \word' \mid \word\strcatop\word'\in\lang \}
  \]
 \end{definition}
-Directly from \cref{def:der} one can derive
+Directly from \cref{def:sem-der} one can derive
 \begin{equation}
  \label{eq:der}
  \word\in\lang \mbox{ iff }
@@ -56,7 +56,7 @@ Directly from \cref{def:der} one can derive
 While the notion of derivative applies to any formal language, regular languages enjoy the following closure property: if $\lang$ is regular, then
 $\word^{-1}(\lang)$ is regular as well, for any word $\word$. In other words, the derivative of a regular expression can be defined by another regular expression.
 
-This property the definition of the derivatives of regular expressions in an elegant way.
+This property allows an operational and succinct definition for the derivatives of regular expressions.
 First, the derivative \wrt~a single symbol is defined (see~\cref{fig:der}), then
 the more general notion of derivative \wrt~a word is derived by reflexive  transitive closure (see~\cref{def:der}).
 
@@ -127,7 +127,7 @@ $\sym \asym \orop \sym\yasym\der{\sym}(\eps\catop\asym\orop\none\catop\none)\oro
 
 \Cref{def:der} introduces the general notion of derivative \wrt~a word $\word$, by computing the reflexive transitive closure of the one-step relation defined in~\cref{fig:der}. As expected, the definition is by induction on the length of $\word$. The definition introduces also the operational semantics of regular expressions \wrt~ derivatives, driven by~\cref{eq:der}. In the view above, which considers the labelled transition system as a deterministic automaton,
 the definition corresponds to that of accepted language, where the set of final states is the set of all derivatives $\re'$ \st~$\hasEps{\re'}=\eps$.
-It is straightforward to prove that the set of all syntactically distinct derivatives of a regular expression $\re$ is unbounded. Hence, the underlying automaton is infinite, unless some finite quotient algebra of states modulo a suitable congruence is considered.
+It is straightforward to prove that the set of all syntactically distinct derivatives of a regular expression $\re$ is unbounded, and so is their size. Hence, the underlying automaton is infinite, unless some finite quotient algebra of states modulo a suitable congruence is considered.
 \begin{definition}\label[definition]{def:der}
  For all $\re,\re_0,\re_1\in\reSet$, $\sym\in\symAlph$, $\word\in\symAlph^*$
  \[
@@ -148,8 +148,8 @@ the definitions of $\hasEps{\re}$ and $\re\der{\word}\re'$ are sound
  For all $\re,\re'\in\reSet$, $\word\in\symAlph^*$
  \[
   \begin{array}{l}
-   \hasEps{\re} = \eps \mbox{ iff } \emptyWord\in\sem{\re}              \\
-   \re\der{\word}\re' \mbox{ implies } \word^{-1}(\sem{\re})=\sem{\re'} \\
+   \hasEps{\re} = \eps \mbox{ iff } \emptyWord\in\sem{\re}              \qquad
+   \re\der{\word}\re' \mbox{ implies } \word^{-1}(\sem{\re})=\sem{\re'} \qquad
    \opSem{\re}{\der{}}=\sem{\re}
   \end{array}
  \]
