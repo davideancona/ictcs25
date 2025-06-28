@@ -1,14 +1,9 @@
 \begin{abstract}
  Partial derivatives of regular expressions, introduced by Antimirov, define an elegant algorithm for generating equivalent non-deterministic finite automata (NFA) with a limited number of states.
-
  Here we focus on runtime verification (RV) of simple properties expressible with regular expressions. In this case, words are finite traces of monitorable events forming the language's alphabet, and the generated NFA may have an intractable number of states.
-
  This typically occurs when sub-traces of mutually independent events are allowed to interleave.
  To address this issue, regular expressions used for RV are extended with the shuffle operator to make specifications more compact and easier to read.
-
  Exploiting partial derivatives enables a rewriting-based approach to RV, where only one derivative is stored at each step, avoiding the construction of an intractably large automaton.
-
  This raises the question of the space complexity of the largest generated partial derivative. While the total number of generated partial derivatives is known to be linear in the size of the initial regular expression, no results can be found in the literature regarding the size of the largest partial derivative.
-
  We study this problem \wrt~ two metrics (height and size of regular expressions), and show that the former increases by at most one, while the latter is quadratic in the size of the regular expression. Surprisingly, these results also hold with shuffle.
 \end{abstract}
