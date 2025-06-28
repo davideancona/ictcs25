@@ -1,1 +1,12 @@
 \section{Conclusion}\label{sec:conclu}
+We have explored the space complexity of partial derivatives of regular expressions in the context of RV with regular expressions extended with the shuffle operator. While the size of the set of syntactically distinct partial derivatives of a regular expression $\re$ is known to be linear in the size
+of $\re$, no bounds on the size of the largest derivative had been previously investigated. We fill this gap by analyzing the height and size of partial derivatives and establishing upper bounds for both metrics.
+
+We have shown that the height of any partial derivative of a regular expression increases by at most one, and that this property still holds when the shuffle operator is considered. Furthermore, we proved that the size of the largest partial derivative is bounded quadratically in the size of the original expression. This quadratic bound also holds in the presence of shuffle, despite with this operator there exist regular expressions whose equivalent NFAs exhibit an exponential explosion of the number of states.
+
+Our approach is based on a general proof strategy that defines functions to compute upper bounds on the increase in height and size at each derivation step. These functions allows us to establish an invariant that can be generalized to multiple rewriting steps, enabling a modular and reusable proof structure. This methodology allowed us to seamlessly extend our results to a more complex operator like shuffle.
+
+Our results support the practical use of partial derivatives in rewriting-based RV, ensuring that the memory usage remains manageable even in the worst case. Moreover, they show that the shuffle operator is useful for writing short and readable specifications without incurring high computational costs.
+
+Short-term future work includes the extension of our analysis to
+other improvements of the expressive power of regular expressions, for instance with the use of additional operators or parameterized specifications.
